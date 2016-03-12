@@ -13,6 +13,6 @@
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/holo_blue_dark"
         android:text="Primary\nFragment"/>
-    
+
 
 </RelativeLayout>
