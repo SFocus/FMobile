@@ -17,9 +17,12 @@ public class SentFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        container.findViewById(R.id.search_btn).setOnClickListener(this);
-
+        View view = inflater.inflate(R.layout.sent_layout,
+                container, false);
+        Button btn = (Button) view.findViewById(R.id.search_btn);
+        btn.setOnClickListener(this);
         return inflater.inflate(R.layout.sent_layout,null);
+
     }
 
     @Override
