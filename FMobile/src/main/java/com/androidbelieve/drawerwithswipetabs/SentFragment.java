@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,8 +31,8 @@ public class SentFragment extends Fragment {
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.search:
-                    Toast.makeText(getActivity().getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
-                    WebParser.DataSource.getQuickSearchResult("test");
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
