@@ -25,6 +25,9 @@ public class PageParser {
         this.document = document;
     }
 
+    /**
+     * @return Returns array of films
+     */
     public List<FilmItem> getFilms()
     {
         List<FilmItem> films = new ArrayList<FilmItem>();

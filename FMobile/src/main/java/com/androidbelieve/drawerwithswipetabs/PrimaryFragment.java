@@ -24,6 +24,7 @@ import java.util.List;
 
 import WebParser.DataSource;
 import WebParser.PageParser;
+import WebParser.QueryBuilder;
 import models.FilmItem;
 
 /**
@@ -34,6 +35,8 @@ public class PrimaryFragment extends Fragment {
     private List<FilmItem> filmList2 = new ArrayList<>();
     private FilmsAdapter mAdapter;
     private Toolbar toolbar;
+
+    private int page = 1;
 
     @Nullable
     @Override
@@ -62,7 +65,7 @@ public class PrimaryFragment extends Fragment {
     {
         @Override
         protected Document doInBackground(String... strings) {
-            String url = DataSource.getUrl("media.getFilms");
+            String url = QueryBuilder.buildQuery(DataSource.getUrl("media.getFilms"), page);
             return DataSource.executeQuery(url);
         }
 

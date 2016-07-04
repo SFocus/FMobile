@@ -10,13 +10,13 @@ public class QueryBuilder {
      * @param data url data
      * @return replaced url with given data
      */
-    private static String replace(String in, String[] data)
+    private static String replace(String in, Object[] data)
     {
         String out = "";
         String[] parts = in.split("&");
         for(int i = 0; i < data.length; i++)
         {
-            out+= parts[i].replaceFirst("\\{\\{(\\w*)\\}\\}", data[i]) + "&";
+            out+= parts[i].replaceFirst("\\{\\{(\\w*)\\}\\}", data[i].toString()) + "&";
         }
         return out;
     }
@@ -26,7 +26,7 @@ public class QueryBuilder {
      * @param data Array of url data
      * @return Return url ready for execution
      */
-    public static String buildQuery(String url, String[] data)
+    public static String buildQuery(String url, Object[] data)
     {
         return replace(url, data);
     }
@@ -36,8 +36,8 @@ public class QueryBuilder {
      * @param data Single data part
      * @return Return url ready for execution
      */
-    public static String buildQuery(String url, String data)
+    public static String buildQuery(String url, Object data)
     {
-        return replace(url, new String[] { data });
+        return replace(url, new Object[] { data });
     }
 }
