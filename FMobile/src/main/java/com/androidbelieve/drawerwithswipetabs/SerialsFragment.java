@@ -1,21 +1,15 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 
 import org.jsoup.nodes.Document;
 
@@ -32,22 +26,21 @@ import models.VideoItem;
 /**
  * Created by Ratan on 7/29/2015.
  */
-public class PrimaryFragment extends Fragment {
-    private List<VideoItem> filmList = new ArrayList<>();
-    private List<VideoItem> filmList2 = new ArrayList<>();
+public class SerialsFragment extends Fragment {
+    private List<VideoItem> serialList = new ArrayList<>();
+    private List<VideoItem> serialList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
     private int  page = 0;
-    int totalItemCount, visibleItemCount, firstVisibleItem;
-    boolean loading = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.primary_layout, null);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
+        View view = inflater.inflate(R.layout.serials_layout,null);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.serialsRecycleView);
         recyclerView.setHasFixedSize(true);
         final GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
-        mAdapter = new VideoAdapter(filmList);
+        mAdapter = new VideoAdapter(serialList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
@@ -55,36 +48,34 @@ public class PrimaryFragment extends Fragment {
             @Override
             public void onLoadMore(int current_page) {
                 page = current_page;
-                new LoadFilms().execute();
+                new LoadSerials().execute();
             }
         });
+        new LoadSerials().execute();
 
-        new LoadFilms().execute();
         return view;
     }
 
-
-    private class LoadFilms extends AsyncTask<String, Void, Document>
+    private class LoadSerials extends AsyncTask<String, Void, Document>
     {
         @Override
         protected Document doInBackground(String... strings) {
-            String url = QueryBuilder.buildQuery(DataSource.getUrl("media.getFilms"), page);
+            String url = QueryBuilder.buildQuery(DataSource.getUrl("media.getSerials"), page);
             return DataSource.executeQuery(url);
         }
 
         @Override
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
-            filmList2.clear();
-            loading = false;
-
-            filmList2 = new PageParser(document).getFilms();
-            for(int i=0; i<filmList2.size();i++)
+            serialList2.clear();
+            serialList2 = new PageParser(document).getFilms();
+            for(int i=0; i<serialList2.size();i++)
             {
-                filmList.add(filmList2.get(i));
+                serialList.add(serialList2.get(i));
             }
             mAdapter.notifyDataSetChanged();
         }
     }
+
 
 }
