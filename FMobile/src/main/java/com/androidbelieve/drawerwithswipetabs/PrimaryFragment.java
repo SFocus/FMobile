@@ -25,6 +25,7 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.EndlessRecyclerOnScrollListener;
 import adapters.VideoAdapter;
 import models.VideoItem;
 
@@ -50,29 +51,13 @@ public class PrimaryFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int totalItemCount = llm.getItemCount();
-                int visibleItemCount = llm.getChildCount();
-                int firstVisibleItem = llm.findFirstVisibleItemPosition();
-                Log.d("totalItemCount", Integer.toString(totalItemCount));
-                Log.d("visible", Integer.toString(visibleItemCount));
-                Log.d("firstv", Integer.toString(firstVisibleItem));
-
-                if (totalItemCount == visibleItemCount + firstVisibleItem) {
-                   loading=true;
-                }
-                if(loading)
-                {
-                    loading = false;
-                    page++;
-                    new LoadFilms().execute();
-                }
+            public void onLoadMore(int current_page) {
+                page = current_page;
+                new LoadFilms().execute();
             }
-            });
+        });
 
         new LoadFilms().execute();
         return view;
@@ -91,6 +76,8 @@ public class PrimaryFragment extends Fragment {
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
             filmList2.clear();
+            loading = false;
+
             filmList2 = new PageParser(document).getFilms();
             for(int i=0; i<filmList2.size();i++)
             {
