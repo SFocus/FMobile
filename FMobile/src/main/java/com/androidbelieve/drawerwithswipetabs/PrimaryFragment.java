@@ -34,32 +34,43 @@ public class PrimaryFragment extends Fragment {
     private List<FilmItem> filmList = new ArrayList<>();
     private List<FilmItem> filmList2 = new ArrayList<>();
     private FilmsAdapter mAdapter;
-    private Toolbar toolbar;
-
-    private int page = 1;
-
+    private int  page = 0;
+    int totalItemCount, visibleItemCount, firstVisibleItem;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.primary_layout, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        final GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
         mAdapter = new FilmsAdapter(filmList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                totalItemCount = llm.getItemCount();
+                visibleItemCount = llm.getChildCount();
+                firstVisibleItem = llm.findFirstVisibleItemPosition();
+                Log.d("totalItemCount",Integer.toString(totalItemCount));
+                Log.d("visible",Integer.toString(visibleItemCount));
+                Log.d("firstv",Integer.toString(firstVisibleItem));
+
+                    if (totalItemCount-6 == visibleItemCount + firstVisibleItem) {
+                        page++;
+                        new LoadFilms().execute();
+                    }
+                }
+            });
 
         new LoadFilms().execute();
-        addDate();
         return view;
     }
 
-    private void addDate(){
-        filmList.clear();
-
-    }
 
     private class LoadFilms extends AsyncTask<String, Void, Document>
     {
@@ -72,6 +83,7 @@ public class PrimaryFragment extends Fragment {
         @Override
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
+            filmList2.clear();
             filmList2 = new PageParser(document).getFilms();
             for(int i=0; i<filmList2.size();i++)
             {
