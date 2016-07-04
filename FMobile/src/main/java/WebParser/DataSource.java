@@ -20,6 +20,7 @@ public class DataSource {
     {
         sources = new HashMap<String, String>();
         sources.put("media.getFilms", "http://fs.to/video/films/?page={{0}}");
+        sources.put("media.getSerials", "http://fs.to/video/serials/?page={{0}}");
     }
 
     /**
