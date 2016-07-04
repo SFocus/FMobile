@@ -1,17 +1,18 @@
-package com.androidbelieve.drawerwithswipetabs;
+package adapters;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.androidbelieve.drawerwithswipetabs.ImageLoader;
+import com.androidbelieve.drawerwithswipetabs.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,13 +20,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import models.FilmItem;
+import models.VideoItem;
 
 /**
  * Created by Focus on 04.07.2016.
  */
-public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.MyViewHolder> {
-    private List<FilmItem> filmList;
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder> {
+    private List<VideoItem> filmList;
     private ImageLoader loader;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +46,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.MyViewHolder
         }
     }
 
-    public FilmsAdapter(List<FilmItem> filmList) {
+    public VideoAdapter(List<VideoItem> filmList) {
         this.filmList = filmList;
     }
     @Override
@@ -57,7 +58,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        FilmItem movie = filmList.get(position);
+        VideoItem movie = filmList.get(position);
         new LoadCarPic(holder.poster).execute("http:"+movie.getPoster());
         holder.positiveVoteIcon.setTypeface(holder.font);
         holder.negativeVoteIcon.setTypeface(holder.font);

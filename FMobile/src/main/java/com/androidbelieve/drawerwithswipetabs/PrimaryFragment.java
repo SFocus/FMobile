@@ -1,21 +1,17 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 
 import org.jsoup.nodes.Document;
 
@@ -25,15 +21,16 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import models.FilmItem;
+import adapters.VideoAdapter;
+import models.VideoItem;
 
 /**
  * Created by Ratan on 7/29/2015.
  */
 public class PrimaryFragment extends Fragment {
-    private List<FilmItem> filmList = new ArrayList<>();
-    private List<FilmItem> filmList2 = new ArrayList<>();
-    private FilmsAdapter mAdapter;
+    private List<VideoItem> filmList = new ArrayList<>();
+    private List<VideoItem> filmList2 = new ArrayList<>();
+    private VideoAdapter mAdapter;
     private Toolbar toolbar;
 
     private int page = 1;
@@ -46,7 +43,7 @@ public class PrimaryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
-        mAdapter = new FilmsAdapter(filmList);
+        mAdapter = new VideoAdapter(filmList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
