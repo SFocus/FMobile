@@ -35,7 +35,7 @@ public class PageParser {
             String name = element.select(FilmItem.FILM_FULL_NAME_SELECTOR).text();
             String image = element.select(FilmItem.FILM_IMG_SELECTOR).attr("src");
             String link = element.select(FilmItem.FILM_LINK_SELECTOR).attr("href");
-            String coutry = element.select(FilmItem.FILM_COUNTRY_SELECTOR).text();
+            String country = element.select(FilmItem.FILM_COUNTRY_SELECTOR).text();
             String positive = element.select(FilmItem.FILM_POSITIVE_VOTES_SELECTOR).text();
             String negative = element.select(FilmItem.FILM_NEGATIVE_VOTES_SELECTOR).text();
             Elements qualityEl = element.select(FilmItem.FILM_QUALITY_SELECTOR);
@@ -43,8 +43,8 @@ public class PageParser {
             {
                 quality = qualityEl.first().className();
             }
-            films.add(new FilmItem(image, name, coutry, positive, negative, quality, link));
+            films.add(new FilmItem(image, name, country, positive, negative, quality, link));
         }
-        return null;
+        return films;
     }
 }
