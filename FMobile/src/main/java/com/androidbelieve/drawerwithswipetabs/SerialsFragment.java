@@ -20,6 +20,7 @@ import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.EndlessRecyclerOnScrollListener;
+import adapters.GridAutofitLayoutManager;
 import adapters.VideoAdapter;
 import models.VideoItem;
 
@@ -31,6 +32,8 @@ public class SerialsFragment extends Fragment {
     private List<VideoItem> serialList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
     private int  page = 0;
+    private static final float GESTURE_THRESHOLD_DP = 170.0f;
+
 
     @Nullable
     @Override
@@ -38,7 +41,10 @@ public class SerialsFragment extends Fragment {
         View view = inflater.inflate(R.layout.serials_layout,null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.serialsRecycleView);
         recyclerView.setHasFixedSize(true);
-        final GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
+        final GridAutofitLayoutManager llm = new GridAutofitLayoutManager(view.getContext(), mGestureThreshold);
         recyclerView.setLayoutManager(llm);
         mAdapter = new VideoAdapter(serialList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
