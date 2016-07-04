@@ -14,11 +14,11 @@ public class DataSource {
 
     public static final String userAgent = "Mozilla/5.0 (Linux; <Android Version>; <Build Tag etc.>) AppleWebKit/<WebKit Rev> (KHTML, like Gecko) Chrome/<Chrome Rev> Mobile Safari/<WebKit Rev>";
 
-    public static final HashMap sources;
+    public static final HashMap<String, String> sources;
 
     static
     {
-        sources = new HashMap();
+        sources = new HashMap<String, String>();
         sources.put("media.getFilms", "http://fs.to/video/films/");
     }
 
@@ -26,7 +26,7 @@ public class DataSource {
      * @param source Url key
      * @return Return url by given key
      */
-    public static Object getUrl(Object source)
+    public static String getUrl(String source)
     {
         if(sources.containsKey(source))
             return sources.get(source);
