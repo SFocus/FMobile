@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import org.jsoup.nodes.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,8 @@ import models.VideoItem;
  * Created by Ratan on 7/29/2015.
  */
 public class FilmsFragment extends Fragment {
-    private List<VideoItem> filmList = new ArrayList<>();
-    private List<VideoItem> filmList2 = new ArrayList<>();
+    private ArrayList<VideoItem> filmList = new ArrayList<>();
+    private ArrayList<VideoItem> filmList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
     private int  page = 0;
     // The gesture threshold expressed in dp
@@ -61,8 +62,25 @@ public class FilmsFragment extends Fragment {
                 new LoadFilms().execute();
             }
         });
-        new LoadFilms().execute();
+
+        if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
+        {
+            filmList2 = savedInstanceState.getParcelableArrayList("recyclerData");
+            filmList.addAll(filmList2);
+            mAdapter.notifyDataSetChanged();
+        }
+        else
+        {
+            new LoadFilms().execute();
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle)
+    {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelableArrayList("recyclerData", filmList);
     }
 
     private class LoadFilms extends AsyncTask<String, Void, Document>
@@ -78,10 +96,7 @@ public class FilmsFragment extends Fragment {
             super.onPostExecute(document);
             filmList2.clear();
             filmList2 = new PageParser(document).getFilms();
-            for(int i=0; i<filmList2.size();i++)
-            {
-                filmList.add(filmList2.get(i));
-            }
+            filmList.addAll(filmList2);
             mAdapter.notifyDataSetChanged();
         }
     }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,8 @@ import models.VideoItem;
  * Created by Ratan on 7/29/2015.
  */
 public class SerialsFragment extends Fragment {
-    private List<VideoItem> serialList = new ArrayList<>();
-    private List<VideoItem> serialList2 = new ArrayList<>();
+    private ArrayList<VideoItem> serialList = new ArrayList<>();
+    private ArrayList<VideoItem> serialList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
     private int  page = 0;
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
@@ -57,9 +58,26 @@ public class SerialsFragment extends Fragment {
                 new LoadSerials().execute();
             }
         });
-        new LoadSerials().execute();
+
+        if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
+        {
+            serialList2 = savedInstanceState.getParcelableArrayList("recyclerData");
+            serialList.addAll(serialList2);
+            mAdapter.notifyDataSetChanged();
+        }
+        else
+        {
+            new LoadSerials().execute();
+        }
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle)
+    {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelableArrayList("recyclerData", serialList);
     }
 
     private class LoadSerials extends AsyncTask<String, Void, Document>
@@ -75,10 +93,7 @@ public class SerialsFragment extends Fragment {
             super.onPostExecute(document);
             serialList2.clear();
             serialList2 = new PageParser(document).getFilms();
-            for(int i=0; i<serialList2.size();i++)
-            {
-                serialList.add(serialList2.get(i));
-            }
+            serialList.addAll(serialList2);
             mAdapter.notifyDataSetChanged();
         }
     }
