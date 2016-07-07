@@ -47,7 +47,7 @@ public class SerialsFragment extends Fragment {
         int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
         final GridAutofitLayoutManager llm = new GridAutofitLayoutManager(view.getContext(), mGestureThreshold);
         recyclerView.setLayoutManager(llm);
-        mAdapter = new VideoAdapter(serialList);
+        mAdapter = new VideoAdapter(serialList, getActivity());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 

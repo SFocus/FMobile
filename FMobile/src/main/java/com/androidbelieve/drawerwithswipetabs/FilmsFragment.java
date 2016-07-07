@@ -51,7 +51,8 @@ public class FilmsFragment extends Fragment {
         int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
         final GridAutofitLayoutManager llm = new GridAutofitLayoutManager(view.getContext(), mGestureThreshold);
         recyclerView.setLayoutManager(llm);
-        mAdapter = new VideoAdapter(filmList);
+
+        mAdapter = new VideoAdapter(filmList, getActivity());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 

@@ -1,5 +1,7 @@
 package adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -11,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidbelieve.drawerwithswipetabs.EntryActivity;
+import com.androidbelieve.drawerwithswipetabs.FilmsFragment;
 import com.androidbelieve.drawerwithswipetabs.ImageLoader;
+import com.androidbelieve.drawerwithswipetabs.MainActivity;
 import com.androidbelieve.drawerwithswipetabs.R;
 
 import java.io.IOException;
@@ -27,13 +32,14 @@ import models.VideoItem;
  */
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder> {
     private List<VideoItem> filmList;
-    private ImageLoader loader;
+    private Context context;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView  filmName, countryName, positiveVote, negativeVote, positiveVoteIcon, negativeVoteIcon, quality;
         public ImageView poster;
         Typeface font;
-        public MyViewHolder(View view) {
+        public MyViewHolder(final View view) {
             super(view);
             font = Typeface.createFromAsset( view.getContext().getAssets(), "fontawesome-webfont.ttf" );
             poster = (ImageView) view.findViewById(R.id.poster);
@@ -46,8 +52,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         }
     }
 
-    public VideoAdapter(List<VideoItem> filmList) {
+    public VideoAdapter(List<VideoItem> filmList, Context context) {
         this.filmList = filmList;
+        this.context = context;
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,7 +65,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        VideoItem movie = filmList.get(position);
+        final VideoItem movie = filmList.get(position);
         new LoadCarPic(holder.poster).execute("http:"+movie.getPoster());
         holder.positiveVoteIcon.setTypeface(holder.font);
         holder.negativeVoteIcon.setTypeface(holder.font);
@@ -66,6 +73,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         holder.countryName.setText(movie.getCountryName());
         holder.positiveVote.setText(movie.getPositiveVote());
         holder.negativeVote.setText(movie.getNegativeVote());
+
+        holder.poster.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(VideoAdapter.this.context, EntryActivity.class);
+                intent.putExtra("link",movie.getLink());
+                VideoAdapter.this.context.startActivity(intent);
+            }
+        });
     }
 
     @Override
