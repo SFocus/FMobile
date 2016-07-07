@@ -12,13 +12,7 @@ public class QueryBuilder {
      */
     private static String replace(String in, Object[] data)
     {
-        String out = "";
-        String[] parts = in.split("&");
-        for(int i = 0; i < data.length; i++)
-        {
-            out+= parts[i].replaceFirst("\\{\\{(\\w*)\\}\\}", data[i].toString()) + "&";
-        }
-        return out;
+        return String.format(in, data);
     }
 
     /**
