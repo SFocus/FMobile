@@ -22,6 +22,7 @@ public class DataSource {
         sources.put("media.getFilms", "http://fs.to/video/films/?page=%s");
         sources.put("media.getSerials", "http://fs.to/video/serials/?page=%s");
         sources.put("media.getEntry", "http://fs.to%s");
+        sources.put("media.search", "http://fs.to/search.aspx?f=quick_search&search=%s&limit=10");
     }
 
     /**
