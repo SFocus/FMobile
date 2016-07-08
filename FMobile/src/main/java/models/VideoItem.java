@@ -28,24 +28,24 @@ public class VideoItem implements Parcelable {
     }
 
     public VideoItem(String poster, String filmName, String countryName, String positiveVote, String negativeVote, String quality, String link) {
-        this.poster = poster;
-        this.filmName = filmName;
-        this.countryName = countryName;
-        this.positiveVote = positiveVote;
-        this.negativeVote = negativeVote;
-        this.quality = quality;
-        this.link = link;
+        this.poster         = poster;
+        this.filmName       = filmName;
+        this.countryName    = countryName;
+        this.positiveVote   = positiveVote;
+        this.negativeVote   = negativeVote;
+        this.quality        = quality;
+        this.link           = link;
     }
 
     public VideoItem(Parcel in)
     {
-        this.poster = in.readString();
-        this.filmName = in.readString();
-        this.countryName = in.readString();
-        this.positiveVote = in.readString();
-        this.negativeVote = in.readString();
-        this.quality = in.readString();
-        this.link = in.readString();
+        this.poster         = in.readString();
+        this.filmName       = in.readString();
+        this.countryName    = in.readString();
+        this.positiveVote   = in.readString();
+        this.negativeVote   = in.readString();
+        this.quality        = in.readString();
+        this.link           = in.readString();
     }
 
     public static final Creator<VideoItem> CREATOR = new Creator<VideoItem>() {

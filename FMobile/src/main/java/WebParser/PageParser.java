@@ -1,5 +1,7 @@
 package WebParser;
 
+import android.util.Log;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -84,16 +86,22 @@ public class PageParser {
         try
         {
             Elements cells = document.body().select(VideoEntry.ENTRY_INFO_CELL_SELECTOR);
-            for(Element cell : cells)
-            {
-                ArrayList<String> list = new ArrayList<String>();
-                for(Element t : cell.select(selectors[iterator]))
+            try {
+                for(Element cell : cells)
                 {
-                    list.add(t.text());
+                    ArrayList<String> list = new ArrayList<String>();
+                    for(Element t : cell.select(selectors[iterator]))
+                    {
+                        list.add(t.text());
+                    }
+                    info.put(infoKeys[iterator], list);
+                    iterator++;
                 }
-                info.put(infoKeys[iterator], list);
-                iterator++;
+            }catch (Exception e)
+            {
+                e.printStackTrace();
             }
+
             Elements imgWrappers = document.body().select(VideoEntry.ENTRY_IMAGES_SET_SELECTOR);
             ArrayList<String> gallery = new ArrayList<>();
             for(Element wrapper : imgWrappers )
@@ -125,6 +133,7 @@ public class PageParser {
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             return null;
         }
         return entry;
