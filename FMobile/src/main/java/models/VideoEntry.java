@@ -2,6 +2,8 @@ package models;
 
 
 
+import android.util.Log;
+
 import org.jsoup.helper.StringUtil;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public class VideoEntry {
      */
     public static final String ENTRY_NAME_SELECTOR              = ".b-tab-item__title-inner span";
     public static final String ENTRY_NAME_ALT_SELECTOR          = ".b-tab-item__title-inner div";
-    public static final String ENTRY_IMAGES_SET_SELECTOR        = ".images-show[style]";
+    public static final String ENTRY_IMAGES_SET_SELECTOR        = "a.item[rel]";
     public static final String ENTRY_DESCRIPTION_SELECTOR       = ".item-decription";
     public static final String ENTRY_POSITIVE_VOTES_SELECTOR    = ".m-tab-item__vote-value_type_yes";
     public static final String ENTRY_NEGATIVE_VOTES_SELECTOR    = ".m-tab-item__vote-value_type_no";

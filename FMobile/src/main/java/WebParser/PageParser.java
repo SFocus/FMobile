@@ -2,6 +2,8 @@ package WebParser;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -106,8 +108,7 @@ public class PageParser {
             ArrayList<String> gallery = new ArrayList<>();
             for(Element wrapper : imgWrappers )
             {
-                String style = wrapper.attr("style");
-                gallery.add(style.substring(22,style.length()-2));
+                gallery.add(wrapper.attr("rel"));
             }
             info.put("gallery", gallery);
 
@@ -137,5 +138,17 @@ public class PageParser {
             return null;
         }
         return entry;
+    }
+
+    public JSONArray getSearch()
+    {
+        try {
+            String text = this.document.body().text();
+            return new JSONArray(text);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
