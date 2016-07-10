@@ -10,8 +10,11 @@ import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.androidbelieve.drawerwithswipetabs.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.helper.StringUtil;
 
 import WebParser.DataSource;
 import WebParser.PageParser;
@@ -39,10 +42,12 @@ public class VideoSuggestionsProvider extends ContentProvider {
         MatrixCursor cursor = new MatrixCursor(new String[] {
                 BaseColumns._ID,
                 SearchManager.SUGGEST_COLUMN_TEXT_1,
+                SearchManager.SUGGEST_COLUMN_TEXT_2,
                 SearchManager.SUGGEST_COLUMN_INTENT_DATA,
                 SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
+                SearchManager.SUGGEST_COLUMN_ICON_1,
         });
-
+        String image = "http://www.megaicons.net/static/img/icons_sizes/99/237/32/game-of-thrones-icon.png";
         try
         {
             for(int i = 0; i < result.length(); i++)
@@ -52,8 +57,10 @@ public class VideoSuggestionsProvider extends ContentProvider {
                 cursor.addRow(new String[] {
                         i+"",
                         row.getString("title"),
+                        row.getJSONArray("genres").join(", ").replace("\"", ""),
                         row.getString("link"),
-                        row.getString("link")
+                        row.getString("link"),
+                        R.drawable.ic_video + ""
                 });
             }
         }catch (Exception e)

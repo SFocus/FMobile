@@ -3,11 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.database.MatrixCursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,21 +11,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-
-import org.jsoup.nodes.Document;
-
-import java.util.List;
-
-import WebParser.DataSource;
-import WebParser.PageParser;
-import adapters.FSSuggestionAdapter;
-import models.VideoItem;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -39,8 +25,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     FragmentTransaction mFragmentTransaction;
 
     ActionBarDrawerToggle mDrawerToggle;
-
-    FSSuggestionAdapter fsSuggestionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +75,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         this.setUpSideBar();
-
-
-        fsSuggestionAdapter = new FSSuggestionAdapter(this);
-
     }
 
     @Override
@@ -109,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, MainActivity.class)));
-
-//        searchView.setSuggestionsAdapter(fsSuggestionAdapter);
 
         searchView.setIconified(false);
         return true;
