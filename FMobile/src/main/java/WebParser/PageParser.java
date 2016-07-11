@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.SearchItem;
 import models.VideoEntry;
 import models.VideoItem;
 
@@ -101,6 +102,7 @@ public class PageParser {
                 }
             }catch (Exception e)
             {
+                //**IGNORE**
                 e.printStackTrace();
             }
 
@@ -150,5 +152,31 @@ public class PageParser {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<SearchItem> getDetailedSearch()
+    {
+        List<SearchItem> out = new ArrayList<>();
+
+        Elements elements = document.body().select(SearchItem.SEARCH_ITEM_SELECTOR);
+
+        try {
+            for(Element row : elements)
+            {
+                String image = row.select(SearchItem.SEARCH_ITEM_IMAGE_SELECTOR).attr("src");
+                String title = row.select(SearchItem.SEARCH_ITEM_TITLE_SELECTOR).text();
+                String type = row.select(SearchItem.SEARCH_ITEM_TYPE_SELECTOR).text();
+                String genres = row.select(SearchItem.SEARCH_ITEM_GENRES_SELECTOR).text();
+                String posVotes = row.select(SearchItem.SEARCH_ITEM_POSITIVE_VOTES_SELECTOR).text();
+                String negVotes = row.select(SearchItem.SEARCH_ITEM_NEGATIVE_VOTES_SELECTOR).text();
+                String desc = row.select(SearchItem.SEARCH_ITEM_DESCRIPTION_SELECTOR).text();
+                out.add(new SearchItem(image, title, type, genres, posVotes, negVotes, desc));
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return out;
+        }
+        return out;
     }
 }

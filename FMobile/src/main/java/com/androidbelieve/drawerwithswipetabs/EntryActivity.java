@@ -9,6 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -19,9 +22,14 @@ import android.widget.TextView;
 
 import org.jsoup.nodes.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.DetailedSearchAdapter;
+import models.SearchItem;
 import models.VideoEntry;
 
 public class EntryActivity extends AppCompatActivity {
@@ -30,27 +38,70 @@ public class EntryActivity extends AppCompatActivity {
 
     private VideoEntry entry;
 
+    private ArrayList<SearchItem> searchResult = new ArrayList<>();
+
+    private DetailedSearchAdapter searchAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry);
+        Intent intent = getIntent();
+        String url;
+        switch (intent.getAction())
+        {
+            case Intent.ACTION_VIEW :
+                setContentView(R.layout.activity_entry);
+                url = QueryBuilder.buildQuery(
+                        DataSource.getUrl("media.getEntry"),
+                        intent.getDataString()
+                );
+                new LoadEntry(url).execute();
+                break;
+
+            case Intent.ACTION_SEARCH :
+                setContentView(R.layout.activity_search);
+
+                LinearLayoutManager llm = new LinearLayoutManager(this);
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.SearchRecycleView);
+                recyclerView.setLayoutManager(llm);
+
+                searchAdapter = new DetailedSearchAdapter(this.searchResult, this);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(searchAdapter);
+
+                if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
+                {
+                    ArrayList<SearchItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
+                    searchResult.addAll(temp);
+                    searchAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    String query = intent.getStringExtra(SearchManager.QUERY);
+                    url = QueryBuilder.buildQuery(
+                            DataSource.getUrl("media.detailedSearch"),
+                            query
+                    );
+
+                    new DetailedSearch(url).execute();
+                }
+                break;
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        Intent inten = getIntent();
-        Bundle data = inten.getExtras();
-        if(data.containsKey("link"))
-        {
-            String url = QueryBuilder.buildQuery(
-                    DataSource.getUrl("media.getEntry"),
-                    data.getString("link")
-            );
-            new LoadEntry(url).execute();
-        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         this.setUpSideBar();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle)
+    {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelableArrayList("recyclerData", searchResult);
     }
 
     @Override
@@ -116,6 +167,32 @@ public class EntryActivity extends AppCompatActivity {
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
             EntryActivity.this.entry = new PageParser(document).getEntry();
+        }
+    }
+
+    /**
+     * Detailed search for certain query
+     */
+    private class DetailedSearch extends AsyncTask<String, Void, Document>
+    {
+        private String url;
+
+        public DetailedSearch(String url)
+        {
+            this.url = url;
+        }
+
+        @Override
+        protected Document doInBackground(String... strings) {
+            return DataSource.executeQuery(this.url);
+        }
+
+        @Override
+        protected void onPostExecute(Document document) {
+            super.onPostExecute(document);
+            searchResult.addAll(new PageParser(document).getDetailedSearch());
+            Log.d("testSize", EntryActivity.this.searchResult.size() + "");
+            searchAdapter.notifyDataSetChanged();
         }
     }
 }

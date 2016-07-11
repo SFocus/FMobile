@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/search_item_card_card"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardElevation="7dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rellay">
+
+            <ImageView
+                android:layout_width="81dp"
+                android:layout_height="119dp"
+                android:contentDescription="test"
+                android:scaleType="centerCrop"
+                android:id="@+id/poster"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"/>
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"/>
+
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"/>
+
+            <TextView
+                android:id="@+id/fa_positive"
+                android:text="@string/fa_icon_positive"
+                android:textColor="@color/positive_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/genre"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"/>
+
+            <TextView
+                android:id="@+id/positive_count"
+                android:textColor="@color/positive_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre"
+                android:layout_toRightOf="@id/fa_positive"
+                android:layout_toEndOf="@id/fa_positive"/>
+
+            <TextView
+                android:id="@+id/fa_negative"
+                android:textColor="@color/negative_vote"
+                android:text="@string/fa_icon_negative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/genre"
+                android:layout_toRightOf="@id/positive_count"
+                android:layout_toEndOf="@id/positive_count"/>
+
+            <TextView
+                android:id="@+id/negative_count"
+                android:textColor="@color/negative_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre"
+                android:layout_toRightOf="@id/fa_negative"
+                android:layout_toEndOf="@id/fa_negative"/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/poster"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>

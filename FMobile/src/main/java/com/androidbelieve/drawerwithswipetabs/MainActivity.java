@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchView.setOnQueryTextListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, MainActivity.class)));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryActivity.class)));
 
         searchView.setIconified(false);
         return true;
@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+//        Inten inten = new Integer(getApplicationContext(), )
         return false;
     }
 

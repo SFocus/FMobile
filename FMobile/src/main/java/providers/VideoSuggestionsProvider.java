@@ -3,6 +3,7 @@ package providers;
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -44,10 +45,8 @@ public class VideoSuggestionsProvider extends ContentProvider {
                 SearchManager.SUGGEST_COLUMN_TEXT_1,
                 SearchManager.SUGGEST_COLUMN_TEXT_2,
                 SearchManager.SUGGEST_COLUMN_INTENT_DATA,
-                SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
-                SearchManager.SUGGEST_COLUMN_ICON_1,
+                SearchManager.SUGGEST_COLUMN_ICON_1
         });
-        String image = "http://www.megaicons.net/static/img/icons_sizes/99/237/32/game-of-thrones-icon.png";
         try
         {
             for(int i = 0; i < result.length(); i++)
@@ -58,7 +57,6 @@ public class VideoSuggestionsProvider extends ContentProvider {
                         i+"",
                         row.getString("title"),
                         row.getJSONArray("genres").join(", ").replace("\"", ""),
-                        row.getString("link"),
                         row.getString("link"),
                         R.drawable.ic_video + ""
                 });
