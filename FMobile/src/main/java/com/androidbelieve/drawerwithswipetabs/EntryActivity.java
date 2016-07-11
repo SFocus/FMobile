@@ -49,6 +49,7 @@ public class EntryActivity extends AppCompatActivity {
         String url;
         switch (intent.getAction())
         {
+            //On suggestion select
             case Intent.ACTION_VIEW :
                 setContentView(R.layout.activity_entry);
                 url = QueryBuilder.buildQuery(
@@ -58,6 +59,7 @@ public class EntryActivity extends AppCompatActivity {
                 new LoadEntry(url).execute();
                 break;
 
+            //On query submit
             case Intent.ACTION_SEARCH :
                 setContentView(R.layout.activity_search);
 
