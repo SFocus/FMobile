@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,12 +43,15 @@ public class EntryActivity extends AppCompatActivity {
 
     private DetailedSearchAdapter searchAdapter;
 
+    private String intentAction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String url;
-        switch (intent.getAction())
+        this.intentAction = intent.getAction();
+        switch (this.intentAction)
         {
             //On suggestion select
             case Intent.ACTION_VIEW :
@@ -72,6 +76,8 @@ public class EntryActivity extends AppCompatActivity {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(searchAdapter);
 
+                String query = intent.getStringExtra(SearchManager.QUERY);
+
                 if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
                 {
                     ArrayList<SearchItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
@@ -80,7 +86,6 @@ public class EntryActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    String query = intent.getStringExtra(SearchManager.QUERY);
                     url = QueryBuilder.buildQuery(
                             DataSource.getUrl("media.detailedSearch"),
                             query
@@ -88,15 +93,13 @@ public class EntryActivity extends AppCompatActivity {
 
                     new DetailedSearch(url).execute();
                 }
+                getSupportActionBar().setTitle(String.format("Пошук %s", query));
                 break;
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        this.setUpSideBar();
     }
 
     @Override
@@ -109,42 +112,8 @@ public class EntryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+//        inflater.inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(mDrawerToggle.onOptionsItemSelected(item))
-        {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setUpSideBar()
-    {
-        /**
-         * Setup Drawer Toggle of the Toolbar
-         */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name)
-        {
-            public void onDrawerOpened(View view) {
-                super.onDrawerOpened(view);
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu();
-            }
-        };
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        mDrawerToggle.syncState();
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
 
@@ -193,7 +162,6 @@ public class EntryActivity extends AppCompatActivity {
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
             searchResult.addAll(new PageParser(document).getDetailedSearch());
-            Log.d("testSize", EntryActivity.this.searchResult.size() + "");
             searchAdapter.notifyDataSetChanged();
         }
     }
