@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.CommentItem;
 import models.SearchItem;
 import models.VideoEntry;
 import models.VideoItem;
@@ -171,6 +173,32 @@ public class PageParser {
                 String negVotes = row.select(SearchItem.SEARCH_ITEM_NEGATIVE_VOTES_SELECTOR).text();
                 String desc = row.select(SearchItem.SEARCH_ITEM_DESCRIPTION_SELECTOR).text();
                 out.add(new SearchItem(image, title, type, genres, posVotes, negVotes, desc));
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return out;
+        }
+        return out;
+    }
+
+    public List<CommentItem> getComments()
+    {
+        List<CommentItem> out = new ArrayList<>();
+
+        Elements elements = document.body().select(CommentItem.COMMENT_ITEM_SELECTOR);
+
+        try {
+            for(Element row : elements)
+            {
+                String image = row.select(CommentItem.COMMENT_AUTHOR_IMAGE_SELECTOR).attr("style");
+                image = image.substring(23, image.length()-3);
+                String name = row.select(CommentItem.COMMENT_AUTHOR_NAME_SELECTOR).text();
+                String time = row.select(CommentItem.COMMENT_TIME_SELECTOR).text();
+                String vote_yes = row.select(CommentItem.COMMENT_VOTE_YES_SELECTOR).text();
+                String vote_no = row.select(CommentItem.COMMENT_VOTE_NO_SELECTOR).text();
+                String text = row.select(CommentItem.COMMENT_TEXT_SELECTOR).text();
+                out.add(new CommentItem(name, image, time, vote_yes, vote_no, text));
             }
         }catch (Exception e)
         {
