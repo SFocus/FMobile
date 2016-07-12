@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import models.CommentItem;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyViewHolder> {
     private Context context;
     private List<CommentItem> commentItems;
+    private SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView id, time;
@@ -37,9 +40,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View rootView = inflater.inflate(R.layout.comments_card, null);
 
             image = (ImageView) view.findViewById(R.id.comment_image);
             id = (TextView) view.findViewById(R.id.comment_id);
@@ -67,12 +67,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         new LoadIcon(holder.image).execute("http:" + comment.getImage());
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
-        holder.text.setText(comment.getText());
+        holder.text.setText(comment.getText(), sparseBooleanArray, position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return commentItems.size();
     }
 
     class LoadIcon extends AsyncTask<String, String, Bitmap> {

@@ -14,8 +14,8 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/comment_image"
             android:contentDescription="" />
 
@@ -29,20 +29,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/comment_time"
-            android:layout_toRightOf="@+id/comment_id" />
+            android:layout_below="@id/comment_id"
+            android:layout_toRightOf="@+id/comment_image"
+            android:layout_toEndOf="@+id/comment_image"/>
 
         <com.ms.square.android.expandabletextview.ExpandableTextView
             android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            expandableTextView:maxCollapsedLines="4"
+            expandableTextView:maxCollapsedLines="2"
             expandableTextView:animDuration="200"
-            android:layout_below="@+id/comment_id">
+            android:layout_below="@+id/comment_image">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/comment_text" />
+                android:id="@id/expandable_text" />
 
             <ImageButton
                 android:id="@id/expand_collapse"
