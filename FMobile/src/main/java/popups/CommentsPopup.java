@@ -21,6 +21,7 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
 
 /**
@@ -55,6 +56,7 @@ public class CommentsPopup extends Activity{
         String link = intent.getStringExtra("link");
         if(link == null) throw new IllegalArgumentException("Link must be provided");
         hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
+
         String url = QueryBuilder.buildQuery(
                 DataSource.getUrl("entry.getComments"),
                 new Object[] { hash, loadedComments }
@@ -69,10 +71,22 @@ public class CommentsPopup extends Activity{
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popup_recycle_view);
         mAdapter = new CommentsAdapter(comments, this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
+            @Override
+            public void onLoadMore(int current_page) {
+                String url = QueryBuilder.buildQuery(
+                        DataSource.getUrl("entry.getComments"),
+                        new Object[] { hash, loadedComments }
+                );
+                new LoadComments(url).execute();
+            }
+        });
 
         new LoadComments(url).execute();
     }
@@ -94,6 +108,7 @@ public class CommentsPopup extends Activity{
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
             List<CommentItem> temp = new PageParser(document).getComments();
+            loadedComments += temp.size();
             comments.addAll(temp);
             mAdapter.notifyDataSetChanged();
         }
