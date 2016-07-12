@@ -6,20 +6,20 @@
         <item name="colorPrimary">@color/orange</item>
         <item name="colorPrimaryDark">@color/status_bar</item>
         <item name="android:windowSoftInputMode">stateHidden</item>
-
     </style>
 
     <style name="AppTheme.NoActionBar.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@android:color/transparent</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:shadowColor">@color/transs</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:shadowDx">-2</item>
-        <item name="android:shadowDy">-2</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/orange</item>
+        <item name="colorPrimary">@color/status_bar</item>
     </style>
 </resources>
-
-

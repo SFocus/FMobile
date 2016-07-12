@@ -2,4 +2,8 @@
 <resources>
     <string name="fa_icon_positive">&#xf164;</string>
     <string name="fa_icon_negative">&#xf165;</string>
+
+    <string name="fa_heart">&#xf004;</string>
+    <string name="fa_comments">&#xf086;</string>
+    <string name="fa_folder_open">&#xf07c;</string>
 </resources>

@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         MenuItem searchItem = menu.findItem(R.id.quick_search);
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+    /*    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryActivity.class)));
 
-        searchView.setIconified(false);
+        searchView.setIconified(false);*/
         return true;
     }
 

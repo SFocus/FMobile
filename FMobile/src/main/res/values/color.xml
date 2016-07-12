@@ -5,6 +5,9 @@
     <color name="white">#FFF</color>
     <color name="status_bar">#303A4A</color>
 
+    <color name="transs">#1C222C</color>
+
+
     <color name="negative_vote">#F44336</color>
     <color name="positive_vote">#4CAF50</color>
     <color name="background_name">#5D4037</color>
