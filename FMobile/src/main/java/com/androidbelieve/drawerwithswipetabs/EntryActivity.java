@@ -53,7 +53,7 @@ public class EntryActivity extends AppCompatActivity
 
     private DetailedSearchAdapter searchAdapter;
 
-    private String intentAction;
+    private String intentAction, link;
     Toolbar myToolbar;
     Typeface font;
 
@@ -71,7 +71,7 @@ public class EntryActivity extends AppCompatActivity
                 setContentView(R.layout.activity_entry);
 
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-                String link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
+                link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
                 url = QueryBuilder.buildQuery(
                         DataSource.getUrl("media.getEntry"),
                         link
@@ -174,7 +174,9 @@ public class EntryActivity extends AppCompatActivity
         switch (v.getId())
         {
             case R.id.fa_comments :
-                startActivity(new Intent(this, CommentsPopup.class));
+                Intent intent = new Intent(this, CommentsPopup.class);
+                intent.putExtra("link", this.link);
+                startActivity(intent);
                 break;
         }
     }
