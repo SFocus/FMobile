@@ -79,6 +79,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
             public void onClick(View v) {
 
                 Intent intent = new Intent(VideoAdapter.this.context, EntryActivity.class);
+                intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("link",movie.getLink());
                 VideoAdapter.this.context.startActivity(intent);
             }

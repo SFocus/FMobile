@@ -50,15 +50,18 @@ public class EntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String url;
+        Log.d("INTENT",intent.getAction() + "");
         this.intentAction = intent.getAction();
         switch (this.intentAction)
         {
             //On suggestion select
             case Intent.ACTION_VIEW :
                 setContentView(R.layout.activity_entry);
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+                String link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
                 url = QueryBuilder.buildQuery(
                         DataSource.getUrl("media.getEntry"),
-                        intent.getDataString()
+                        link
                 );
                 new LoadEntry(url).execute();
                 break;
@@ -95,9 +98,11 @@ public class EntryActivity extends AppCompatActivity {
                 }
                 getSupportActionBar().setTitle(String.format("Пошук %s", query));
                 break;
+            default:
+                Log.d("TEST","notfound");
+                break;
         }
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
