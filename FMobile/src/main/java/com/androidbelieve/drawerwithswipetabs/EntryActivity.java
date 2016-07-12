@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +25,9 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.jsoup.nodes.Document;
 
@@ -56,6 +61,11 @@ public class EntryActivity extends AppCompatActivity
     private String intentAction;
     Toolbar myToolbar;
     Typeface font;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -64,10 +74,9 @@ public class EntryActivity extends AppCompatActivity
         Intent intent = getIntent();
         String url;
         this.intentAction = intent.getAction();
-        switch (this.intentAction)
-        {
+        switch (this.intentAction) {
             //On suggestion select
-            case Intent.ACTION_VIEW :
+            case Intent.ACTION_VIEW:
                 setContentView(R.layout.activity_entry);
 
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -77,11 +86,11 @@ public class EntryActivity extends AppCompatActivity
                         link
                 );
                 new LoadEntry(url).execute();
-                 myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+                myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
                 setSupportActionBar(myToolbar);
-                font = Typeface.createFromAsset(getBaseContext().getAssets(), "fontawesome-webfont.ttf" );
+                font = Typeface.createFromAsset(getBaseContext().getAssets(), "fontawesome-webfont.ttf");
 
-                mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+                mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
                 mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
                 mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
@@ -93,7 +102,7 @@ public class EntryActivity extends AppCompatActivity
                 break;
 
             //On query submit
-            case Intent.ACTION_SEARCH :
+            case Intent.ACTION_SEARCH:
                 setContentView(R.layout.activity_search);
 
                 LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -107,14 +116,11 @@ public class EntryActivity extends AppCompatActivity
 
                 String query = intent.getStringExtra(SearchManager.QUERY);
 
-                if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
-                {
+                if (savedInstanceState != null && savedInstanceState.containsKey("recyclerData")) {
                     ArrayList<SearchItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
                     searchResult.addAll(temp);
                     searchAdapter.notifyDataSetChanged();
-                }
-                else
-                {
+                } else {
                     url = QueryBuilder.buildQuery(
                             DataSource.getUrl("media.detailedSearch"),
                             query
@@ -125,19 +131,34 @@ public class EntryActivity extends AppCompatActivity
                 getSupportActionBar().setTitle(String.format("Пошук %s", query));
                 break;
             default:
-                Log.d("TEST","notfound");
+                Log.d("TEST", "notfound");
                 break;
         }
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList("recyclerData", searchResult);
     }
@@ -171,24 +192,61 @@ public class EntryActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.fa_comments :
+        switch (v.getId()) {
+            case R.id.fa_comments:
                 startActivity(new Intent(this, CommentsPopup.class));
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Entry Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.androidbelieve.drawerwithswipetabs/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Entry Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.androidbelieve.drawerwithswipetabs/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 
 
     /**
      * Loads information about certain entry by given url
      */
-    private class LoadEntry extends AsyncTask<String, Void, Document>
-    {
+    private class LoadEntry extends AsyncTask<String, Void, Document> {
         private String url;
 
-        public LoadEntry(String url)
-        {
+        public LoadEntry(String url) {
             this.url = url;
         }
 
@@ -210,12 +268,10 @@ public class EntryActivity extends AppCompatActivity
     /**
      * Detailed search for certain query
      */
-    private class DetailedSearch extends AsyncTask<String, Void, Document>
-    {
+    private class DetailedSearch extends AsyncTask<String, Void, Document> {
         private String url;
 
-        public DetailedSearch(String url)
-        {
+        public DetailedSearch(String url) {
             this.url = url;
         }
 
@@ -232,12 +288,10 @@ public class EntryActivity extends AppCompatActivity
         }
     }
 
-    private class LoadImages extends AsyncTask<String, Void, List<String>>
-    {
+    private class LoadImages extends AsyncTask<String, Void, List<String>> {
         private List<String> list;
 
-        public LoadImages(List<String> list)
-        {
+        public LoadImages(List<String> list) {
             this.list = list;
         }
 
@@ -250,12 +304,11 @@ public class EntryActivity extends AppCompatActivity
         protected void onPostExecute(List<String> doc) {
             super.onPostExecute(doc);
             myToolbar.setTitle(entry.getName());
-            for(int i=0; i<doc.size(); i++)
-            {
+            for (int i = 0; i < doc.size(); i++) {
                 TextSliderView textSliderView = new TextSliderView(getBaseContext());
                 // initialize a SliderLayout
                 textSliderView
-                        .image("http:"+doc.get(i))
+                        .image("http:" + doc.get(i))
                         .setScaleType(BaseSliderView.ScaleType.CenterInside);
                 //add your extra information
                 textSliderView.bundle(new Bundle());
@@ -272,8 +325,8 @@ public class EntryActivity extends AppCompatActivity
 
             String text = likes.getText() + "  " + entry.getPositiveVotes();
             likes.setText(text);
-           // text = R.string.fa_comments + "  " + entry.get
-          //  text = R.string.fa_folder_open ;
+            // text = R.string.fa_comments + "  " + entry.get
+            //  text = R.string.fa_folder_open ;
             files.setText(R.string.fa_folder_open);
 
         }
