@@ -27,11 +27,10 @@ public class CommentsPopup extends Activity{
         );
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.dimAmount = 0.5f; // уровень затемнения от 1.0 до 0.0
+        lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
         getWindow().setAttributes(lp);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
     }
 
 }
