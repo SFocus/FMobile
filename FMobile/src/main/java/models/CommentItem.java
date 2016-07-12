@@ -1,9 +1,12 @@
 package models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Andrew on 12.07.2016.
  */
-public class CommentItem {
+public class CommentItem implements Parcelable {
     public static final String COMMENT_ITEM_SELECTOR            = ".b-item-material-comments__item";
     public static final String COMMENT_AUTHOR_IMAGE_SELECTOR    = ".b-item-material-comments__item-photo";
     public static final String COMMENT_AUTHOR_NAME_SELECTOR     = ".b-item-material-comments__item-name span";
@@ -23,6 +26,27 @@ public class CommentItem {
         this.text           = text;
     }
 
+
+    protected CommentItem(Parcel in) {
+        author              = in.readString();
+        image               = in.readString();
+        time                = in.readString();
+        positiveVotes       = in.readString();
+        negativeVotes       = in.readString();
+        text                = in.readString();
+    }
+
+    public static final Creator<CommentItem> CREATOR = new Creator<CommentItem>() {
+        @Override
+        public CommentItem createFromParcel(Parcel in) {
+            return new CommentItem(in);
+        }
+
+        @Override
+        public CommentItem[] newArray(int size) {
+            return new CommentItem[size];
+        }
+    };
 
     public String getAuthor() {
         return author;
@@ -46,5 +70,20 @@ public class CommentItem {
 
     public String getText() {
         return text;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(author);
+        dest.writeString(image);
+        dest.writeString(time);
+        dest.writeString(positiveVotes);
+        dest.writeString(negativeVotes);
+        dest.writeString(text);
     }
 }

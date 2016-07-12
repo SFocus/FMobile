@@ -23,6 +23,7 @@ import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
+import models.SearchItem;
 
 /**
  * Created by Andrew on 12.07.2016.
@@ -57,10 +58,7 @@ public class CommentsPopup extends Activity{
         if(link == null) throw new IllegalArgumentException("Link must be provided");
         hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
 
-        String url = QueryBuilder.buildQuery(
-                DataSource.getUrl("entry.getComments"),
-                new Object[] { hash, loadedComments }
-        );
+
 
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -88,7 +86,24 @@ public class CommentsPopup extends Activity{
             }
         });
 
-        new LoadComments(url).execute();
+        if (state != null && state.containsKey("recyclerData")) {
+            ArrayList<CommentItem> temp = state.getParcelableArrayList("recyclerData");
+            comments.addAll(temp);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            String url = QueryBuilder.buildQuery(
+                    DataSource.getUrl("entry.getComments"),
+                    new Object[] { hash, loadedComments }
+            );
+
+            new LoadComments(url).execute();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelableArrayList("recyclerData", comments);
     }
 
     private class LoadComments extends AsyncTask<String, Void, Document>
