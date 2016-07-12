@@ -1,28 +1,20 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.NavUtils;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -33,9 +25,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 import org.jsoup.nodes.Document;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import WebParser.DataSource;
@@ -248,7 +238,7 @@ public class EntryActivity extends AppCompatActivity implements BaseSliderView.O
                 // initialize a SliderLayout
                 textSliderView
                         .image("http:"+doc.get(i))
-                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                        .setScaleType(BaseSliderView.ScaleType.CenterInside);
                 //add your extra information
                 textSliderView.bundle(new Bundle());
                 mDemoSlider.addSlider(textSliderView);

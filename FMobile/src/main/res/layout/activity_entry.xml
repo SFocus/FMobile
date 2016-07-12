@@ -11,6 +11,7 @@
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:background="@color/black"
         android:layout_toStartOf="@id/relative_layout_entry"/>
 
     <android.support.v7.widget.Toolbar
