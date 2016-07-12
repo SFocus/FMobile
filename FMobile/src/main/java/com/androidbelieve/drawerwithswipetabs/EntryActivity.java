@@ -50,7 +50,6 @@ public class EntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String url;
-        Log.d("INTENT",intent.getAction() + "");
         this.intentAction = intent.getAction();
         switch (this.intentAction)
         {
