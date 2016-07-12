@@ -58,7 +58,7 @@ public class EntryActivity extends AppCompatActivity
 
     private DetailedSearchAdapter searchAdapter;
 
-    private String intentAction;
+    private String intentAction, link;
     Toolbar myToolbar;
     Typeface font;
     /**
@@ -80,7 +80,7 @@ public class EntryActivity extends AppCompatActivity
                 setContentView(R.layout.activity_entry);
 
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-                String link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
+                link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
                 url = QueryBuilder.buildQuery(
                         DataSource.getUrl("media.getEntry"),
                         link
@@ -194,7 +194,9 @@ public class EntryActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fa_comments:
-                startActivity(new Intent(this, CommentsPopup.class));
+                Intent intent = new Intent(EntryActivity.this, CommentsPopup.class);
+                intent.putExtra("link", this.link);
+                this.startActivity(intent);
                 break;
         }
     }
@@ -236,6 +238,7 @@ public class EntryActivity extends AppCompatActivity
                 Uri.parse("android-app://com.androidbelieve.drawerwithswipetabs/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
+
         client.disconnect();
     }
 
