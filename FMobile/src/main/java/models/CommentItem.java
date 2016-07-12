@@ -9,8 +9,8 @@ public class CommentItem {
     public static final String COMMENT_AUTHOR_NAME_SELECTOR     = ".b-item-material-comments__item-name span";
     public static final String COMMENT_TIME_SELECTOR            = ".b-item-material-comments__item-time time";
     public static final String COMMENT_VOTE_YES_SELECTOR        = ".m-item-material-comments__item-answer_type_yes span:last-child";
-    public static final String COMMENT_VOTE_NO_SELECTOR         = "m-item-material-comments__item-answer_type_no span:last-child";
-    public static final String COMMENT_TEXT_SELECTOR            = "b-item-material-comments__item-text";
+    public static final String COMMENT_VOTE_NO_SELECTOR         = ".m-item-material-comments__item-answer_type_no span:last-child";
+    public static final String COMMENT_TEXT_SELECTOR            = ".b-item-material-comments__item-text";
 
     private String author, image, time, positiveVotes, negativeVotes, text;
 

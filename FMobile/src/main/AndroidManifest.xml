@@ -46,6 +46,13 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <activity
+            android:name="popups.CommentsPopup"
+            android:theme="@style/AppTheme.Popup">
+
+        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="Login"

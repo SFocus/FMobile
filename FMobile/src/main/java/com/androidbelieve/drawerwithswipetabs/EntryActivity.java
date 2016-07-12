@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -34,8 +35,13 @@ import WebParser.QueryBuilder;
 import adapters.DetailedSearchAdapter;
 import models.SearchItem;
 import models.VideoEntry;
+import popups.CommentsPopup;
 
-public class EntryActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class EntryActivity extends AppCompatActivity
+        implements
+        BaseSliderView.OnSliderClickListener,
+        ViewPagerEx.OnPageChangeListener,
+        View.OnClickListener {
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -82,6 +88,8 @@ public class EntryActivity extends AppCompatActivity implements BaseSliderView.O
                 mDemoSlider.setCustomAnimation(new DescriptionAnimation());
                 mDemoSlider.setDuration(6000);
                 mDemoSlider.addOnPageChangeListener(this);
+
+                findViewById(R.id.fa_comments).setOnClickListener(this);
                 break;
 
             //On query submit
@@ -159,6 +167,16 @@ public class EntryActivity extends AppCompatActivity implements BaseSliderView.O
     @Override
     public void onSliderClick(BaseSliderView slider) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.fa_comments :
+                startActivity(new Intent(this, CommentsPopup.class));
+                break;
+        }
     }
 
 
