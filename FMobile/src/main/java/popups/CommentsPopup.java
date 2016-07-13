@@ -20,7 +20,7 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import adapters.EndlessRecyclerOnScrollListener;
+import helpers.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
 import adapters.CommentsAdapter;
 

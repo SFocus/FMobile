@@ -1,4 +1,4 @@
-package adapters;
+package helpers;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
