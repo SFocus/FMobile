@@ -6,4 +6,8 @@
     <string name="fa_heart">&#xf004;</string>
     <string name="fa_comments">&#xf086;</string>
     <string name="fa_folder_open">&#xf07c;</string>
+
+    <string name="fa_chevron_circle_up">&#xf139;</string>
+    <string name="fa_chevron_circle_down">&#xf13a;</string>
+
 </resources>

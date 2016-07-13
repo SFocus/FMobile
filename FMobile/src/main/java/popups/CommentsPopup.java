@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.androidbelieve.drawerwithswipetabs.R;
@@ -23,7 +22,6 @@ import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
-import models.SearchItem;
 
 /**
  * Created by Andrew on 12.07.2016.
@@ -33,10 +31,10 @@ public class CommentsPopup extends Activity{
     private CommentsAdapter mAdapter;
     private int page = 0;
     private CommentItem commentItem;
-
     private int loadedComments = 0;
     private String hash;
     private ArrayList<CommentItem> comments = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle state)
@@ -57,9 +55,6 @@ public class CommentsPopup extends Activity{
         String link = intent.getStringExtra("link");
         if(link == null) throw new IllegalArgumentException("Link must be provided");
         hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
-
-
-
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
@@ -98,6 +93,7 @@ public class CommentsPopup extends Activity{
 
             new LoadComments(url).execute();
         }
+
     }
 
     @Override

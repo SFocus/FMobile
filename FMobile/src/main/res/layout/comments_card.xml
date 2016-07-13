@@ -3,10 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:expandableTextView="http://schemas.android.com/tools"
     android:id="@+id/fa_comments_card"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardElevation="7dp">
+    card_view:cardBackgroundColor="@android:color/transparent"
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,46 +13,64 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/comment_image"
             android:contentDescription="" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:id="@+id/comment_id"
+            android:textColor="@color/white"
             android:layout_toRightOf="@+id/comment_image" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/comment_time"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/white"
             android:layout_below="@id/comment_id"
             android:layout_toRightOf="@+id/comment_image"
             android:layout_toEndOf="@+id/comment_image"/>
 
-        <com.ms.square.android.expandabletextview.ExpandableTextView
-            android:id="@+id/expand_text_view"
+
+        <TextView
+            android:id="@+id/description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            expandableTextView:maxCollapsedLines="2"
-            expandableTextView:animDuration="200"
-            android:layout_below="@+id/comment_image">
+            android:maxLines="3"
+            android:textColor="@color/white"
+            android:layout_below="@+id/comment_image" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@id/expandable_text" />
+        <Button
+            android:id="@+id/show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_text"
+            android:text="@string/fa_chevron_circle_down"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:clickable="true" />
 
-            <ImageButton
-                android:id="@id/expand_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_gravity="right|bottom"
-                android:background="@android:color/transparent"
-                android:contentDescription="" />
-        </com.ms.square.android.expandabletextview.ExpandableTextView>
+        <Button
+            android:id="@+id/hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_text"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:text="@string/fa_chevron_circle_up"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_margin="2dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

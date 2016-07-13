@@ -3,18 +3,18 @@ package popups;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,16 +35,22 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView id, time;
-        public ExpandableTextView text;
+        public TextView text;
         public ImageView image;
-
+        Button show, hide;
+        TextView descText;
+        Typeface font;
         public MyViewHolder(View view) {
             super(view);
 
             image = (ImageView) view.findViewById(R.id.comment_image);
             id = (TextView) view.findViewById(R.id.comment_id);
             time = (TextView) view.findViewById(R.id.comment_time);
-            text = (ExpandableTextView) view.findViewById(R.id.expand_text_view);
+            show = (Button) view.findViewById(R.id.show);
+            hide = (Button) view.findViewById(R.id.hide);
+            descText = (TextView) view.findViewById(R.id.description_text);
+            font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
+
         }
     }
 
@@ -62,12 +68,34 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         CommentItem comment = commentItems.get(position);
         new LoadIcon(holder.image).execute("http:" + comment.getImage());
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
-        holder.text.setText(comment.getText(), sparseBooleanArray, position);
+        holder.descText.setText(comment.getText());
+        holder.hide.setTypeface(holder.font);
+        holder.show.setTypeface(holder.font);
+
+        holder.show.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Show button");
+                holder.show.setVisibility(View.INVISIBLE);
+                holder.hide.setVisibility(View.VISIBLE);
+                holder.descText.setMaxLines(Integer.MAX_VALUE);
+            }
+        });
+        holder.hide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Hide button");
+                holder.hide.setVisibility(View.INVISIBLE);
+                holder.show.setVisibility(View.VISIBLE);
+                holder.descText.setMaxLines(3);
+            }
+        });
     }
 
     @Override
