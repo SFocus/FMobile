@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.EntryActivity;
-import com.androidbelieve.drawerwithswipetabs.FilmsFragment;
-import com.androidbelieve.drawerwithswipetabs.ImageLoader;
-import com.androidbelieve.drawerwithswipetabs.MainActivity;
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +38,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView  filmName, countryName, positiveVote, negativeVote, positiveVoteIcon, negativeVoteIcon, quality;
         public ImageView poster;
+        public CardView card;
         Typeface font;
         public MyViewHolder(final View view) {
             super(view);
@@ -49,6 +50,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
             negativeVote = (TextView) view.findViewById(R.id.count_negative);
             positiveVoteIcon = (TextView) view.findViewById(R.id.vote_positive);
             negativeVoteIcon = (TextView) view.findViewById(R.id.vote_negative);
+            card = (CardView) view.findViewById(R.id.film_card);
         }
     }
 
@@ -73,7 +75,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         holder.countryName.setText(movie.getCountryName());
         holder.positiveVote.setText(movie.getPositiveVote());
         holder.negativeVote.setText(movie.getNegativeVote());
-
+        YoYo.with(Techniques.BounceIn).playOn(holder.card);
         holder.poster.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
