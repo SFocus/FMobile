@@ -22,6 +22,7 @@ import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
+import adapters.CommentsAdapter;
 
 /**
  * Created by Andrew on 12.07.2016.
