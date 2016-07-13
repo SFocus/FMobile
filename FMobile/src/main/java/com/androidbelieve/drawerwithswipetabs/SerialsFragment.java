@@ -18,7 +18,7 @@ import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import helpers.EndlessRecyclerOnScrollListener;
-import adapters.GridAutofitLayoutManager;
+import helpers.GridAutofitLayoutManager;
 import adapters.VideoAdapter;
 import models.VideoItem;
 
