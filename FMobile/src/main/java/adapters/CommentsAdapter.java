@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +45,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         Button show, hide;
         TextView descText;
         Typeface font;
+        CardView cardView;
         public MyViewHolder(View view) {
             super(view);
 
@@ -52,7 +56,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             hide = (Button) view.findViewById(R.id.hide);
             descText = (TextView) view.findViewById(R.id.description_text);
             font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
-
+            cardView = (CardView) view.findViewById(R.id.fa_comments_card);
         }
     }
 
@@ -76,13 +80,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
         holder.descText.setText(comment.getText());
-
-        if(holder.descText.getLineCount() + 1  > maxLinesToShow)
-        {
             holder.hide.setTypeface(holder.font);
             holder.show.setTypeface(holder.font);
             holder.show.setVisibility(View.VISIBLE);
-
+        YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
             holder.show.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -100,7 +101,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                     holder.descText.setMaxLines(maxLinesToShow);
                 }
             });
-        }
+
     }
 
     @Override
