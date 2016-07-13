@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import helpers.AsyncPhotoLoader;
 import models.VideoItem;
 
 /**
@@ -68,7 +69,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final VideoItem movie = filmList.get(position);
-        new LoadCarPic(holder.poster).execute("http:"+movie.getPoster());
+        new AsyncPhotoLoader(holder.poster).execute("http:"+movie.getPoster());
         holder.positiveVoteIcon.setTypeface(holder.font);
         holder.negativeVoteIcon.setTypeface(holder.font);
         holder.filmName.setText(movie.getFilmName());
@@ -91,41 +92,5 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return filmList.size();
-    }
-    class LoadCarPic extends AsyncTask<String, String, Bitmap>
-    {
-
-        private final ImageView imageView;
-        public LoadCarPic(ImageView view)
-        {
-            this.imageView = view;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream)new URL(params[0]).getContent());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap)
-        {
-            if(bitmap != null)
-            {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
     }
 }

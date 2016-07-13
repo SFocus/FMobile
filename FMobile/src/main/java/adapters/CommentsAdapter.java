@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import helpers.AsyncPhotoLoader;
 import models.CommentItem;
 
 
@@ -76,14 +77,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         CommentItem comment = commentItems.get(position);
-        new LoadIcon(holder.image).execute("http:" + comment.getImage());
+        new AsyncPhotoLoader(holder.image).execute("http:" + comment.getImage());
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
         holder.descText.setText(comment.getText());
             holder.hide.setTypeface(holder.font);
             holder.show.setTypeface(holder.font);
             holder.show.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
+            YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
             holder.show.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -108,40 +109,5 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public int getItemCount() {
         return commentItems.size();
     }
-
-    class LoadIcon extends AsyncTask<String, String, Bitmap> {
-
-        private final ImageView imageView;
-
-        public LoadIcon(ImageView view) {
-            this.imageView = view;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(params[0]).getContent());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
-    }
-
 }
 

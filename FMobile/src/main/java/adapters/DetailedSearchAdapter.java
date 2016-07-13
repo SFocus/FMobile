@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 import entryTab.Content;
+import helpers.AsyncPhotoLoader;
 import models.SearchItem;
 
 /**
@@ -84,48 +85,11 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
         holder.neg_count.setText(entry.getNegativeVotes());
 
         holder.desc.setText(entry.getDescription());
-        new LoadPic(holder.poster).execute("http:"+entry.getImage());
+        new AsyncPhotoLoader(holder.poster).execute("http:"+entry.getImage());
     }
 
     @Override
     public int getItemCount() {
         return entries.size();
-    }
-
-    class LoadPic extends AsyncTask<String, String, Bitmap>
-    {
-
-        private final ImageView imageView;
-        public LoadPic(ImageView view)
-        {
-            this.imageView = view;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream)new URL(params[0]).getContent());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap)
-        {
-            if(bitmap != null)
-            {
-                imageView.setImageBitmap(bitmap);
-            }
-        }
     }
 }
