@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ import models.VideoItem;
  */
 public class FilmsFragment extends Fragment {
     private ArrayList<VideoItem> filmList = new ArrayList<>();
-    private ArrayList<VideoItem> filmList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
     private int  page = 0;
     // The gesture threshold expressed in dp
@@ -59,8 +59,8 @@ public class FilmsFragment extends Fragment {
 
         if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
         {
-            filmList2 = savedInstanceState.getParcelableArrayList("recyclerData");
-            filmList.addAll(filmList2);
+            ArrayList<VideoItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
+            filmList.addAll(temp);
             mAdapter.notifyDataSetChanged();
         }
         else
@@ -88,9 +88,7 @@ public class FilmsFragment extends Fragment {
         @Override
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
-            filmList2.clear();
-            filmList2 = new PageParser(document).getFilms();
-            filmList.addAll(filmList2);
+            filmList.addAll(new PageParser(document).getFilms());
             mAdapter.notifyDataSetChanged();
         }
     }

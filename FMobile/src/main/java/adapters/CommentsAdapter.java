@@ -81,12 +81,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
         holder.descText.setText(comment.getText());
-            holder.hide.setTypeface(holder.font);
-            holder.show.setTypeface(holder.font);
-            holder.show.setVisibility(View.VISIBLE);
+        holder.hide.setTypeface(holder.font);
+        holder.show.setTypeface(holder.font);
+        holder.show.setVisibility(View.VISIBLE);
+        if(!comment.newlyLoaded)
+        {
             YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
-            holder.show.setOnClickListener(new View.OnClickListener() {
-
+            comment.newlyLoaded = true;
+        }
+        holder.show.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     holder.show.setVisibility(View.INVISIBLE);
@@ -94,14 +97,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                     holder.descText.setMaxLines(Integer.MAX_VALUE);
                 }
             });
-            holder.hide.setOnClickListener(new View.OnClickListener() {
+        holder.hide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     holder.hide.setVisibility(View.INVISIBLE);
                     holder.show.setVisibility(View.VISIBLE);
                     holder.descText.setMaxLines(maxLinesToShow);
                 }
-            });
+        });
 
     }
 

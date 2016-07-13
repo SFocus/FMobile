@@ -76,7 +76,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         holder.countryName.setText(movie.getCountryName());
         holder.positiveVote.setText(movie.getPositiveVote());
         holder.negativeVote.setText(movie.getNegativeVote());
-        YoYo.with(Techniques.BounceIn).playOn(holder.card);
+        if(!movie.newlyLoaded)
+        {
+            YoYo.with(Techniques.BounceIn).playOn(holder.card);
+            movie.newlyLoaded = true;
+        }
+
         holder.poster.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

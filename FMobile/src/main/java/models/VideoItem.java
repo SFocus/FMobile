@@ -23,6 +23,8 @@ public class VideoItem implements Parcelable {
 
     private String poster, filmName, countryName, positiveVote, negativeVote, quality, link;
 
+    public boolean newlyLoaded = false;
+
     public VideoItem(){
 
     }

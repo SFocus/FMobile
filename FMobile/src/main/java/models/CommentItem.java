@@ -17,6 +17,8 @@ public class CommentItem implements Parcelable {
 
     private String author, image, time, positiveVotes, negativeVotes, text;
 
+    public boolean newlyLoaded = false;
+
     public CommentItem(String author, String image, String time, String positiveVotes, String negativeVotes, String text) {
         this.author         = author;
         this.image          = image;
