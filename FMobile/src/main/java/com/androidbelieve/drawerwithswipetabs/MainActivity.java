@@ -3,6 +3,8 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,11 +13,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 
@@ -67,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
                 }
+                if (menuItem.getItemId() == R.id.nav_item_draft) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"));
+                    intent.setDataAndType(Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"), "video/mp4");
+                    startActivity(intent);
+                }
 
                 return false;
             }
@@ -75,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         this.setUpSideBar();
     }
 
@@ -85,13 +97,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         MenuItem searchItem = menu.findItem(R.id.quick_search);
 
-    /*    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryActivity.class)));
 
-        searchView.setIconified(false);*/
+        searchView.setIconified(false);
         return true;
     }
 
