@@ -12,15 +12,13 @@ public class FilesItem {
     public static final String FILE_DETAILS_SELECTOR    = ".material-details";
     public static final String FILE_DATE_SELECTOR       = ".material-date";
 
-    public ArrayList<FilesItem> innerContent;
-
     private String title, details, date, param;
 
     public FilesItem(String title, String details, String date, String param) {
-        this.title = title;
-        this.details = details;
-        this.date = date;
-        this.param = param;
+        this.title      = title;
+        this.details    = details;
+        this.date       = date;
+        this.param      = param;
     }
 
     public String getTitle() {

@@ -9,12 +9,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import models.CommentItem;
+import models.FilesItem;
 import models.SearchItem;
 import models.VideoEntry;
 import models.VideoItem;
@@ -205,6 +207,31 @@ public class PageParser {
             e.printStackTrace();
             return out;
         }
+        return out;
+    }
+
+    public List<FilesItem> getFiles()
+    {
+        List<FilesItem> out = new ArrayList<>();
+
+        Elements element = document.body().select(FilesItem.FILE_FOLDER_SELECTOR);
+
+        try {
+            for(Element row : element)
+            {
+                String title = row.select(FilesItem.FILE_TITLE_SELECTOR).text();
+                String parent = row.select(FilesItem.FILE_TITLE_SELECTOR).attr("rel");
+                String details = row.select(FilesItem.FILE_DETAILS_SELECTOR).text();
+                String date = row.select(FilesItem.FILE_DATE_SELECTOR).text();
+                parent = parent.substring(parent.indexOf(':') + 3, parent.length() - 2);
+                out.add(new FilesItem(title, details, date, parent));
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return out;
+        }
+
         return out;
     }
 }
