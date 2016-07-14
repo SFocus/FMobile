@@ -50,7 +50,11 @@
         <activity
             android:name="popups.CommentsPopup"
             android:theme="@style/AppTheme.Popup">
+        </activity>
 
+        <activity
+            android:name="popups.FilesPopup"
+            android:theme="@style/AppTheme.Popup">
         </activity>
 
         <activity
