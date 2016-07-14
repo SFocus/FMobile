@@ -41,6 +41,7 @@ import adapters.DetailedSearchAdapter;
 import models.SearchItem;
 import models.VideoEntry;
 import popups.CommentsPopup;
+import popups.FilesPopup;
 
 public class EntryActivity extends AppCompatActivity
         implements
@@ -99,6 +100,7 @@ public class EntryActivity extends AppCompatActivity
                 mDemoSlider.addOnPageChangeListener(this);
 
                 findViewById(R.id.fa_comments).setOnClickListener(this);
+                findViewById(R.id.fa_folder).setOnClickListener(this);
                 break;
 
             //On query submit
@@ -192,9 +194,16 @@ public class EntryActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
-            case R.id.fa_comments:
-                Intent intent = new Intent(EntryActivity.this, CommentsPopup.class);
+            case R.id.fa_comments :
+                intent = new Intent(EntryActivity.this, CommentsPopup.class);
+                intent.putExtra("link", this.link);
+                this.startActivity(intent);
+                break;
+
+            case R.id.fa_folder :
+                intent = new Intent(EntryActivity.this, FilesPopup.class);
                 intent.putExtra("link", this.link);
                 this.startActivity(intent);
                 break;
