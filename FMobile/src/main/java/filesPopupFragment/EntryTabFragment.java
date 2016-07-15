@@ -1,4 +1,4 @@
-package entryTab;
+package filesPopupFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.androidbelieve.drawerwithswipetabs.FilmsFragment;
 import com.androidbelieve.drawerwithswipetabs.R;
-import com.androidbelieve.drawerwithswipetabs.SerialsFragment;
 
 /**
  * Created by Focus on 08.07.2016.
@@ -60,7 +58,7 @@ public class EntryTabFragment extends Fragment {
             switch (position){
                 case 0 : return new Description();
                 case 1 : return new Content();
-                case 2 : return new Comments();
+                case 2 : return new Folders();
             }
             return null;
         }
