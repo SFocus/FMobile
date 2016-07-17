@@ -1,15 +1,10 @@
 package WebParser;
 
-import android.util.Log;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
-import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -174,7 +169,8 @@ public class PageParser {
                 String posVotes = row.select(SearchItem.SEARCH_ITEM_POSITIVE_VOTES_SELECTOR).text();
                 String negVotes = row.select(SearchItem.SEARCH_ITEM_NEGATIVE_VOTES_SELECTOR).text();
                 String desc = row.select(SearchItem.SEARCH_ITEM_DESCRIPTION_SELECTOR).text();
-                out.add(new SearchItem(image, title, type, genres, posVotes, negVotes, desc));
+                String link = row.attr("href");
+                out.add(new SearchItem(image, title, type, genres, posVotes, negVotes, desc, link));
             }
         }catch (Exception e)
         {
