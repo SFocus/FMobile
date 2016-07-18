@@ -2,13 +2,11 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * Created by Ratan on 7/29/2015.
@@ -29,7 +27,7 @@ public class SentFragment extends Fragment {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch(v.getId()){
+            switch (v.getId()) {
                 case R.id.search:
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

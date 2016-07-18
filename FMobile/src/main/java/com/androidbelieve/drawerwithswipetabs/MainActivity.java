@@ -3,8 +3,6 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +11,19 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
+    Toolbar myToolbar;
 
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -38,22 +44,42 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
          *Setup the DrawerLayout and NavigationView
          */
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
+        //  mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        //  mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
 
 
-        if(savedInstanceState == null)
-        {
+        if (savedInstanceState == null) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
         }
 
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+//create the drawer and remember the `Drawer` result object
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(myToolbar)
+                .addDrawerItems(
+                        item1,
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName("Settings")
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
+
         /**
          * Setup click events on the Navigation View Items.
          */
 
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+     /*   mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
@@ -70,24 +96,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
                 }
                 if (menuItem.getItemId() == R.id.nav_item_draft) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"));
+                  /*  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"));
                     intent.setDataAndType(Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"), "video/mp4");
                     startActivity(intent);
+                    Intent myIntent = new Intent(getBaseContext(), VideoPlayerActivity.class);
+                    startActivity(myIntent);
                 }
 
                 return false;
             }
 
-        });
+        }); */
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        this.setUpSideBar();
+        //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setHomeButtonEnabled(true);
+
+
     }
 
     @Override
@@ -108,21 +132,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(mDrawerToggle.onOptionsItemSelected(item))
-        {
-            return true;
-        }
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpSideBar()
-    {
+    private void setUpSideBar() {
         /**
          * Setup Drawer Toggle of the Toolbar
          */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name)
-        {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name) {
             public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
                 invalidateOptionsMenu();
@@ -134,16 +154,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mDrawerToggle.syncState();
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle)
-    {
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
     }
 

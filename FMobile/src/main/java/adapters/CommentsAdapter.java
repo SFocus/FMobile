@@ -1,10 +1,7 @@
 package adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
@@ -19,10 +16,6 @@ import com.androidbelieve.drawerwithswipetabs.R;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import helpers.AsyncPhotoLoader;
@@ -47,6 +40,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         TextView descText;
         Typeface font;
         CardView cardView;
+
         public MyViewHolder(View view) {
             super(view);
 
@@ -84,26 +78,25 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.hide.setTypeface(holder.font);
         holder.show.setTypeface(holder.font);
         holder.show.setVisibility(View.VISIBLE);
-        if(!comment.newlyLoaded)
-        {
+        if (!comment.newlyLoaded) {
             YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
             comment.newlyLoaded = true;
         }
         holder.show.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.show.setVisibility(View.INVISIBLE);
-                    holder.hide.setVisibility(View.VISIBLE);
-                    holder.descText.setMaxLines(Integer.MAX_VALUE);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                holder.show.setVisibility(View.INVISIBLE);
+                holder.hide.setVisibility(View.VISIBLE);
+                holder.descText.setMaxLines(Integer.MAX_VALUE);
+            }
+        });
         holder.hide.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.hide.setVisibility(View.INVISIBLE);
-                    holder.show.setVisibility(View.VISIBLE);
-                    holder.descText.setMaxLines(maxLinesToShow);
-                }
+            @Override
+            public void onClick(View v) {
+                holder.hide.setVisibility(View.INVISIBLE);
+                holder.show.setVisibility(View.VISIBLE);
+                holder.descText.setMaxLines(maxLinesToShow);
+            }
         });
 
     }

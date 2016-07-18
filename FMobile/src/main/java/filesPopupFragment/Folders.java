@@ -1,4 +1,4 @@
-package entryTab;
+package filesPopupFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,9 +11,9 @@ import com.androidbelieve.drawerwithswipetabs.R;
 /**
  * Created by Focus on 08.07.2016.
  */
-public class Content extends Fragment{
+public class Folders extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.entry_content_fragment, null);
+        View view = inflater.inflate(R.layout.filespopup_folders_fragment, null);
 
         return view;
     }

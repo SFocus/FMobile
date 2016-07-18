@@ -15,7 +15,6 @@ import com.androidbelieve.drawerwithswipetabs.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.helper.StringUtil;
 
 import WebParser.DataSource;
 import WebParser.PageParser;
@@ -40,7 +39,7 @@ public class VideoSuggestionsProvider extends ContentProvider {
         );
 
         JSONArray result = new PageParser(DataSource.executeQuery(url)).getSearch();
-        MatrixCursor cursor = new MatrixCursor(new String[] {
+        MatrixCursor cursor = new MatrixCursor(new String[]{
                 BaseColumns._ID,
                 SearchManager.SUGGEST_COLUMN_TEXT_1,
                 SearchManager.SUGGEST_COLUMN_TEXT_2,
@@ -48,14 +47,12 @@ public class VideoSuggestionsProvider extends ContentProvider {
                 SearchManager.SUGGEST_COLUMN_ICON_1,
                 SearchManager.SUGGEST_COLUMN_INTENT_ACTION
         });
-        try
-        {
-            for(int i = 0; i < result.length(); i++)
-            {
+        try {
+            for (int i = 0; i < result.length(); i++) {
                 JSONObject row = result.getJSONObject(i);
                 Log.d("ROW", row.toString());
-                cursor.addRow(new String[] {
-                        i+"",
+                cursor.addRow(new String[]{
+                        i + "",
                         row.getString("title"),
                         row.getJSONArray("genres").join(", ").replace("\"", ""),
                         row.getString("link"),
@@ -63,8 +60,7 @@ public class VideoSuggestionsProvider extends ContentProvider {
                         Intent.ACTION_VIEW
                 });
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return cursor;

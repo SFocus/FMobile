@@ -1,12 +1,8 @@
 package adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +11,8 @@ import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-import entryTab.Content;
 import helpers.AsyncPhotoLoader;
 import models.SearchItem;
 
@@ -35,21 +24,19 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
     private List<SearchItem> entries;
     private Context context;
 
-    public DetailedSearchAdapter(List<SearchItem> entries, Context context)
-    {
+    public DetailedSearchAdapter(List<SearchItem> entries, Context context) {
         this.entries = entries;
         this.context = context;
     }
 
-    public class SearchItemHolder extends RecyclerView.ViewHolder
-    {
+    public class SearchItemHolder extends RecyclerView.ViewHolder {
         public TextView title, type, genre, positive, negative, pos_count, neg_count, desc;
         public ImageView poster;
         public Typeface font;
 
         public SearchItemHolder(View itemView) {
             super(itemView);
-            font = Typeface.createFromAsset( itemView.getContext().getAssets(), "fontawesome-webfont.ttf" );
+            font = Typeface.createFromAsset(itemView.getContext().getAssets(), "fontawesome-webfont.ttf");
             poster = (ImageView) itemView.findViewById(R.id.poster);
             title = (TextView) itemView.findViewById(R.id.title);
             type = (TextView) itemView.findViewById(R.id.type);
@@ -85,7 +72,7 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
         holder.neg_count.setText(entry.getNegativeVotes());
 
         holder.desc.setText(entry.getDescription());
-        new AsyncPhotoLoader(holder.poster).execute("http:"+entry.getImage());
+        new AsyncPhotoLoader(holder.poster).execute("http:" + entry.getImage());
     }
 
     @Override

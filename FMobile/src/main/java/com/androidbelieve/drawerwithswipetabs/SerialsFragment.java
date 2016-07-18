@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.VideoAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import helpers.GridAutofitLayoutManager;
-import adapters.VideoAdapter;
 import models.VideoItem;
 
 /**
@@ -29,14 +29,14 @@ public class SerialsFragment extends Fragment {
     private ArrayList<VideoItem> serialList = new ArrayList<>();
     private ArrayList<VideoItem> serialList2 = new ArrayList<>();
     private VideoAdapter mAdapter;
-    private int  page = 0;
+    private int page = 0;
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.serials_layout,null);
+        View view = inflater.inflate(R.layout.serials_layout, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.serialsRecycleView);
         recyclerView.setHasFixedSize(true);
         final float scale = getResources().getDisplayMetrics().density;
@@ -56,14 +56,11 @@ public class SerialsFragment extends Fragment {
             }
         });
 
-        if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
-        {
+        if (savedInstanceState != null && savedInstanceState.containsKey("recyclerData")) {
             serialList2 = savedInstanceState.getParcelableArrayList("recyclerData");
             serialList.addAll(serialList2);
             mAdapter.notifyDataSetChanged();
-        }
-        else
-        {
+        } else {
             new LoadSerials().execute();
         }
 
@@ -71,14 +68,12 @@ public class SerialsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle)
-    {
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList("recyclerData", serialList);
     }
 
-    private class LoadSerials extends AsyncTask<String, Void, Document>
-    {
+    private class LoadSerials extends AsyncTask<String, Void, Document> {
         @Override
         protected Document doInBackground(String... strings) {
             String url = QueryBuilder.buildQuery(DataSource.getUrl("media.getSerials"), page);

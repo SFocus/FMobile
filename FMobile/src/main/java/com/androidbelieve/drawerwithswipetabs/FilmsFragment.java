@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,9 @@ import java.util.ArrayList;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.VideoAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import helpers.GridAutofitLayoutManager;
-import adapters.VideoAdapter;
 import models.VideoItem;
 
 /**
@@ -29,7 +28,7 @@ import models.VideoItem;
 public class FilmsFragment extends Fragment {
     private ArrayList<VideoItem> filmList = new ArrayList<>();
     private VideoAdapter mAdapter;
-    private int  page = 0;
+    private int page = 0;
     // The gesture threshold expressed in dp
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
 
@@ -38,7 +37,7 @@ public class FilmsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.films_layout, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
-       // recyclerView.setHasFixedSize(true);
+        // recyclerView.setHasFixedSize(true);
         final float scale = getResources().getDisplayMetrics().density;
         // Convert the dps to pixels, based on density scale
         int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
@@ -57,28 +56,23 @@ public class FilmsFragment extends Fragment {
             }
         });
 
-        if(savedInstanceState != null && savedInstanceState.containsKey("recyclerData"))
-        {
+        if (savedInstanceState != null && savedInstanceState.containsKey("recyclerData")) {
             ArrayList<VideoItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
             filmList.addAll(temp);
             mAdapter.notifyDataSetChanged();
-        }
-        else
-        {
+        } else {
             new LoadFilms().execute();
         }
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle)
-    {
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList("recyclerData", filmList);
     }
 
-    private class LoadFilms extends AsyncTask<String, Void, Document>
-    {
+    private class LoadFilms extends AsyncTask<String, Void, Document> {
         @Override
         protected Document doInBackground(String... strings) {
             String url = QueryBuilder.buildQuery(DataSource.getUrl("media.getFilms"), page);

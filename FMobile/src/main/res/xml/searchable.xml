@@ -4,5 +4,4 @@
     android:searchSuggestIntentData="content://fs.search.VideoSuggestionProvider"
     android:searchSuggestAuthority="fs.search.VideoSuggestionProvider"
     android:searchSuggestIntentAction="android.intent.action.VIEW"
-    android:searchSuggestThreshold="3"
-    />
+    android:searchSuggestThreshold="3" />

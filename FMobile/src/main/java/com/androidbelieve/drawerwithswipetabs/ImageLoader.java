@@ -12,17 +12,16 @@ import java.net.URL;
  */
 public class ImageLoader {
 
-    public Bitmap getBitmapFromURL(String src){
-        try{
+    public Bitmap getBitmapFromURL(String src) {
+        try {
             URL url = new URL(src);
-            HttpURLConnection connection =(HttpURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

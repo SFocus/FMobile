@@ -80,7 +80,7 @@ public class EntryActivity extends AppCompatActivity
             case Intent.ACTION_VIEW:
                 setContentView(R.layout.activity_entry);
 
-                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+                //    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
                 link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
                 url = QueryBuilder.buildQuery(
                         DataSource.getUrl("media.getEntry"),
@@ -196,13 +196,13 @@ public class EntryActivity extends AppCompatActivity
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.fa_comments :
+            case R.id.fa_comments:
                 intent = new Intent(EntryActivity.this, CommentsPopup.class);
                 intent.putExtra("link", this.link);
                 this.startActivity(intent);
                 break;
 
-            case R.id.fa_folder :
+            case R.id.fa_folder:
                 intent = new Intent(EntryActivity.this, FilesPopup.class);
                 intent.putExtra("link", this.link);
                 this.startActivity(intent);

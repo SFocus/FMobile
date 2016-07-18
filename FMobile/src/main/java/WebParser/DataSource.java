@@ -16,8 +16,7 @@ public class DataSource {
 
     public static final HashMap<String, String> sources;
 
-    static
-    {
+    static {
         sources = new HashMap<String, String>();
         sources.put("media.getFilms", "http://fs.to/video/films/?page=%s");
         sources.put("media.getSerials", "http://fs.to/video/serials/?page=%s");
@@ -33,20 +32,19 @@ public class DataSource {
      * @param source Url key
      * @return Return url by given key
      */
-    public static String getUrl(String source)
-    {
-        if(sources.containsKey(source))
+    public static String getUrl(String source) {
+        if (sources.containsKey(source))
             return sources.get(source);
         return null;
     }
 
     /**
      * Executes query with given url
+     *
      * @param url input url
      * @return Return Jsoup Document
      */
-    public static Document executeQuery(String url)
-    {
+    public static Document executeQuery(String url) {
         try {
             return Jsoup.connect(url)
                     .userAgent(userAgent)

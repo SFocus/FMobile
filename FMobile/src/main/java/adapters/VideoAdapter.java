@@ -2,10 +2,7 @@ package adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,10 +16,6 @@ import com.androidbelieve.drawerwithswipetabs.R;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import helpers.AsyncPhotoLoader;
@@ -37,13 +30,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView  filmName, countryName, positiveVote, negativeVote, positiveVoteIcon, negativeVoteIcon, quality;
+        public TextView filmName, countryName, positiveVote, negativeVote, positiveVoteIcon, negativeVoteIcon, quality;
         public ImageView poster;
         public CardView card;
         Typeface font;
+
         public MyViewHolder(final View view) {
             super(view);
-            font = Typeface.createFromAsset( view.getContext().getAssets(), "fontawesome-webfont.ttf" );
+            font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
             poster = (ImageView) view.findViewById(R.id.poster);
             filmName = (TextView) view.findViewById(R.id.film_name);
             countryName = (TextView) view.findViewById(R.id.countryName);
@@ -59,6 +53,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         this.filmList = filmList;
         this.context = context;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -69,26 +64,25 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final VideoItem movie = filmList.get(position);
-        new AsyncPhotoLoader(holder.poster).execute("http:"+movie.getPoster());
+        new AsyncPhotoLoader(holder.poster).execute("http:" + movie.getPoster());
         holder.positiveVoteIcon.setTypeface(holder.font);
         holder.negativeVoteIcon.setTypeface(holder.font);
         holder.filmName.setText(movie.getFilmName());
         holder.countryName.setText(movie.getCountryName());
         holder.positiveVote.setText(movie.getPositiveVote());
         holder.negativeVote.setText(movie.getNegativeVote());
-        if(!movie.newlyLoaded)
-        {
+        if (!movie.newlyLoaded) {
             YoYo.with(Techniques.BounceIn).playOn(holder.card);
             movie.newlyLoaded = true;
         }
 
-        holder.poster.setOnClickListener(new View.OnClickListener(){
+        holder.poster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(VideoAdapter.this.context, EntryActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.putExtra("link",movie.getLink());
+                intent.putExtra("link", movie.getLink());
                 VideoAdapter.this.context.startActivity(intent);
             }
         });

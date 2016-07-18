@@ -20,14 +20,14 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import adapters.CommentsAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
-import adapters.CommentsAdapter;
 
 /**
  * Created by Andrew on 12.07.2016.
  */
-public class CommentsPopup extends Activity{
+public class CommentsPopup extends Activity {
     private RecyclerView recyclerView;
     private CommentsAdapter mAdapter;
     private int page = 0;
@@ -38,8 +38,7 @@ public class CommentsPopup extends Activity{
 
 
     @Override
-    public void onCreate(Bundle state)
-    {
+    public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.popup_comments);
 
@@ -47,15 +46,15 @@ public class CommentsPopup extends Activity{
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         getWindow().setLayout(
-                ( int ) ( dm.widthPixels * 0.8 ),
-                ( int ) ( dm.heightPixels * 0.8 )
+                (int) (dm.widthPixels * 0.8),
+                (int) (dm.heightPixels * 0.8)
         );
 
         Intent intent = getIntent();
 
         String link = intent.getStringExtra("link");
-        if(link == null) throw new IllegalArgumentException("Link must be provided");
-        hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
+        if (link == null) throw new IllegalArgumentException("Link must be provided");
+        hash = link.substring(link.lastIndexOf("/") + 1, link.indexOf("-"));
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
@@ -76,7 +75,7 @@ public class CommentsPopup extends Activity{
             public void onLoadMore(int current_page) {
                 String url = QueryBuilder.buildQuery(
                         DataSource.getUrl("entry.getComments"),
-                        new Object[] { hash, loadedComments }
+                        new Object[]{hash, loadedComments}
                 );
                 new LoadComments(url).execute();
             }
@@ -89,7 +88,7 @@ public class CommentsPopup extends Activity{
         } else {
             String url = QueryBuilder.buildQuery(
                     DataSource.getUrl("entry.getComments"),
-                    new Object[] { hash, loadedComments }
+                    new Object[]{hash, loadedComments}
             );
 
             new LoadComments(url).execute();
@@ -103,11 +102,10 @@ public class CommentsPopup extends Activity{
         bundle.putParcelableArrayList("recyclerData", comments);
     }
 
-    private class LoadComments extends AsyncTask<String, Void, Document>
-    {
+    private class LoadComments extends AsyncTask<String, Void, Document> {
         private String url;
-        public LoadComments(String url)
-        {
+
+        public LoadComments(String url) {
             this.url = url;
         }
 

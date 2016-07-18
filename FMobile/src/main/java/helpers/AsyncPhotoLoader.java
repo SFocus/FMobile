@@ -16,8 +16,8 @@ import java.net.URL;
 public class AsyncPhotoLoader extends AsyncTask<String, String, Bitmap> {
 
     private final ImageView imageView;
-    public AsyncPhotoLoader(ImageView view)
-    {
+
+    public AsyncPhotoLoader(ImageView view) {
         this.imageView = view;
     }
 
@@ -30,7 +30,7 @@ public class AsyncPhotoLoader extends AsyncTask<String, String, Bitmap> {
     protected Bitmap doInBackground(String... params) {
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeStream((InputStream)new URL(params[0]).getContent());
+            bitmap = BitmapFactory.decodeStream((InputStream) new URL(params[0]).getContent());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -40,10 +40,8 @@ public class AsyncPhotoLoader extends AsyncTask<String, String, Bitmap> {
     }
 
     @Override
-    protected void onPostExecute(Bitmap bitmap)
-    {
-        if(bitmap != null)
-        {
+    protected void onPostExecute(Bitmap bitmap) {
+        if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
     }
