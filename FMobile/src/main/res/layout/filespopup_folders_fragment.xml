@@ -9,7 +9,8 @@
         android:text="@string/fa_folder"
         android:textSize="35sp"
         android:id="@+id/folder_icon"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,10 +18,11 @@
         android:textColor="@color/white"
         android:textSize="13sp"
         android:id="@+id/folder_name" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/folder_name"
         android:textColor="@color/white"
-        android:id="@+id/folder_details"/>
+        android:id="@+id/folder_details" />
 </RelativeLayout>

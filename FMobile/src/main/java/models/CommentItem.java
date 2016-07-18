@@ -7,35 +7,35 @@ import android.os.Parcelable;
  * Created by Andrew on 12.07.2016.
  */
 public class CommentItem implements Parcelable {
-    public static final String COMMENT_ITEM_SELECTOR            = ".b-item-material-comments__item";
-    public static final String COMMENT_AUTHOR_IMAGE_SELECTOR    = ".b-item-material-comments__item-photo";
-    public static final String COMMENT_AUTHOR_NAME_SELECTOR     = ".b-item-material-comments__item-name span";
-    public static final String COMMENT_TIME_SELECTOR            = ".b-item-material-comments__item-time time";
-    public static final String COMMENT_VOTE_YES_SELECTOR        = ".m-item-material-comments__item-answer_type_yes span:last-child";
-    public static final String COMMENT_VOTE_NO_SELECTOR         = ".m-item-material-comments__item-answer_type_no span:last-child";
-    public static final String COMMENT_TEXT_SELECTOR            = ".b-item-material-comments__item-text";
+    public static final String COMMENT_ITEM_SELECTOR = ".b-item-material-comments__item";
+    public static final String COMMENT_AUTHOR_IMAGE_SELECTOR = ".b-item-material-comments__item-photo";
+    public static final String COMMENT_AUTHOR_NAME_SELECTOR = ".b-item-material-comments__item-name span";
+    public static final String COMMENT_TIME_SELECTOR = ".b-item-material-comments__item-time time";
+    public static final String COMMENT_VOTE_YES_SELECTOR = ".m-item-material-comments__item-answer_type_yes span:last-child";
+    public static final String COMMENT_VOTE_NO_SELECTOR = ".m-item-material-comments__item-answer_type_no span:last-child";
+    public static final String COMMENT_TEXT_SELECTOR = ".b-item-material-comments__item-text";
 
     private String author, image, time, positiveVotes, negativeVotes, text;
 
     public boolean newlyLoaded = false;
 
     public CommentItem(String author, String image, String time, String positiveVotes, String negativeVotes, String text) {
-        this.author         = author;
-        this.image          = image;
-        this.time           = time;
-        this.positiveVotes  = positiveVotes;
-        this.negativeVotes  = negativeVotes;
-        this.text           = text;
+        this.author = author;
+        this.image = image;
+        this.time = time;
+        this.positiveVotes = positiveVotes;
+        this.negativeVotes = negativeVotes;
+        this.text = text;
     }
 
 
     protected CommentItem(Parcel in) {
-        author              = in.readString();
-        image               = in.readString();
-        time                = in.readString();
-        positiveVotes       = in.readString();
-        negativeVotes       = in.readString();
-        text                = in.readString();
+        author = in.readString();
+        image = in.readString();
+        time = in.readString();
+        positiveVotes = in.readString();
+        negativeVotes = in.readString();
+        text = in.readString();
     }
 
     public static final Creator<CommentItem> CREATOR = new Creator<CommentItem>() {

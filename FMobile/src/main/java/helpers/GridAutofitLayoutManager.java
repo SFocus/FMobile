@@ -8,7 +8,7 @@ import android.util.TypedValue;
 /**
  * Created by Focus on 04.07.2016.
  */
-public  class GridAutofitLayoutManager extends GridLayoutManager {
+public class GridAutofitLayoutManager extends GridLayoutManager {
 
     private int mColumnWidth;
     private boolean mColumnWidthChanged = true;

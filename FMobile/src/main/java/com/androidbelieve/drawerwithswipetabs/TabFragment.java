@@ -18,7 +18,7 @@ public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 2 ;
+    public static int int_items = 2;
 
     @Nullable
     @Override
@@ -26,9 +26,9 @@ public class TabFragment extends Fragment {
         /**
          *Inflate tab_layout and setup Views.
          */
-            View x =  inflater.inflate(R.layout.tab_layout,null);
-            tabLayout = (TabLayout) x.findViewById(R.id.tabs);
-            viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        View x = inflater.inflate(R.layout.tab_layout, null);
+        tabLayout = (TabLayout) x.findViewById(R.id.tabs);
+        viewPager = (ViewPager) x.findViewById(R.id.viewpager);
 
         /**
          *Set an Apater for the View Pager
@@ -44,15 +44,15 @@ public class TabFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                    tabLayout.setupWithViewPager(viewPager);
-                   }
+                tabLayout.setupWithViewPager(viewPager);
+            }
         });
 
         return x;
 
     }
 
-    class MyAdapter extends FragmentPagerAdapter{
+    class MyAdapter extends FragmentPagerAdapter {
 
         public MyAdapter(FragmentManager fm) {
             super(fm);
@@ -63,13 +63,14 @@ public class TabFragment extends Fragment {
          */
 
         @Override
-        public Fragment getItem(int position)
-        {
-          switch (position){
-              case 0 : return new FilmsFragment();
-              case 1 : return new SerialsFragment();
-          }
-        return null;
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new FilmsFragment();
+                case 1:
+                    return new SerialsFragment();
+            }
+            return null;
         }
 
         @Override
@@ -86,13 +87,13 @@ public class TabFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            switch (position){
-                case 0 :
+            switch (position) {
+                case 0:
                     return "Фільми";
-                case 1 :
+                case 1:
                     return "Серіали";
             }
-                return null;
+            return null;
         }
     }
 

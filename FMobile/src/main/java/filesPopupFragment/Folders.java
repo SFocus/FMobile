@@ -11,7 +11,7 @@ import com.androidbelieve.drawerwithswipetabs.R;
 /**
  * Created by Focus on 08.07.2016.
  */
-public class Folders extends Fragment{
+public class Folders extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.filespopup_folders_fragment, null);
 

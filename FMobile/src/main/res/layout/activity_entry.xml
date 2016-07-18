@@ -38,13 +38,15 @@
             android:id="@+id/fa_folder"
             android:text="@string/fa_folder_open"
             android:layout_weight="1" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:id="@+id/fa_comments"
             android:text="@string/fa_comments"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,6 +61,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/containerView"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </FrameLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
 </RelativeLayout>

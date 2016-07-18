@@ -13,7 +13,8 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/logo2"
+        <ImageView
+            android:src="@drawable/logo2"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"
@@ -26,7 +27,9 @@
             android:textColor="@color/white"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -42,13 +45,15 @@
             android:textColor="@color/white"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_password"
+
+            <EditText
+                android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:hint="Password"/>
+                android:hint="Password" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -60,16 +65,17 @@
             android:padding="12dp"
             android:textColor="@color/white"
             android:background="@color/orange"
-            android:text="Увійти"/>
+            android:text="Увійти" />
 
-        <TextView android:id="@+id/link_signup"
+        <TextView
+            android:id="@+id/link_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="Немає акаунта? Створіть"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="16dip"/>
+            android:textSize="16dip" />
 
     </LinearLayout>
 </ScrollView>
