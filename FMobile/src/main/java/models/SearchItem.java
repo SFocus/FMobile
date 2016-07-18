@@ -11,35 +11,37 @@ public class SearchItem implements Parcelable {
     /**
      * Search information selectors
      */
-    public static final String SEARCH_ITEM_SELECTOR = ".b-search-page__results a";
-    public static final String SEARCH_ITEM_IMAGE_SELECTOR = ".b-search-page__results-item-image img";
-    public static final String SEARCH_ITEM_TITLE_SELECTOR = ".b-search-page__results-item-title";
-    public static final String SEARCH_ITEM_TYPE_SELECTOR = ".b-search-page__results-item-subsection";
-    public static final String SEARCH_ITEM_GENRES_SELECTOR = ".b-search-page__results-item-genres";
-    public static final String SEARCH_ITEM_POSITIVE_VOTES_SELECTOR = ".b-search-page__results-item-rating-positive";
-    public static final String SEARCH_ITEM_NEGATIVE_VOTES_SELECTOR = ".b-search-page__results-item-rating-negative";
-    public static final String SEARCH_ITEM_DESCRIPTION_SELECTOR = ".b-search-page__results-item-description";
+    public static final String SEARCH_ITEM_SELECTOR                 = ".b-search-page__results a";
+    public static final String SEARCH_ITEM_IMAGE_SELECTOR           = ".b-search-page__results-item-image img";
+    public static final String SEARCH_ITEM_TITLE_SELECTOR           = ".b-search-page__results-item-title";
+    public static final String SEARCH_ITEM_TYPE_SELECTOR            = ".b-search-page__results-item-subsection";
+    public static final String SEARCH_ITEM_GENRES_SELECTOR          = ".b-search-page__results-item-genres";
+    public static final String SEARCH_ITEM_POSITIVE_VOTES_SELECTOR  = ".b-search-page__results-item-rating-positive";
+    public static final String SEARCH_ITEM_NEGATIVE_VOTES_SELECTOR  = ".b-search-page__results-item-rating-negative";
+    public static final String SEARCH_ITEM_DESCRIPTION_SELECTOR     = ".b-search-page__results-item-description";
 
-    private String image, title, type, genres, positiveVotes, negativeVotes, description;
+    private String image, title, type, genres, positiveVotes, negativeVotes, description, link;
 
-    public SearchItem(String image, String title, String type, String genres, String positiveVotes, String negativeVotes, String description) {
-        this.image = image;
-        this.title = title;
-        this.type = type;
-        this.genres = genres;
-        this.positiveVotes = positiveVotes;
-        this.negativeVotes = negativeVotes;
-        this.description = description;
+    public SearchItem(String image, String title, String type, String genres, String positiveVotes, String negativeVotes, String description, String link) {
+        this.image          = image;
+        this.title          = title;
+        this.type           = type;
+        this.genres         = genres;
+        this.positiveVotes  = positiveVotes;
+        this.negativeVotes  = negativeVotes;
+        this.description    = description;
+        this.link           = link;
     }
 
     protected SearchItem(Parcel in) {
-        image = in.readString();
-        title = in.readString();
-        type = in.readString();
-        genres = in.readString();
-        positiveVotes = in.readString();
-        negativeVotes = in.readString();
-        description = in.readString();
+        image           = in.readString();
+        title           = in.readString();
+        type            = in.readString();
+        genres          = in.readString();
+        positiveVotes   = in.readString();
+        negativeVotes   = in.readString();
+        description     = in.readString();
+        link            = in.readString();
     }
 
     public static final Creator<SearchItem> CREATOR = new Creator<SearchItem>() {
@@ -82,6 +84,10 @@ public class SearchItem implements Parcelable {
         return description;
     }
 
+    public String getLink() {
+        return link;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,5 +102,6 @@ public class SearchItem implements Parcelable {
         dest.writeString(positiveVotes);
         dest.writeString(negativeVotes);
         dest.writeString(description);
+        dest.writeString(link);
     }
 }

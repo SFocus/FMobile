@@ -89,6 +89,7 @@ public class EntryActivity extends AppCompatActivity
                 new LoadEntry(url).execute();
                 myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
                 setSupportActionBar(myToolbar);
+
                 font = Typeface.createFromAsset(getBaseContext().getAssets(), "fontawesome-webfont.ttf");
 
                 mDemoSlider = (SliderLayout) findViewById(R.id.slider);
@@ -106,6 +107,9 @@ public class EntryActivity extends AppCompatActivity
             //On query submit
             case Intent.ACTION_SEARCH:
                 setContentView(R.layout.activity_search);
+
+                myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+                setSupportActionBar(myToolbar);
 
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
