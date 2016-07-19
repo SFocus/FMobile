@@ -3,12 +3,13 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 
 public class VideoPlayerActivity extends AppCompatActivity implements EasyVideoCallback {
-    private static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+    private String url;
 
     private EasyVideoPlayer player;
 
@@ -17,6 +18,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements EasyVideoC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
+        url = getIntent().getStringExtra("link");
+        if(url == null) throw new IllegalArgumentException("Link must be provided");
+
         player = (EasyVideoPlayer) findViewById(R.id.player);
 
         // Sets the callback to this Activity, since it inherits EasyVideoCallback
@@ -24,7 +28,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements EasyVideoC
 
         // Sets the source to the HTTP URL held in the TEST_URL variable.
         // To play files, you can use Uri.fromFile(new File("..."))
-        player.setSource(Uri.parse(TEST_URL));
+        Log.d("PLAYING!!!", url);
+        player.setSource(Uri.parse(url));
     }
 
     @Override

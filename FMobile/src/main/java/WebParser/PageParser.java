@@ -236,6 +236,7 @@ public class PageParser {
             {
                 for(Element row : files)
                 {
+                    Log.d("ROW", row.html());
                     String quality = row.select(FilesItem.FILE_QUALITY_SELECTOR).text();
                     String fileName = row.select(FilesItem.FILE_NAME_SELECTOR).text();
                     String link = row.select(FilesItem.FILE_NAME_SELECTOR).attr("href");
@@ -252,5 +253,10 @@ public class PageParser {
         }
 
         return out;
+    }
+
+    public String getVideoLink()
+    {
+        return document.body().html();
     }
 }

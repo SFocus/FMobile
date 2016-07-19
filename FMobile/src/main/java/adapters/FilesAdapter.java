@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
@@ -15,11 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.androidbelieve.drawerwithswipetabs.VideoPlayerActivity;
 
+import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import WebParser.DataSource;
 import WebParser.PageParser;
@@ -62,6 +67,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch ( ( item.isFile ? 1 : 0 ) )
         {
             case 0:
+                //FolderViewHolder.. folderHolder... folldHooldr...Hoolrd...Hodoor..HODOOR!!11
                 FolderViewHolder folderHolder = (FolderViewHolder) holder;
 
                 folderHolder.title.setText(item.getTitle());
@@ -76,18 +82,31 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 DataSource.getUrl("entry.getFiles"),
                                 new String[] { FilesPopup.link, FilesPopup.hash, item.getParam() }
                         );
-                        Log.d("SIEZPATH", FilesPopup.path.size() + "");
                         FilesPopup.path.add(new PathNode(item.getTitle(), item.getParam()));
-                        Log.d("SIEZPATH", FilesPopup.path.size() + "");
                         FilesPopup.pathAdapter.notifyDataSetChanged();
                         new LoadFiles(url).execute();
                     }
                 });
                 break;
             case 1:
+                //FileViewHolder.. fileHolder... filldeHooldr...Hoolrd...Hodoor..HODOOR!!11
                 FileViewHolder fileHolder = (FileViewHolder) holder;
 
                 fileHolder.fileName.setText(item.getFileName());
+
+                fileHolder.card.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String param = item.getDownloadLink().substring(8,item.getDownloadLink().lastIndexOf("/"));
+                        Log.d("PARAM", param);
+                        String url = QueryBuilder.buildQuery(
+                                DataSource.getUrl("entry.getVideoLink"),
+                                param
+                        );
+                        new LoadLink(url).execute();
+//
+                    }
+                });
                 break;
         }
     }
@@ -123,11 +142,14 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class FileViewHolder extends RecyclerView.ViewHolder {
 
         public TextView fileName;
+        public CardView card;
 
         public FileViewHolder(View itemView) {
             super(itemView);
 
             fileName = (TextView) itemView.findViewById(R.id.fileName);
+
+            card = (CardView) itemView;
         }
     }
 
@@ -151,6 +173,40 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             content.clear();
             content.addAll(new PageParser(document).getFiles());
             FilesPopup.filesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class LoadLink extends AsyncTask<String, Void, Document>
+    {
+        private String url;
+        public LoadLink(String url)
+        {
+            this.url = url;
+        }
+
+        @Override
+        protected Document doInBackground(String... strings) {
+            return DataSource.executeQuery(this.url);
+        }
+
+        @Override
+        protected void onPostExecute(Document document) {
+            super.onPostExecute(document);
+            try
+            {
+                String directLink = new JSONObject(document.body().html()).getString("link");
+                Log.d("directLink", directLink);
+                Intent intent = new Intent(context, VideoPlayerActivity.class);
+                intent.putExtra("link", directLink);
+                context.startActivity(intent);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+
+//
         }
     }
 }

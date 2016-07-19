@@ -26,6 +26,7 @@ public class DataSource {
 
         sources.put("entry.getComments", "http://fs.to/review/list/%s?loadedcount=%d");
         sources.put("entry.getFiles", "http://fs.to%s?ajax&id=%s&folder=%s");
+        sources.put("entry.getVideoLink", "http://fs.to/get/playvideo/%s.mp4?json_link");
     }
 
     /**

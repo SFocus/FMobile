@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -69,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
+                        if (drawerItem.getIdentifier() == 1) {
+                            Intent myIntent = new Intent(getBaseContext(), VideoPlayerActivity.class);
+                            startActivity(myIntent);
+                        }
                         return true;
                     }
                 })
