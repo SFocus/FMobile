@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.EntryActivity;
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.List;
 
-import helpers.AsyncPhotoLoader;
 import models.VideoItem;
 
 /**
@@ -64,7 +64,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final VideoItem movie = filmList.get(position);
-        new AsyncPhotoLoader(holder.poster).execute("http:" + movie.getPoster());
+        //  new AsyncPhotoLoader(holder.poster).execute();
+        Glide.with(holder.poster.getContext()).load("http:" + movie.getPoster()).into(holder.poster);
         holder.positiveVoteIcon.setTypeface(holder.font);
         holder.negativeVoteIcon.setTypeface(holder.font);
         holder.filmName.setText(movie.getFilmName());
