@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
@@ -20,11 +17,8 @@ import com.androidbelieve.drawerwithswipetabs.VideoPlayerActivity;
 
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import WebParser.DataSource;
 import WebParser.PageParser;

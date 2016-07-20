@@ -26,6 +26,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.io.File;
+
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     DrawerLayout mDrawerLayout;
@@ -41,14 +43,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
-         *Setup the DrawerLayout and NavigationView
-         */
-
-        //  mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        //  mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
-
-
         if (savedInstanceState == null) {
             mFragmentManager = getSupportFragmentManager();
             mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -58,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-//create the drawer and remember the `Drawer` result object
+
+        //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(myToolbar)
@@ -79,42 +74,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 })
                 .build();
 
-        /**
-         * Setup click events on the Navigation View Items.
-         */
-
-     /*   mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                mDrawerLayout.closeDrawers();
-
-
-                if (menuItem.getItemId() == R.id.nav_item_sent) {
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new SentFragment()).commit();
-
-                }
-
-                if (menuItem.getItemId() == R.id.nav_item_inbox) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
-                }
-                if (menuItem.getItemId() == R.id.nav_item_draft) {
-                  /*  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"));
-                    intent.setDataAndType(Uri.parse("http://www.ex.ua/show/91258712/28e9542eceb13abd1faeb2faed33c6a6.mp4"), "video/mp4");
-                    startActivity(intent);
-                    Intent myIntent = new Intent(getBaseContext(), VideoPlayerActivity.class);
-                    startActivity(myIntent);
-                }
-
-                return false;
-            }
-
-        }); */
-
-        //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //  getSupportActionBar().setHomeButtonEnabled(true);
-
+        deleteCache(this);
 
     }
 
@@ -132,34 +92,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryActivity.class)));
 
         searchView.setIconified(false);
+        searchView.clearFocus();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void setUpSideBar() {
-        /**
-         * Setup Drawer Toggle of the Toolbar
-         */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name) {
-            public void onDrawerOpened(View view) {
-                super.onDrawerOpened(view);
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu();
-            }
-        };
-
-
-    }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
@@ -175,5 +116,36 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
