@@ -18,8 +18,8 @@ public class DataSource {
 
     static {
         sources = new HashMap<String, String>();
-        sources.put("media.getFilms", "http://fs.to/video/films/?page=%s");
-        sources.put("media.getSerials", "http://fs.to/video/serials/?page=%s");
+        sources.put("media.getFilms", "http://fs.to/video/films/?sort=%s&page=%s");
+        sources.put("media.getSerials", "http://fs.to/video/serials/?sort=%s&page=%s");
         sources.put("media.getEntry", "http://fs.to%s");
         sources.put("media.search", "http://fs.to/search.aspx?f=quick_search&search=%s&limit=10");
         sources.put("media.detailedSearch", "http://fs.to/search.aspx?search=%s");

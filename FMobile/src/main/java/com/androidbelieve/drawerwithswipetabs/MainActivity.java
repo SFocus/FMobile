@@ -148,4 +148,33 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    public enum SortOrder {
+
+        NEW         ("new", "По дате обновления"),
+        RATING      ("rating", "По рейтингу"),
+        YEAR        ("year", "По году выпуска"),
+        POPULARITY  ("popularity", "По популярности"),
+        TREND       ("trend", "В тренде");
+
+        private final String order;
+        private final String text;
+
+        private SortOrder(final String order, final String text)
+        {
+            this.order  = order;
+            this.text   = text;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.order;
+        }
+
+
+        public String getText() {
+            return text;
+        }
+    }
 }
