@@ -58,7 +58,7 @@ public class SerialsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
             @Override
             public void onLoadMore(int current_page) {
                 page = current_page;

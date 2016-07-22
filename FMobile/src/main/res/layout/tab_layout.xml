@@ -7,13 +7,14 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
-        app:tabGravity="fill"
+        app:tabGravity="center"
         app:tabMode="fixed"
         android:background="#181B21"
         app:tabIndicatorColor="#BCD2EE"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="#BCD2EE"
         app:elevation="10dp"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

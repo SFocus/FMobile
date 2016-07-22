@@ -18,8 +18,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -88,6 +90,7 @@ public class EntryActivity extends AppCompatActivity
                 );
                 new LoadEntry(url).execute();
                 myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+                myToolbar.setTitle("");
                 setSupportActionBar(myToolbar);
 
                 font = Typeface.createFromAsset(getBaseContext().getAssets(), "fontawesome-webfont.ttf");
@@ -319,7 +322,6 @@ public class EntryActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(List<String> doc) {
             super.onPostExecute(doc);
-            myToolbar.setTitle(entry.getName());
             for (int i = 0; i < doc.size(); i++) {
                 TextSliderView textSliderView = new TextSliderView(getBaseContext());
                 // initialize a SliderLayout
@@ -330,10 +332,18 @@ public class EntryActivity extends AppCompatActivity
                 textSliderView.bundle(new Bundle());
                 mDemoSlider.addSlider(textSliderView);
             }
+            myToolbar.setTitle("");
+
 
             TextView likes = (TextView) findViewById(R.id.fa_likes);
             TextView comments = (TextView) findViewById(R.id.fa_comments);
             TextView files = (TextView) findViewById(R.id.fa_folder);
+            TextView year = (TextView) findViewById(R.id.entry_year);
+            TextView names = (TextView) findViewById(R.id.entry_video_name);
+            ImageView imageView = (ImageView) findViewById(R.id.entry_poster);
+            Glide.with(imageView.getContext()).load("http:" + doc.get(0)).into(imageView);
+            TextView genre = (TextView) findViewById(R.id.entry_genre);
+            TextView country = (TextView) findViewById(R.id.entry_county);
 
             likes.setTypeface(font);
             comments.setTypeface(font);
@@ -341,8 +351,22 @@ public class EntryActivity extends AppCompatActivity
 
             String text = likes.getText() + "  " + entry.getPositiveVotes();
             likes.setText(text);
-            // text = R.string.fa_comments + "  " + entry.get
-            //  text = R.string.fa_folder_open ;
+
+            try {
+                Log.d("year", entry.getYear().toString());
+                text = entry.getYear().toString().replaceAll("\\[|\\]", "");
+                year.setText(text);
+            } catch (Exception e) {
+
+            }
+            names.setText(entry.getName());
+
+            text = "Жанр: " + entry.getGenres(" ");
+            genre.setText(text);
+
+            text = "Страна: " + entry.getCountries();
+            country.setText(text);
+
             files.setText(R.string.fa_folder_open);
 
         }
