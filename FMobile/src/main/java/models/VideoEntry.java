@@ -72,12 +72,12 @@ public class VideoEntry {
         return StringUtil.join(genres, separator);
     }
 
-    public List<String> getYear() {
-        return year;
+    public String getYear(String separator) {
+        return StringUtil.join(year, separator);
     }
 
-    public List<String> getCountries() {
-        return countries;
+    public String getCountries(String separator) {
+        return StringUtil.join(countries, separator);
     }
 
     public String getDirectors(String separator) {
@@ -112,7 +112,7 @@ public class VideoEntry {
         return description;
     }
 
-    public List<String> getDuration() {
-        return duration;
+    public String getDuration(String separator) {
+        return StringUtil.join(duration, separator);
     }
 }

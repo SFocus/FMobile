@@ -73,13 +73,6 @@ public class PageParser {
     public VideoEntry getEntry()
     {
         VideoEntry entry;
-        String[] selectors = {
-                VideoEntry.ENTRY_GENRES_SELECTOR,
-                VideoEntry.ENTRY_YEAR_SELECTOR,
-                VideoEntry.ENTRY_COUNTRY_SELECTOR,
-                VideoEntry.ENTRY_DIRECTOS_SELECTOR,
-                VideoEntry.ENTRY_CASTS_SELECTOR,
-        };
 
         HashMap<String, String> select = new HashMap<>();
         select.put("Жанр", VideoEntry.ENTRY_GENRES_SELECTOR);
@@ -96,20 +89,19 @@ public class PageParser {
         try
         {
             Elements keys = document.body().select(VideoEntry.ENTRY_INFO_KEYS);
-            String[] keysList = keys.text().split(":");
-
             Elements cells = document.body().select(VideoEntry.ENTRY_INFO_VALUES);
+            String[] keysList = keys.text().split(":");
             try {
                 for(Element cell : cells)
                 {
                     ArrayList<String> list = new ArrayList<>();
                     for(Element t : cell.select(select.get(keysList[iterator].trim())))
                     {
-//                        Log.d(keysList[iterator].trim(), t.text());
+                        Log.d(keysList[iterator].trim(), t.text());
                         list.add(t.text());
                     }
 
-                    info.put(keysList[iterator], list);
+                    info.put(keysList[iterator].trim(), list);
                     iterator++;
                 }
             }catch (Exception e)
