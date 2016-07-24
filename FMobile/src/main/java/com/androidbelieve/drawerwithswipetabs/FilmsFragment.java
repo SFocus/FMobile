@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,7 +59,7 @@ public class FilmsFragment extends Fragment{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
             @Override
             public void onLoadMore(int current_page) {
                 page = current_page;

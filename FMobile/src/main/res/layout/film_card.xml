@@ -3,9 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/film_card"
-
+    card_view:cardBackgroundColor="#1E1E1E"
     card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardPreventCornerOverlap="false"
+    app:cardPreventCornerOverlap="false"
     card_view:cardElevation="12dp">
 
     <RelativeLayout
@@ -89,4 +93,5 @@
             android:layout_below="@+id/countryName"
             android:layout_marginLeft="85dp" />
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>

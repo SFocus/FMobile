@@ -1,6 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,32 +40,29 @@ public class VideoPlayerActivity extends Activity {
                 VideoPlayerActivity.this);
         mediacontroller.setAnchorView(mVideoView);
         // Get the URL from String VideoURL
-        Uri video = Uri.parse(url);
+        final Uri video = Uri.parse(url);
+
         mVideoView.setMediaController(mediacontroller);
         mVideoView.setVideoURI(video);
-
-        mVideoView.requestFocus();
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            // Close the progress bar and play the video
-            public void onPrepared(MediaPlayer mp) {
-                mVideoView.start();
-            }
-        });
         int pos = 0;
         if (savedInstanceState != null) {
             pos = savedInstanceState.getInt("pos");
         }
-
         mVideoView.seekTo(pos);
-        //    player = (EasyVideoPlayer) findViewById(R.id.player);
+        mVideoView.start();
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(video, "video/*");
+                startActivity(intent);
 
-        // Sets the callback to this Activity, since it inherits EasyVideoCallback
-        //    player.setCallback(this);
+                return false;
+            }
+        });
 
-        // Sets the source to the HTTP URL held in the TEST_URL variable.
-        // To play files, you can use Uri.fromFile(new File("..."))
         Log.d("PLAYING!!!", url);
-        //    player.setSource(Uri.parse(url));
     }
 
     @Override

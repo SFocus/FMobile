@@ -5,30 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relative_layout_entry"
+    android:background="#141414"
     tools:context="com.androidbelieve.drawerwithswipetabs.EntryActivity">
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/black" />
+        android:background="#141414" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:title=""
         android:layout_width="match_parent"
         android:background="?attr/colorPrimary"
-
         android:theme="@style/AppTheme.NoActionBar.Transparent" />
+
+    <ImageView
+        android:id="@+id/entry_poster"
+        android:layout_width="170dp"
+        android:layout_height="242dp"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="140dp"
+        android:contentDescription="fdf"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/slider"
+        android:layout_toRightOf="@+id/entry_poster"
+        android:layout_margin="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:id="@+id/entry_year" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/entry_video_name"
+            android:textColor="@color/white"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:id="@+id/entry_genre" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:id="@+id/entry_county" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/slider"
+        android:layout_below="@id/entry_poster"
         android:padding="0dp"
-        android:layout_margin="0dp"
-        android:background="#701c222c"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -36,6 +83,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:id="@+id/fa_folder"
+            android:textSize="25sp"
             android:text="@string/fa_folder_open"
             android:layout_weight="1" />
 
@@ -44,6 +92,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:id="@+id/fa_comments"
+            android:textSize="25sp"
             android:text="@string/fa_comments"
             android:layout_weight="1" />
 
@@ -52,6 +101,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="@string/fa_heart"
+            android:textSize="25sp"
             android:id="@+id/fa_likes"
             android:layout_weight="1" />
     </LinearLayout>
@@ -61,5 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/containerView"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </FrameLayout>
 </RelativeLayout>
