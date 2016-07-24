@@ -19,18 +19,28 @@ public class VideoEntry {
     public static final String ENTRY_DESCRIPTION_SELECTOR = ".item-decription";
     public static final String ENTRY_POSITIVE_VOTES_SELECTOR = ".m-tab-item__vote-value_type_yes";
     public static final String ENTRY_NEGATIVE_VOTES_SELECTOR = ".m-tab-item__vote-value_type_no";
+
+
     public static final String ENTRY_INFO_CELL_SELECTOR = ".m-item-info-td_type-short";
     public static final String ENTRY_GENRES_SELECTOR = "span > a";
-    public static final String ENTRY_YEAR_SELECTOR = "a";
+    public static final String ENTRY_YEAR_SELECTOR = "a span";
     public static final String ENTRY_COUNTRY_SELECTOR = "a";
     public static final String ENTRY_DIRECTOS_SELECTOR = "span > a";
     public static final String ENTRY_CASTS_SELECTOR = "span > a";
+    public static final String ENTRY_STATUS_SELECTOR = "*";
+    public static final String ENTRY_DURATION_SELECTOR = "td > * > span";
+
+
+    public static final String ENTRY_INFO_KEYS = ".item-info table tbody tr td:first-child";
+    public static final String ENTRY_INFO_VALUES = ".item-info table tbody tr td:last-child";
+
 
     public static final String SPACE_SEPARATOR = " ";
     public static final String COMMA_SEPARATOR = ", ";
 
     private List<String> genres;
     private List<String> year;
+    private List<String> duration;
     private List<String> countries;
     private List<String> directors;
     private List<String> casts;
@@ -43,9 +53,10 @@ public class VideoEntry {
     private String description;
 
 
-    public VideoEntry(List<String> genres, List<String> year, List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description) {
+    public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description) {
         this.genres = genres;
         this.year = year;
+        this.duration = duration;
         this.countries = countries;
         this.directors = directors;
         this.casts = casts;
@@ -99,5 +110,9 @@ public class VideoEntry {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<String> getDuration() {
+        return duration;
     }
 }

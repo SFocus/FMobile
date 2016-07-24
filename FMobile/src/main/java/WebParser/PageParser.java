@@ -3,6 +3,7 @@ package WebParser;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -79,28 +80,36 @@ public class PageParser {
                 VideoEntry.ENTRY_DIRECTOS_SELECTOR,
                 VideoEntry.ENTRY_CASTS_SELECTOR,
         };
-        String[] infoKeys = {
-                "genre",
-                "year",
-                "country",
-                "director",
-                "cast"
-        };
+
+        HashMap<String, String> select = new HashMap<>();
+        select.put("Жанр", VideoEntry.ENTRY_GENRES_SELECTOR);
+        select.put("Период показа", VideoEntry.ENTRY_DURATION_SELECTOR);
+        select.put("Год", VideoEntry.ENTRY_YEAR_SELECTOR);
+        select.put("Страна", VideoEntry.ENTRY_COUNTRY_SELECTOR);
+        select.put("Режиссёр", VideoEntry.ENTRY_DIRECTOS_SELECTOR);
+        select.put("В ролях", VideoEntry.ENTRY_CASTS_SELECTOR);
+        select.put("Статус", VideoEntry.ENTRY_STATUS_SELECTOR);
+
         int iterator = 0;
         Map<String, ArrayList<String>> info = new HashMap<>();
 
         try
         {
-            Elements cells = document.body().select(VideoEntry.ENTRY_INFO_CELL_SELECTOR);
+            Elements keys = document.body().select(VideoEntry.ENTRY_INFO_KEYS);
+            String[] keysList = keys.text().split(":");
+
+            Elements cells = document.body().select(VideoEntry.ENTRY_INFO_VALUES);
             try {
                 for(Element cell : cells)
                 {
-                    ArrayList<String> list = new ArrayList<String>();
-                    for(Element t : cell.select(selectors[iterator]))
+                    ArrayList<String> list = new ArrayList<>();
+                    for(Element t : cell.select(select.get(keysList[iterator].trim())))
                     {
+//                        Log.d(keysList[iterator].trim(), t.text());
                         list.add(t.text());
                     }
-                    info.put(infoKeys[iterator], list);
+
+                    info.put(keysList[iterator], list);
                     iterator++;
                 }
             }catch (Exception e)
@@ -124,11 +133,12 @@ public class PageParser {
             String negativeVotes = document.body().select(VideoEntry.ENTRY_NEGATIVE_VOTES_SELECTOR).text();
 
             entry = new VideoEntry(
-                    info.get("genre"),
-                    info.get("year"),
-                    info.get("country"),
-                    info.get("director"),
-                    info.get("cast"),
+                    info.get("Жанр"),
+                    info.get("Год"),
+                    info.get("Период показа"),
+                    info.get("Страна"),
+                    info.get("Режиссёр"),
+                    info.get("В ролях"),
                     info.get("gallery"),
                     name,
                     altName,
@@ -236,7 +246,6 @@ public class PageParser {
             {
                 for(Element row : files)
                 {
-                    Log.d("ROW", row.html());
                     String quality = row.select(FilesItem.FILE_QUALITY_SELECTOR).text();
                     String fileName = row.select(FilesItem.FILE_NAME_SELECTOR).text();
                     String link = row.select(FilesItem.FILE_NAME_SELECTOR).attr("href");
@@ -253,10 +262,5 @@ public class PageParser {
         }
 
         return out;
-    }
-
-    public String getVideoLink()
-    {
-        return document.body().html();
     }
 }
