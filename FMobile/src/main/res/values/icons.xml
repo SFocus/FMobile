@@ -8,7 +8,7 @@
     <string name="fa_chevron_circle_up">&#xf139;</string>
     <string name="fa_chevron_circle_down">&#xf13a;</string>
     <string name="fa_chevron_right">&#xf054;</string>
-
+    <string name="fa_play_circle">&#xf144;</string>
     <string name="fa_folder">&#xf07b;</string>
 
 </resources>

@@ -97,7 +97,7 @@ public class PageParser {
                     ArrayList<String> list = new ArrayList<>();
                     for(Element t : cell.select(select.get(keysList[iterator].trim())))
                     {
-                        Log.d(keysList[iterator].trim(), t.text());
+//                        Log.d(keysList[iterator].trim(), t.text());
                         list.add(t.text());
                     }
 
@@ -240,10 +240,11 @@ public class PageParser {
                 {
                     String quality = row.select(FilesItem.FILE_QUALITY_SELECTOR).text();
                     String fileName = row.select(FilesItem.FILE_NAME_SELECTOR).text();
+                    String seriesNum = row.select(FilesItem.FILE_SERIES_NUM_SELECTOR).text();
                     String link = row.select(FilesItem.FILE_NAME_SELECTOR).attr("href");
                     String size = row.select(FilesItem.FILE_SIZE_SELECTOR).text();
                     String download = row.select(FilesItem.FILE_SIZE_SELECTOR).attr("href");
-                    out.add(new FilesItem(quality, fileName, size, link, download));
+                    out.add(new FilesItem(quality, fileName, size, link, download, seriesNum));
                 }
             }
 

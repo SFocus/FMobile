@@ -14,7 +14,8 @@ public class FilesItem {
 
     public static final String FILE_SELECTOR            = ".b-file-new";
     public static final String FILE_QUALITY_SELECTOR    = ".video-qulaity";
-    public static final String FILE_NAME_SELECTOR       = ".b-file-new__link-material";
+    public static final String FILE_NAME_SELECTOR       = ".b-file-new__link-material-filename-text";
+    public static final String FILE_SERIES_NUM_SELECTOR = ".b-file-new__link-material-filename-series-num";
     public static final String FILE_SIZE_SELECTOR       = ".b-file-new__link-material-download";
 
 
@@ -25,7 +26,7 @@ public class FilesItem {
     private String title, details, date, param;
 
     //File info
-    private String quality, fileName, size, link, downloadLink;
+    private String quality, fileName, size, link, downloadLink, seriesNum;
 
     public FilesItem(String title, String details, String date, String param) {
         this.title = title;
@@ -35,13 +36,14 @@ public class FilesItem {
         this.isFolder = true;
     }
 
-    public FilesItem(String quality, String fileName, String size, String link, String downloadLink)
+    public FilesItem(String quality, String fileName, String size, String link, String downloadLink, String seriesNum)
     {
         this.quality        = quality;
         this.fileName       = fileName;
         this.size           = size;
         this.link           = link;
         this.downloadLink   = downloadLink;
+        this.seriesNum      = seriesNum;
         this.isFile         = true;
     }
 
@@ -79,5 +81,9 @@ public class FilesItem {
 
     public String getDownloadLink() {
         return downloadLink;
+    }
+
+    public String getSeriesNum() {
+        return seriesNum;
     }
 }

@@ -48,7 +48,6 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case 0: // IN CASE OF FOLDER RETURNS FOLDER LAYOUT
                 return new FolderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.folders_card, parent, false));
 
-
             case 1: // IN CASE OF FILE RETURNS FILE LAYOUT
                 return new FileViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.video_file_card, parent, false));
         }
@@ -87,6 +86,10 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 FileViewHolder fileHolder = (FileViewHolder) holder;
 
                 fileHolder.fileName.setText(item.getFileName());
+                fileHolder.seriesNum.setText(item.getSeriesNum());
+                fileHolder.quality.setText(item.getQuality());
+                fileHolder.size.setText(item.getSize());
+                fileHolder.iconPlay.setTypeface(fileHolder.font);
 
                 fileHolder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -135,13 +138,20 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public class FileViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView fileName;
+        public TextView fileName, seriesNum, quality, size, iconPlay;
         public CardView card;
+        public Typeface font;
 
         public FileViewHolder(View itemView) {
             super(itemView);
-
+            font = Typeface.createFromAsset(itemView.getContext().getAssets(), "fontawesome-webfont.ttf");
             fileName = (TextView) itemView.findViewById(R.id.fileName);
+            seriesNum = (TextView) itemView.findViewById(R.id.seriesNum);
+            quality = (TextView) itemView.findViewById(R.id.fileQuality);
+            size = (TextView) itemView.findViewById(R.id.fileSize);
+            iconPlay = (TextView) itemView.findViewById(R.id.icon_play);
+
+
 
             card = (CardView) itemView;
         }
