@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -236,16 +237,29 @@ public class PageParser {
             }
             else
             {
+                LinkedHashMap<String, FilesItem> uniqueItems = new LinkedHashMap<>();
                 for(Element row : files)
                 {
+                    String[] classes = row.attr("class").split("\\s");
                     String quality = row.select(FilesItem.FILE_QUALITY_SELECTOR).text();
                     String fileName = row.select(FilesItem.FILE_NAME_SELECTOR).text();
-                    String seriesNum = row.select(FilesItem.FILE_SERIES_NUM_SELECTOR).text();
                     String link = row.select(FilesItem.FILE_NAME_SELECTOR).attr("href");
                     String size = row.select(FilesItem.FILE_SIZE_SELECTOR).text();
                     String download = row.select(FilesItem.FILE_SIZE_SELECTOR).attr("href");
-                    out.add(new FilesItem(quality, fileName, size, link, download, seriesNum));
+                    if(!uniqueItems.containsKey(classes[3]))
+                    {
+                        String seriesNum = row.select(FilesItem.FILE_SERIES_NUM_SELECTOR).text();
+                        uniqueItems.put(classes[3],new FilesItem(quality, fileName, size, link, download, seriesNum));
+                    }
+                    else
+                    {
+                        uniqueItems.get(classes[3]).qualities.put(
+                                quality,
+                                new FilesItem.AdditionalQualityInfo(fileName, size, link, download)
+                        );
+                    }
                 }
+                out.addAll(uniqueItems.values());
             }
 
         }catch (Exception e)
