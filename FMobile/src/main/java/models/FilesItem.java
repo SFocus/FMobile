@@ -1,6 +1,9 @@
 package models;
 
+import org.jsoup.helper.StringUtil;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Andrew on 14.07.2016.
@@ -27,6 +30,7 @@ public class FilesItem {
 
     //File info
     private String quality, fileName, size, link, downloadLink, seriesNum;
+    public HashMap<String, AdditionalQualityInfo> qualities = new HashMap<>();
 
     public FilesItem(String title, String details, String date, String param) {
         this.title = title;
@@ -44,6 +48,8 @@ public class FilesItem {
         this.link           = link;
         this.downloadLink   = downloadLink;
         this.seriesNum      = seriesNum;
+        this.qualities.put(quality, new AdditionalQualityInfo(fileName, size, link, downloadLink));
+
         this.isFile         = true;
     }
 
@@ -64,7 +70,7 @@ public class FilesItem {
     }
 
     public String getQuality() {
-        return quality;
+        return StringUtil.join(qualities.keySet()," ");
     }
 
     public String getFileName() {
@@ -83,7 +89,40 @@ public class FilesItem {
         return downloadLink;
     }
 
+    public void setDownloadLink(String downloadLink)
+    {
+        this.downloadLink = downloadLink;
+    }
+
     public String getSeriesNum() {
         return seriesNum;
+    }
+
+    public static class AdditionalQualityInfo
+    {
+        private String fileName, size, link, downloadLink;
+
+        public AdditionalQualityInfo(String fileName, String size, String link, String downloadLink) {
+            this.fileName = fileName;
+            this.size = size;
+            this.link = link;
+            this.downloadLink = downloadLink;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public String getSize() {
+            return size;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public String getDownloadLink() {
+            return downloadLink;
+        }
     }
 }

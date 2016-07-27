@@ -10,5 +10,6 @@
     <string name="fa_chevron_right">&#xf054;</string>
     <string name="fa_play_circle">&#xf144;</string>
     <string name="fa_folder">&#xf07b;</string>
+    <string name="fa_download">&#xf019;</string>
 
 </resources>
