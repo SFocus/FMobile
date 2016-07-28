@@ -11,9 +11,12 @@ import WebParser.DataSource;
  */
 public abstract class SimpleAsyncLoader extends AsyncTask<String, Void, Document> {
 
+    protected String[] params;
+
     @Override
     protected Document doInBackground(String... params) {
-        if(params[0] == null) throw new IllegalArgumentException("URL must be provided. " + params[0] + "given");
+        this.params = params;
+        if(params[0] == null) throw new IllegalArgumentException("URL must be provided.");
         return DataSource.executeQuery(params[0]);
     }
 
