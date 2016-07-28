@@ -2,18 +2,27 @@ package adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.widget.CardView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.androidbelieve.drawerwithswipetabs.VideoPlayerActivity;
 
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
@@ -25,10 +34,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import helpers.SimpleAsyncLoader;
 import models.FilesItem;
 import models.PathNode;
 import popups.FilesPopup;
@@ -38,10 +49,9 @@ import popups.FilesPopup;
  */
 public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int BUFFER_SIZE = 4096;
     private ArrayList<FilesItem> content;
     private Context context;
-
+    private Context parentCtx;
 
     public FilesAdapter(ArrayList<FilesItem> content, Context ctx) {
         this.content = content;
@@ -51,6 +61,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        parentCtx = parent.getContext();
         switch (viewType)
         {
             case 0: // IN CASE OF FOLDER RETURNS FOLDER LAYOUT
@@ -91,67 +102,59 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 break;
             case 1:
                 //FileViewHolder.. fileHolder... filldeHooldr...Hoolrd...Hodoor..HODOOR!!11
-                FileViewHolder fileHolder = (FileViewHolder) holder;
-
+                final FileViewHolder fileHolder = (FileViewHolder) holder;
+                final String[] qualities = item.getQuality().split("\\s");
+                ArrayAdapter<String> qListAdapter = new ArrayAdapter<>(context, R.layout.spinner_quality_item, R.id.quality_text, qualities) ;
                 fileHolder.fileName.setText(item.getFileName());
                 fileHolder.seriesNum.setText(item.getSeriesNum());
-                fileHolder.quality.setText(item.getQuality());
                 fileHolder.size.setText(item.getSize());
                 fileHolder.iconPlay.setTypeface(fileHolder.font);
+                fileHolder.iconDownload.setTypeface(fileHolder.font);
+                fileHolder.qList.setAdapter(qListAdapter);
+                fileHolder.qList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        FilesItem.AdditionalQualityInfo quality = item.qualities.get(qualities[position]);
+                        fileHolder.fileName.setText(quality.getFileName());
+                        fileHolder.size.setText(quality.getSize());
+                        item.setDownloadLink(quality.getDownloadLink());
+                        item.setFileName(quality.getFileName());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                fileHolder.iconDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: do download here
+                        String param = item.getDownloadLink().substring(8,item.getDownloadLink().lastIndexOf("/"));
+                        String url = QueryBuilder.buildQuery(
+                                DataSource.getUrl("entry.getVideoLink"),
+                                param
+                        );
+                        new LoadFile().execute(url, item.getFileName());
+                    }
+                });
 
                 fileHolder.card.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String param = item.getDownloadLink().substring(8,item.getDownloadLink().lastIndexOf("/"));
-                        Log.d("PARAM", param);
                         String url = QueryBuilder.buildQuery(
                                 DataSource.getUrl("entry.getVideoLink"),
                                 param
                         );
                         new LoadLink(url).execute();
-
                     }
                 });
                 break;
         }
     }
 
-    public void DownloadFile(String fileURL, String fileName) {
-        try {
-            String RootDir = Environment.getExternalStorageDirectory()
-                    + File.separator + "Video";
-            int TIMEOUT_CONNECTION = 5000;//5sec
-            int TIMEOUT_SOCKET = 30000;//30sec
-            File file = new File(fileName);
-
-            URL url = new URL(fileURL);
-
-            URLConnection ucon = url.openConnection();
-
-            ucon.setReadTimeout(TIMEOUT_CONNECTION);
-            ucon.setConnectTimeout(TIMEOUT_SOCKET);
-
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-            FileOutputStream outStream = new FileOutputStream(RootDir + file);
-            byte[] buff = new byte[5 * 1024];
-
-            int len;
-            while ((len = inStream.read(buff)) != -1) {
-                outStream.write(buff, 0, len);
-            }
-
-            //clean up
-            outStream.flush();
-            outStream.close();
-            inStream.close();
-
-        } catch (Exception e) {
-
-            Log.d("Error....", e.toString());
-        }
-
-    }
 
     @Override
     public int getItemCount() {
@@ -162,32 +165,6 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         FilesItem item = content.get(position);
         return ( item.isFile ? 1 : 0 );
-    }
-
-    private class ProgressBack extends AsyncTask<String, String, Boolean> {
-        ProgressDialog PD;
-        String url;
-
-        public ProgressBack(String url) {
-            this.url = url;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            PD = ProgressDialog.show(context, null, "Please Wait ...", true);
-            PD.setCancelable(true);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... arg0) {
-            DownloadFile(url, "Sample.mp4");
-            return null;
-        }
-
-        protected void onPostExecute(Boolean result) {
-            PD.dismiss();
-        }
-
     }
 
     public class FolderViewHolder extends RecyclerView.ViewHolder {
@@ -208,25 +185,24 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public class FileViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView fileName, seriesNum, quality, size, iconPlay;
+        public TextView fileName, seriesNum, size, iconPlay, iconDownload;
         public CardView card;
         public Typeface font;
+        public Spinner qList;
 
         public FileViewHolder(View itemView) {
             super(itemView);
             font = Typeface.createFromAsset(itemView.getContext().getAssets(), "fontawesome-webfont.ttf");
             fileName = (TextView) itemView.findViewById(R.id.fileName);
             seriesNum = (TextView) itemView.findViewById(R.id.seriesNum);
-            quality = (TextView) itemView.findViewById(R.id.fileQuality);
             size = (TextView) itemView.findViewById(R.id.fileSize);
             iconPlay = (TextView) itemView.findViewById(R.id.icon_play);
-
-
+            iconDownload = (TextView) itemView.findViewById(R.id.icon_download);
+            qList = (Spinner) itemView.findViewById(R.id.qualities_list);
 
             card = (CardView) itemView;
         }
     }
-
 
     public class LoadFiles extends AsyncTask<String, Void, Document>
     {
@@ -269,21 +245,94 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             try
             {
                 String directLink = new JSONObject(document.body().html()).getString("link");
-                Log.d("directLink", directLink);
-                ProgressBack PB = new ProgressBack(directLink);
-                PB.execute("");
-                //   Intent intent = new Intent(context, VideoPlayerActivity.class);
-
-                //   intent.putExtra("link", directLink);
-                //   context.startActivity(intent);
+                Intent intent = new Intent(context, VideoPlayerActivity.class);
+                intent.putExtra("link", directLink);
+                context.startActivity(intent);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
+        }
+    }
 
+    private class LoadFile extends SimpleAsyncLoader
+    {
+        @Override
+        public void onPostExecute(Document document) {
+            try
+            {
+                String directLink = new JSONObject(document.body().html()).getString("link");
+                new ProgressBack(directLink, this.params[1]).execute();
 
-//
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ProgressBack extends AsyncTask<String, String, Boolean> {
+        ProgressDialog PD;
+        String url;
+        String fileName;
+
+        public ProgressBack(String url, String fileName) {
+            this.url = url;
+            this.fileName = fileName;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            PD = ProgressDialog.show(context, null, fileName, true);
+            PD.setCancelable(true);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+            DownloadFile(url, fileName);
+            return null;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            PD.dismiss();
+        }
+
+    }
+
+    private void DownloadFile(String fileURL, String fileName) {
+        try {
+            String RootDir = Environment.getExternalStorageDirectory()
+                    + File.separator;
+            int TIMEOUT_CONNECTION = 5000;
+            int TIMEOUT_SOCKET = 30000;
+            File file = new File(fileName);
+
+            URL url = new URL(fileURL);
+
+            URLConnection ucon = url.openConnection();
+
+            ucon.setReadTimeout(TIMEOUT_CONNECTION);
+            ucon.setConnectTimeout(TIMEOUT_SOCKET);
+
+            InputStream is = ucon.getInputStream();
+            BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+            FileOutputStream outStream = new FileOutputStream(RootDir + file);
+            byte[] buff = new byte[5 * 1024];
+
+            int len;
+            while ((len = inStream.read(buff)) != -1) {
+                outStream.write(buff, 0, len);
+            }
+
+            outStream.flush();
+            outStream.close();
+            inStream.close();
+
+        } catch (Exception e) {
+
+            Log.d("Error: ", e.toString());
         }
     }
 }
