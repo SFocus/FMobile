@@ -4,6 +4,8 @@ package WebParser;
  * Created by Andrew on 13.03.2016.
  */
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -24,7 +26,7 @@ public class DataSource {
         sources.put("media.search", "http://fs.to/search.aspx?f=quick_search&search=%s&limit=10");
         sources.put("media.detailedSearch", "http://fs.to/search.aspx?search=%s");
 
-        sources.put("entry.getComments", "http://fs.to/review/list/%s?loadedcount=%d");
+        sources.put("entry.getComments", "http://fs.to/review/list/%s?loadedcount=%s");
         sources.put("entry.getFiles", "http://fs.to%s?ajax&id=%s&folder=%s");
         sources.put("entry.getVideoLink", "http://fs.to/get/playvideo/%s.mp4?json_link");
     }
@@ -47,6 +49,7 @@ public class DataSource {
      */
     public static Document executeQuery(String url) {
         try {
+            Log.d("INURL", url);
             return Jsoup.connect(url)
                     .userAgent(userAgent)
                     .get();

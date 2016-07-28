@@ -2,7 +2,6 @@ package models;
 
 import org.jsoup.helper.StringUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -75,6 +74,10 @@ public class FilesItem {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getSize() {

@@ -7,17 +7,13 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.widget.CardView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -34,7 +30,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 import WebParser.DataSource;
 import WebParser.PageParser;

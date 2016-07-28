@@ -7,9 +7,9 @@ import java.net.URLEncoder;
  */
 public class QueryBuilder {
 
-    /*
-    *  Default charset
-    */
+    /**
+     * Default charset
+     */
     private static final String defaultCharset = "UTF-8";
 
     /**
@@ -21,7 +21,7 @@ public class QueryBuilder {
         try {
             Object[] out = new Object[in.length];
             for(int i = 0; i < in.length; i++)
-                out[i] = URLEncoder.encode(in[i].toString(), defaultCharset);
+                out[i] = URLEncoder.encode(in[i].toString(), defaultCharset).replace("%2F", "/");
 
             return out;
         }

@@ -1,3 +1,4 @@
+
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.SearchManager;
@@ -353,8 +354,8 @@ public class EntryActivity extends AppCompatActivity
             likes.setText(text);
 
             try {
-                Log.d("year", entry.getYear().toString());
-                text = entry.getYear().toString().replaceAll("\\[|\\]", "");
+                Log.d("year", entry.getYear(VideoEntry.COMMA_SEPARATOR));
+                text = entry.getYear(VideoEntry.SPACE_SEPARATOR);
                 year.setText(text);
             } catch (Exception e) {
 
@@ -364,7 +365,7 @@ public class EntryActivity extends AppCompatActivity
             text = "Жанр: " + entry.getGenres(" ");
             genre.setText(text);
 
-            text = "Страна: " + entry.getCountries();
+            text = "Страна: " + entry.getCountries(VideoEntry.COMMA_SEPARATOR);
             country.setText(text);
 
             files.setText(R.string.fa_folder_open);
