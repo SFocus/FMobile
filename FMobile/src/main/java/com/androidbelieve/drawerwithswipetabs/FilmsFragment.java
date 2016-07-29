@@ -63,7 +63,7 @@ public class FilmsFragment extends Fragment{
             @Override
             public void onLoadMore(int current_page) {
                 page = current_page;
-                new LoadFilms(false).execute();
+                new LoadFilms().execute();
             }
         });
 
@@ -72,7 +72,7 @@ public class FilmsFragment extends Fragment{
             filmList.addAll(temp);
             mAdapter.notifyDataSetChanged();
         } else {
-            new LoadFilms(false).execute();
+            new LoadFilms().execute();
         }
         return view;
     }
@@ -103,7 +103,9 @@ public class FilmsFragment extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FilmsFragment.this.sortOrder = MainActivity.SortOrder.values()[which];
-                        new LoadFilms(true).execute();
+                        page = 0;
+                        filmList.clear();
+                        new LoadFilms().execute();
                     }
                 });
                 AlertDialog alert = builder.create();
@@ -114,14 +116,6 @@ public class FilmsFragment extends Fragment{
     }
 
     private class LoadFilms extends AsyncTask<String, Void, Document> {
-
-        private boolean clear;
-
-        public LoadFilms(boolean clear)
-        {
-            this.clear = clear;
-        }
-
         @Override
         protected Document doInBackground(String... strings) {
             String url = QueryBuilder.buildQuery(
@@ -134,8 +128,6 @@ public class FilmsFragment extends Fragment{
         @Override
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
-            if(clear)
-                filmList.clear();
             filmList.addAll(new PageParser(document).getFilms());
             mAdapter.notifyDataSetChanged();
         }

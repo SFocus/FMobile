@@ -22,6 +22,7 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
+import helpers.SimpleAsyncLoader;
 import models.PathNode;
 import popups.FilesPopup;
 
@@ -64,7 +65,7 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
                     nodes.addAll(temp);
                 }
                 PathAdapter.this.notifyDataSetChanged();
-                new LoadFiles(url).execute();
+                new LoadFiles().execute(url);
             }
         });
     }
@@ -90,22 +91,10 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.ViewHolder> {
         }
     }
 
-    public class LoadFiles extends AsyncTask<String, Void, Document>
+    public class LoadFiles extends SimpleAsyncLoader
     {
-        private String url;
-        public LoadFiles(String url)
-        {
-            this.url = url;
-        }
-
-        @Override
-        protected Document doInBackground(String... strings) {
-            return DataSource.executeQuery(this.url);
-        }
-
         @Override
         protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
             FilesPopup.filesList.clear();
             FilesPopup.filesList.addAll(new PageParser(document).getFiles());
             FilesPopup.filesAdapter.notifyDataSetChanged();

@@ -91,7 +91,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         );
                         FilesPopup.path.add(new PathNode(item.getTitle(), item.getParam()));
                         FilesPopup.pathAdapter.notifyDataSetChanged();
-                        new LoadFiles(url).execute();
+                        new LoadFiles().execute(url);
                     }
                 });
                 break;
@@ -143,7 +143,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 DataSource.getUrl("entry.getVideoLink"),
                                 param
                         );
-                        new LoadLink(url).execute();
+                        new LoadLink().execute(url);
                     }
                 });
                 break;
@@ -199,44 +199,20 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public class LoadFiles extends AsyncTask<String, Void, Document>
+    public class LoadFiles extends SimpleAsyncLoader
     {
-        private String url;
-        public LoadFiles(String url)
-        {
-            this.url = url;
-        }
-
-        @Override
-        protected Document doInBackground(String... strings) {
-            return DataSource.executeQuery(this.url);
-        }
-
         @Override
         protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
             content.clear();
             content.addAll(new PageParser(document).getFiles());
             FilesPopup.filesAdapter.notifyDataSetChanged();
         }
     }
 
-    private class LoadLink extends AsyncTask<String, Void, Document>
+    private class LoadLink extends SimpleAsyncLoader
     {
-        private String url;
-        public LoadLink(String url)
-        {
-            this.url = url;
-        }
-
-        @Override
-        protected Document doInBackground(String... strings) {
-            return DataSource.executeQuery(this.url);
-        }
-
         @Override
         protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
             try
             {
                 String directLink = new JSONObject(document.body().html()).getString("link");
@@ -254,7 +230,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private class LoadFile extends SimpleAsyncLoader
     {
         @Override
-        public void onPostExecute(Document document) {
+        protected void onPostExecute(Document document) {
             try
             {
                 String directLink = new JSONObject(document.body().html()).getString("link");

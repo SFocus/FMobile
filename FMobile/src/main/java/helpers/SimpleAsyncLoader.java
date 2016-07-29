@@ -20,5 +20,5 @@ public abstract class SimpleAsyncLoader extends AsyncTask<String, Void, Document
         return DataSource.executeQuery(params[0]);
     }
 
-    public abstract void onPostExecute(Document document);
+    protected abstract void onPostExecute(Document document);
 }

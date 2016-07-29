@@ -41,6 +41,7 @@ import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.DetailedSearchAdapter;
+import helpers.SimpleAsyncLoader;
 import models.SearchItem;
 import models.VideoEntry;
 import popups.CommentsPopup;
@@ -89,7 +90,7 @@ public class EntryActivity extends AppCompatActivity
                         DataSource.getUrl("media.getEntry"),
                         link
                 );
-                new LoadEntry(url).execute();
+                new LoadEntry().execute(url);
                 myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
                 myToolbar.setTitle("");
                 setSupportActionBar(myToolbar);
@@ -136,7 +137,7 @@ public class EntryActivity extends AppCompatActivity
                             query
                     );
 
-                    new DetailedSearch(url).execute();
+                    new DetailedSearch().execute(url);
                 }
                 getSupportActionBar().setTitle(String.format("Пошук %s", query));
                 break;
@@ -263,21 +264,9 @@ public class EntryActivity extends AppCompatActivity
     /**
      * Loads information about certain entry by given url
      */
-    private class LoadEntry extends AsyncTask<String, Void, Document> {
-        private String url;
-
-        public LoadEntry(String url) {
-            this.url = url;
-        }
-
-        @Override
-        protected Document doInBackground(String... strings) {
-            return DataSource.executeQuery(this.url);
-        }
-
+    private class LoadEntry extends SimpleAsyncLoader {
         @Override
         protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
             EntryActivity.this.entry = new PageParser(document).getEntry();
             List<String> URLImage = entry.getImages();
             Log.d("size", URLImage.size() + "");
@@ -288,21 +277,9 @@ public class EntryActivity extends AppCompatActivity
     /**
      * Detailed search for certain query
      */
-    private class DetailedSearch extends AsyncTask<String, Void, Document> {
-        private String url;
-
-        public DetailedSearch(String url) {
-            this.url = url;
-        }
-
-        @Override
-        protected Document doInBackground(String... strings) {
-            return DataSource.executeQuery(this.url);
-        }
-
+    private class DetailedSearch extends SimpleAsyncLoader {
         @Override
         protected void onPostExecute(Document document) {
-            super.onPostExecute(document);
             searchResult.addAll(new PageParser(document).getDetailedSearch());
             searchAdapter.notifyDataSetChanged();
         }
