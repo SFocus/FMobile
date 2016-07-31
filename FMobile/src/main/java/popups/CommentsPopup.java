@@ -1,15 +1,15 @@
 package popups;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
-import android.widget.BaseAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.androidbelieve.drawerwithswipetabs.R;
 
@@ -28,44 +28,31 @@ import models.CommentItem;
 /**
  * Created by Andrew on 12.07.2016.
  */
-public class CommentsPopup extends Activity {
+public class CommentsPopup extends Fragment {
     private RecyclerView recyclerView;
     private CommentsAdapter mAdapter;
     private int page = 0;
     private CommentItem commentItem;
     private int loadedComments = 0;
-    private String hash;
+    private String hash, link;
     private ArrayList<CommentItem> comments = new ArrayList<>();
 
+    public CommentsPopup(String link) {
+        this.link = link;
+    }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.popup_comments);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        View view = inflater.inflate(R.layout.popup_comments, null);
 
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        getWindow().setLayout(
-                (int) (dm.widthPixels * 0.8),
-                (int) (dm.heightPixels * 0.8)
-        );
-
-        Intent intent = getIntent();
-
-        String link = intent.getStringExtra("link");
         if (link == null) throw new IllegalArgumentException("Link must be provided");
         hash = link.substring(link.lastIndexOf("/") + 1, link.indexOf("-"));
 
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.dimAmount = 0.6f; // уровень затемнения от 1.0 до 0.0
-        getWindow().setAttributes(lp);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popup_recycle_view);
-        mAdapter = new CommentsAdapter(comments, this);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.popup_recycle_view);
+        mAdapter = new CommentsAdapter(comments, getActivity());
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -94,7 +81,12 @@ public class CommentsPopup extends Activity {
 
             new LoadComments(url).execute();
         }
+        return view;
+    }
 
+    @Override
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
     }
 
     @Override
@@ -124,6 +116,4 @@ public class CommentsPopup extends Activity {
             mAdapter.notifyDataSetChanged();
         }
     }
-
-
 }

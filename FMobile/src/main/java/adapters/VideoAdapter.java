@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidbelieve.drawerwithswipetabs.EntryActivity;
+import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 import com.androidbelieve.drawerwithswipetabs.R;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
@@ -81,7 +81,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(VideoAdapter.this.context, EntryActivity.class);
+                Intent intent = new Intent(VideoAdapter.this.context, EntryScroll.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("link", movie.getLink());
                 VideoAdapter.this.context.startActivity(intent);

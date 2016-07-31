@@ -2,28 +2,18 @@ package adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidbelieve.drawerwithswipetabs.EntryActivity;
+import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 import com.androidbelieve.drawerwithswipetabs.R;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import helpers.AsyncPhotoLoader;
@@ -94,7 +84,7 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailedSearchAdapter.this.context, EntryActivity.class);
+                Intent intent = new Intent(DetailedSearchAdapter.this.context, EntryScroll.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("link",entry.getLink());
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);

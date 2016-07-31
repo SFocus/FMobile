@@ -28,9 +28,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EntryActivity"
-            android:label="Entry"
-            android:launchMode="singleTop"
+            android:name=".LoginActivity"
+            android:label="Login"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.Login" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".VideoPlayerActivity"
+            android:theme="@style/FullscreenTheme">
+
+        </activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".EntryScroll"
+            android:label="@string/title_activity_entry_scroll"
             android:theme="@style/AppTheme.NoActionBar.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -45,37 +67,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name="popups.CommentsPopup"
-            android:theme="@style/AppTheme.Popup" />
-        <activity
-            android:name="popups.FilesPopup"
-            android:theme="@style/AppTheme.Popup" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="Login"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.Login" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".VideoPlayerActivity"
-            android:theme="@style/FullscreenTheme">
-
-        </activity>
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-
     </application>
 
 </manifest>

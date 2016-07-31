@@ -1,14 +1,13 @@
-
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,17 +17,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -44,16 +38,10 @@ import adapters.DetailedSearchAdapter;
 import helpers.SimpleAsyncLoader;
 import models.SearchItem;
 import models.VideoEntry;
-import popups.CommentsPopup;
-import popups.FilesPopup;
 
-public class EntryActivity extends AppCompatActivity
-        implements
-        BaseSliderView.OnSliderClickListener,
-        ViewPagerEx.OnPageChangeListener,
-        View.OnClickListener {
-    DrawerLayout mDrawerLayout;
-    ActionBarDrawerToggle mDrawerToggle;
+public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
 
     private SliderLayout mDemoSlider;
 
@@ -82,7 +70,7 @@ public class EntryActivity extends AppCompatActivity
         switch (this.intentAction) {
             //On suggestion select
             case Intent.ACTION_VIEW:
-                setContentView(R.layout.activity_entry);
+                setContentView(R.layout.activity_entry_scroll);
 
                 //    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
                 link = intent.getDataString() == null ? intent.getStringExtra("link") : intent.getDataString();
@@ -91,22 +79,26 @@ public class EntryActivity extends AppCompatActivity
                         link
                 );
                 new LoadEntry().execute(url);
+
+                // set custom toolbar
                 myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
                 myToolbar.setTitle("");
                 setSupportActionBar(myToolbar);
 
+                // run container with fragments
+                mFragmentManager = getSupportFragmentManager();
+                mFragmentTransaction = mFragmentManager.beginTransaction();
+                mFragmentTransaction.replace(R.id.entryContainerView, new EntryTabFragment(this.link)).commit();
+
+                CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+                // custom style text
+                collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+                collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
                 font = Typeface.createFromAsset(getBaseContext().getAssets(), "fontawesome-webfont.ttf");
 
                 mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-
-                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
-                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-                mDemoSlider.setDuration(6000);
                 mDemoSlider.addOnPageChangeListener(this);
 
-                findViewById(R.id.fa_comments).setOnClickListener(this);
-                findViewById(R.id.fa_folder).setOnClickListener(this);
                 break;
 
             //On query submit
@@ -182,6 +174,21 @@ public class EntryActivity extends AppCompatActivity
     }
 
     @Override
+    public void onSliderClick(BaseSliderView slider) {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
@@ -196,78 +203,13 @@ public class EntryActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent;
-        switch (v.getId()) {
-            case R.id.fa_comments:
-                intent = new Intent(EntryActivity.this, CommentsPopup.class);
-                intent.putExtra("link", this.link);
-                this.startActivity(intent);
-                break;
-
-            case R.id.fa_folder:
-                intent = new Intent(EntryActivity.this, FilesPopup.class);
-                intent.putExtra("link", this.link);
-                this.startActivity(intent);
-                break;
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Entry Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.androidbelieve.drawerwithswipetabs/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Entry Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.androidbelieve.drawerwithswipetabs/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-
-        client.disconnect();
-    }
-
-
     /**
      * Loads information about certain entry by given url
      */
     private class LoadEntry extends SimpleAsyncLoader {
         @Override
         protected void onPostExecute(Document document) {
-            EntryActivity.this.entry = new PageParser(document).getEntry();
+            EntryScroll.this.entry = new PageParser(document).getEntry();
             List<String> URLImage = entry.getImages();
             Log.d("size", URLImage.size() + "");
             new LoadImages(URLImage).execute();
@@ -300,53 +242,29 @@ public class EntryActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(List<String> doc) {
             super.onPostExecute(doc);
+
             for (int i = 0; i < doc.size(); i++) {
                 TextSliderView textSliderView = new TextSliderView(getBaseContext());
                 // initialize a SliderLayout
+
                 textSliderView
                         .image("http:" + doc.get(i))
                         .setScaleType(BaseSliderView.ScaleType.CenterInside);
                 //add your extra information
                 textSliderView.bundle(new Bundle());
+
                 mDemoSlider.addSlider(textSliderView);
             }
-            myToolbar.setTitle("");
-
-
-            TextView likes = (TextView) findViewById(R.id.fa_likes);
-            TextView comments = (TextView) findViewById(R.id.fa_comments);
-            TextView files = (TextView) findViewById(R.id.fa_folder);
-            TextView year = (TextView) findViewById(R.id.entry_year);
-            TextView names = (TextView) findViewById(R.id.entry_video_name);
-            ImageView imageView = (ImageView) findViewById(R.id.entry_poster);
-            Glide.with(imageView.getContext()).load("http:" + doc.get(0)).into(imageView);
-            TextView genre = (TextView) findViewById(R.id.entry_genre);
-            TextView country = (TextView) findViewById(R.id.entry_county);
-
-            likes.setTypeface(font);
-            comments.setTypeface(font);
-            files.setTypeface(font);
-
-            String text = likes.getText() + "  " + entry.getPositiveVotes();
-            likes.setText(text);
-
-            try {
-                Log.d("year", entry.getYear(VideoEntry.COMMA_SEPARATOR));
-                text = entry.getYear(VideoEntry.SPACE_SEPARATOR);
-                year.setText(text);
-            } catch (Exception e) {
-
+            if (doc.size() == 1) {
+                mDemoSlider.setCurrentPosition(0, false);
+                mDemoSlider.stopAutoCycle();
             }
-            names.setText(entry.getName());
 
-            text = "Жанр: " + entry.getGenres(" ");
-            genre.setText(text);
-
-            text = "Страна: " + entry.getCountries(VideoEntry.COMMA_SEPARATOR);
-            country.setText(text);
-
-            files.setText(R.string.fa_folder_open);
-
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+            mDemoSlider.setDuration(6000);
+            myToolbar.setTitle(entry.getName());
         }
     }
 }

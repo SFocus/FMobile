@@ -5,11 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,8 +28,7 @@ import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
+
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     Toolbar myToolbar;
@@ -56,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
+                .withTranslucentStatusBar(false)
                 .withToolbar(myToolbar)
+
                 .addDrawerItems(
                         item1,
                         new DividerDrawerItem(),
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchView.setOnQueryTextListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryActivity.class)));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryScroll.class)));
 
         searchView.setIconified(false);
         searchView.clearFocus();
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         private final String order;
         private final String text;
 
-        private SortOrder(final String order, final String text)
+        SortOrder(final String order, final String text)
         {
             this.order  = order;
             this.text   = text;

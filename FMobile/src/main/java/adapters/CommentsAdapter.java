@@ -8,13 +8,13 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.R;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.List;
 
@@ -36,20 +36,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         public TextView id, time;
         public TextView text;
         public ImageView image;
-        Button show, hide;
-        TextView descText;
         Typeface font;
         CardView cardView;
-
+        ExpandableTextView descText;
         public MyViewHolder(View view) {
             super(view);
 
             image = (ImageView) view.findViewById(R.id.comment_image);
             id = (TextView) view.findViewById(R.id.comment_id);
             time = (TextView) view.findViewById(R.id.comment_time);
-            show = (Button) view.findViewById(R.id.show);
-            hide = (Button) view.findViewById(R.id.hide);
-            descText = (TextView) view.findViewById(R.id.description_text);
+            descText = (ExpandableTextView) view.findViewById(R.id.expand_text_view);
             font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
             cardView = (CardView) view.findViewById(R.id.fa_comments_card);
         }
@@ -75,29 +71,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         holder.id.setText(comment.getAuthor());
         holder.time.setText(comment.getTime());
         holder.descText.setText(comment.getText());
-        holder.hide.setTypeface(holder.font);
-        holder.show.setTypeface(holder.font);
-        holder.show.setVisibility(View.VISIBLE);
         if (!comment.newlyLoaded) {
             YoYo.with(Techniques.FadeInLeft).playOn(holder.cardView);
             comment.newlyLoaded = true;
         }
-        holder.show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.show.setVisibility(View.INVISIBLE);
-                holder.hide.setVisibility(View.VISIBLE);
-                holder.descText.setMaxLines(Integer.MAX_VALUE);
-            }
-        });
-        holder.hide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.hide.setVisibility(View.INVISIBLE);
-                holder.show.setVisibility(View.VISIBLE);
-                holder.descText.setMaxLines(maxLinesToShow);
-            }
-        });
 
     }
 

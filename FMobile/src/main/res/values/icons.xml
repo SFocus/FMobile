@@ -2,14 +2,9 @@
 <resources>
     <string name="fa_icon_positive">&#xf164;</string>
     <string name="fa_icon_negative">&#xf165;</string>
-    <string name="fa_heart">&#xf004;</string>
-    <string name="fa_comments">&#xf086;</string>
     <string name="fa_folder_open">&#xf07c;</string>
-    <string name="fa_chevron_circle_up">&#xf139;</string>
-    <string name="fa_chevron_circle_down">&#xf13a;</string>
     <string name="fa_chevron_right">&#xf054;</string>
     <string name="fa_play_circle">&#xf144;</string>
-    <string name="fa_folder">&#xf07b;</string>
     <string name="fa_download">&#xf019;</string>
 
 </resources>

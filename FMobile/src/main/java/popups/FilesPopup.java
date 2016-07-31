@@ -1,16 +1,19 @@
 package popups;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.androidbelieve.drawerwithswipetabs.R;
-import org.jsoup.nodes.Document;
 
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,7 @@ import models.PathNode;
 /**
  * Created by Andrew on 14.07.2016.
  */
-public class FilesPopup extends Activity {
+public class FilesPopup extends Fragment {
 
     public static String hash, link;
     public static ArrayList<FilesItem> filesList = new ArrayList<>();
@@ -35,50 +38,56 @@ public class FilesPopup extends Activity {
     public static PathAdapter pathAdapter;
 
     @Override
-    public void onCreate(Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.popup_files);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        getWindow().setLayout(
-                ( int ) ( dm.widthPixels * 0.9 ),
-                ( int ) ( dm.heightPixels * 0.8 )
-        );
+    public FilesPopup(String key) {
+        link = key;
+    }
 
-        link = getIntent().getStringExtra("link");
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.popup_files, null);
+
         if(link == null) throw new IllegalArgumentException("Link must be provided");
 
         hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
-
+        Log.d("LING", link);
         filesList.clear();
         path.clear();
         path.add(new PathNode("Файлы и папки", "0"));
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.files_content);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.files_content);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        RecyclerView pathRecycler = (RecyclerView) findViewById(R.id.path_recycler);
+        RecyclerView pathRecycler = (RecyclerView) getActivity().findViewById(R.id.path_recycler);
         pathRecycler.setLayoutManager(layoutManager);
 
 
-        filesAdapter = new FilesAdapter(filesList, this);
+        filesAdapter = new FilesAdapter(filesList, getContext());
         pathAdapter = new PathAdapter(path);
 
         recyclerView.setAdapter(filesAdapter);
         pathRecycler.setAdapter(pathAdapter);
-
         String url = QueryBuilder.buildQuery(
                 DataSource.getUrl("entry.getFiles"),
                 new String[] { link, hash, "0" }
         );
-
         new LoadFiles(url).execute();
-
+        Log.d("dfdf", "do it");
     }
 
     public class LoadFiles extends AsyncTask<String, Void, Document>
