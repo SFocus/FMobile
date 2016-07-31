@@ -119,11 +119,27 @@ public class PageParser {
             }
             info.put("gallery", gallery);
 
+            Elements similarWrappers = document.body().select(VideoEntry.ENTRY_SIMILAR);
+            List<VideoEntry.SimilarItem> similarItems = new ArrayList<>();
+            for(Element row : similarWrappers)
+            {
+                String link = row.select(VideoEntry.ENTRY_SIMILAR_LINK).attr("href");
+                String image = row.select(VideoEntry.ENTRY_SIMILAR_IMAGE).attr("Style");
+                String title = row.select(VideoEntry.ENTRY_SIMILAR_TITLE).text();
+                image = image.substring(23, image.length()-2);
+                similarItems.add(new VideoEntry.SimilarItem(
+                        title,
+                        link,
+                        image
+                ));
+            }
+
             String name = document.body().select(VideoEntry.ENTRY_NAME_SELECTOR).text();
             String altName = document.body().select(VideoEntry.ENTRY_NAME_ALT_SELECTOR).text();
             String description = document.body().select(VideoEntry.ENTRY_DESCRIPTION_SELECTOR).text();
             String positiveVotes = document.body().select(VideoEntry.ENTRY_POSITIVE_VOTES_SELECTOR).text();
             String negativeVotes = document.body().select(VideoEntry.ENTRY_NEGATIVE_VOTES_SELECTOR).text();
+
 
             entry = new VideoEntry(
                     info.get("Жанр"),
@@ -137,7 +153,8 @@ public class PageParser {
                     altName,
                     positiveVotes,
                     negativeVotes,
-                    description
+                    description,
+                    similarItems
             );
         }
         catch (Exception e)

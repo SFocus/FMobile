@@ -1,6 +1,8 @@
 package models;
 
 
+import android.util.Log;
+
 import org.jsoup.helper.StringUtil;
 
 import java.util.List;
@@ -20,8 +22,6 @@ public class VideoEntry {
     public static final String ENTRY_POSITIVE_VOTES_SELECTOR = ".m-tab-item__vote-value_type_yes";
     public static final String ENTRY_NEGATIVE_VOTES_SELECTOR = ".m-tab-item__vote-value_type_no";
 
-
-    public static final String ENTRY_INFO_CELL_SELECTOR = ".m-item-info-td_type-short";
     public static final String ENTRY_GENRES_SELECTOR = "span > a";
     public static final String ENTRY_YEAR_SELECTOR = "a span";
     public static final String ENTRY_COUNTRY_SELECTOR = "a";
@@ -34,6 +34,11 @@ public class VideoEntry {
     public static final String ENTRY_INFO_KEYS = ".item-info table tbody tr td:first-child";
     public static final String ENTRY_INFO_VALUES = ".item-info table tbody tr td:last-child";
 
+    public static final String ENTRY_SIMILAR        = ".b-poster-new";
+    public static final String ENTRY_SIMILAR_LINK   = ".b-poster-new__link";
+    public static final String ENTRY_SIMILAR_IMAGE  = ".b-poster-new__image-poster";
+    public static final String ENTRY_SIMILAR_TITLE  = ".m-poster-new__short_title";
+
 
     public static final String SPACE_SEPARATOR = " ";
     public static final String COMMA_SEPARATOR = ", ";
@@ -45,6 +50,7 @@ public class VideoEntry {
     private List<String> directors;
     private List<String> casts;
     private List<String> images;
+    private List<SimilarItem> similarItems;
 
     private String name;
     private String altName;
@@ -53,7 +59,7 @@ public class VideoEntry {
     private String description;
 
 
-    public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description) {
+    public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description, List<SimilarItem> similarItems) {
         this.genres = genres;
         this.year = year;
         this.duration = duration;
@@ -66,6 +72,7 @@ public class VideoEntry {
         this.positiveVotes = positiveVotes;
         this.negativeVotes = negativeVotes;
         this.description = description;
+        this.similarItems = similarItems;
     }
 
     public String getGenres(String separator) {
@@ -114,5 +121,28 @@ public class VideoEntry {
 
     public String getDuration(String separator) {
         return StringUtil.join(duration, separator);
+    }
+
+    public static class SimilarItem
+    {
+        private String title, link, image;
+
+        public SimilarItem(String title, String link, String image) {
+            this.title = title;
+            this.link = link;
+            this.image = image;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public String getImage() {
+            return image;
+        }
     }
 }
