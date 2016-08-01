@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import helpers.CustomTypefaceSpan;
+import models.VideoEntry;
 import popups.CommentsPopup;
 import popups.Description;
 import popups.FilesPopup;
+import popups.SimilarItemsTab;
 
 /**
  * Created by svyatoslav on 31.07.16.
@@ -25,12 +27,15 @@ import popups.FilesPopup;
 public class EntryTabFragment extends Fragment {
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
-    public static int int_items = 3;
+    public static int int_items = 4;
     protected String link;
     private Typeface font;
 
-    public EntryTabFragment(String link) {
+    private VideoEntry entry;
+
+    public EntryTabFragment(String link, VideoEntry entry) {
         this.link = link;
+        this.entry = entry;
     }
 
     @Nullable
@@ -85,6 +90,8 @@ public class EntryTabFragment extends Fragment {
                     return new FilesPopup(link);
                 case 2:
                     return new CommentsPopup(link);
+                case 3:
+                    return new SimilarItemsTab(entry.getSimilarItems());
             }
             return null;
         }
@@ -110,6 +117,8 @@ public class EntryTabFragment extends Fragment {
                     return icon_giver(font, "f1b2");
                 case 2:
                     return "Comments";
+                case 3:
+                    return "Similar";
             }
             return null;
         }

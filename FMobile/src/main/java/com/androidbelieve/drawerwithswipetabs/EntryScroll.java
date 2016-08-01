@@ -88,7 +88,7 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
                 // run container with fragments
                 mFragmentManager = getSupportFragmentManager();
                 mFragmentTransaction = mFragmentManager.beginTransaction();
-                mFragmentTransaction.replace(R.id.entryContainerView, new EntryTabFragment(this.link)).commit();
+
 
                 CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
                 // custom style text
@@ -211,8 +211,8 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
         protected void onPostExecute(Document document) {
             EntryScroll.this.entry = new PageParser(document).getEntry();
             List<String> URLImage = entry.getImages();
-            Log.d("size", URLImage.size() + "");
             new LoadImages(URLImage).execute();
+            mFragmentTransaction.replace(R.id.entryContainerView, new EntryTabFragment(EntryScroll.this.link, EntryScroll.this.entry)).commit();
         }
     }
 
