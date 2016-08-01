@@ -31,7 +31,7 @@ import models.CommentItem;
 public class CommentsPopup extends Fragment {
     private RecyclerView recyclerView;
     private CommentsAdapter mAdapter;
-    private int page = 0;
+    private Integer page = 0;
     private CommentItem commentItem;
     private int loadedComments = 0;
     private String hash, link;
@@ -60,7 +60,7 @@ public class CommentsPopup extends Fragment {
 
         recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
             @Override
-            public void onLoadMore(int current_page) {
+            public void onLoadMore() {
                 String url = QueryBuilder.buildQuery(
                         DataSource.getUrl("entry.getComments"),
                         new Object[]{hash, loadedComments}

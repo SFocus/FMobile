@@ -31,11 +31,13 @@ import models.VideoItem;
 public class FilmsFragment extends Fragment{
     private ArrayList<VideoItem> filmList = new ArrayList<>();
     private VideoAdapter mAdapter;
-    private int page = 0;
+    private Integer page = 0;
     // The gesture threshold expressed in dp
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
 
     private MainActivity.SortOrder sortOrder = MainActivity.SortOrder.TREND;
+
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,13 +61,15 @@ public class FilmsFragment extends Fragment{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(llm) {
             @Override
-            public void onLoadMore(int current_page) {
-                page = current_page;
+            public void onLoadMore() {
+                page++;
                 new LoadFilms().execute();
             }
-        });
+        };
+
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("recyclerData")) {
             ArrayList<VideoItem> temp = savedInstanceState.getParcelableArrayList("recyclerData");
@@ -103,8 +107,10 @@ public class FilmsFragment extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FilmsFragment.this.sortOrder = MainActivity.SortOrder.values()[which];
-                        page = 0;
+                        FilmsFragment.this.page = 0;
+                        endlessRecyclerOnScrollListener.wipe();
                         filmList.clear();
+                        mAdapter.notifyDataSetChanged();
                         new LoadFilms().execute();
                     }
                 });
