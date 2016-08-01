@@ -1,6 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,13 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import helpers.CustomTypefaceSpan;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import models.VideoEntry;
 import popups.CommentsPopup;
 import popups.Description;
@@ -29,7 +32,6 @@ public class EntryTabFragment extends Fragment {
     public static ViewPager viewPager;
     public static int int_items = 4;
     protected String link;
-    private Typeface font;
 
     private VideoEntry entry;
 
@@ -49,90 +51,58 @@ public class EntryTabFragment extends Fragment {
         View x = inflater.inflate(R.layout.tab_layout, null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
-        font = Typeface.createFromAsset(getContext().getAssets(), "fontawesome-webfont.ttf");
+
+        Drawable[] draw = {
+                new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_info_circle).sizeDp(20).color(getResources().getColor(R.color.white)),
+                new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_film).sizeDp(20).color(getResources().getColor(R.color.white)),
+                new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_comments).sizeDp(20).color(getResources().getColor(R.color.white)),
+                new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_folder_open).sizeDp(20).color(getResources().getColor(R.color.white))
+        };
+        // Set icon  tab
+        for (int i = 0; i < int_items; i++) {
+            tabLayout.addTab(tabLayout.newTab().setIcon(draw[i]));
+        }
 
         /**
          *Set an Apater for the View Pager
          */
-        viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+        MyAdapter adapter = new MyAdapter(getChildFragmentManager());
+        adapter.addFragment(new Description(entry));
+        adapter.addFragment(new FilesPopup(link));
+        adapter.addFragment(new CommentsPopup(link));
+        adapter.addFragment(new SimilarItemsTab(entry.getSimilarItems()));
 
-        /**
-         * Now , this is a workaround ,
-         * The setupWithViewPager dose't works without the runnable .
-         * Maybe a Support Library Bug .
-         */
+        if (int_items == 3)
+            adapter.mFragments.remove(3);
 
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                tabLayout.setupWithViewPager(viewPager);
-            }
-        });
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
         return x;
 
     }
 
     class MyAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragments = new ArrayList<>();
 
         public MyAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        /**
-         * Return fragment with respect to Position .
-         */
+        public void addFragment(Fragment fragment) {
+            mFragments.add(fragment);
+        }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new Description(entry);
-                case 1:
-                    return new FilesPopup(link);
-                case 2:
-                    return new CommentsPopup(link);
-                case 3:
-                    return new SimilarItemsTab(entry.getSimilarItems());
-            }
-            return null;
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-
-            return int_items;
-
+            return mFragments.size();
         }
 
-        /**
-         * This method returns the title of the tab according to the position.
-         */
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            switch (position) {
-                case 0:
-                    return "Description";
-                case 1:
-                    return icon_giver(font, "f1b2");
-                case 2:
-                    return "Comments";
-                case 3:
-                    return "Similar";
-            }
-            return null;
-        }
     }
-
-    public CharSequence icon_giver(Typeface font, String icon_id) {
-        String title_of_page = "";
-        SpannableStringBuilder styled;
-        title_of_page = icon_id;
-        styled = new SpannableStringBuilder(title_of_page);
-        styled.setSpan(new CustomTypefaceSpan("", font), 0, title_of_page.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        return styled;
-    }
-
 }
