@@ -123,6 +123,10 @@ public class VideoEntry {
         return StringUtil.join(duration, separator);
     }
 
+    public List<SimilarItem> getSimilarItems() {
+        return similarItems;
+    }
+
     public static class SimilarItem
     {
         private String title, link, image;
