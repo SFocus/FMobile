@@ -36,6 +36,8 @@ public class EntryTabFragment extends Fragment {
     public EntryTabFragment(String link, VideoEntry entry) {
         this.link = link;
         this.entry = entry;
+
+        int_items = entry.getSimilarItems().size() == 0 ? 3 : 4;
     }
 
     @Nullable
@@ -85,7 +87,7 @@ public class EntryTabFragment extends Fragment {
         public android.support.v4.app.Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new Description(link);
+                    return new Description(entry);
                 case 1:
                     return new FilesPopup(link);
                 case 2:

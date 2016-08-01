@@ -38,8 +38,8 @@ public class Description extends Fragment {
 
     private TextView year, names, genre, country, description;
 
-    public Description(String link) {
-        this.link = link;
+    public Description(VideoEntry entry) {
+        this.entry = entry;
     }
 
     @Override
@@ -52,10 +52,7 @@ public class Description extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.popup_description, null);
 
-        url = QueryBuilder.buildQuery(
-                DataSource.getUrl("media.getEntry"),
-                link
-        );
+
 
         year = (TextView) view.findViewById(R.id.entry_year);
         names = (TextView) view.findViewById(R.id.entry_video_name);
@@ -64,34 +61,17 @@ public class Description extends Fragment {
         country = (TextView) view.findViewById(R.id.entry_county);
         description = (TextView) view.findViewById(R.id.entry_description);
 
-        new LoadEntry().execute(url);
 
+        names.setText(entry.getName());
+
+        String text;
+        text = "Жанр: " + entry.getGenres(VideoEntry.SPACE_SEPARATOR);
+        genre.setText(text);
+
+        text = "Страна: " + entry.getCountries(VideoEntry.COMMA_SEPARATOR);
+        country.setText(text);
+
+        description.setText(entry.getDescription());
         return view;
-    }
-
-
-    private class LoadEntry extends SimpleAsyncLoader {
-        @Override
-        protected void onPostExecute(Document document) {
-            Description.this.entry = new PageParser(document).getEntry();
-
-            String text;
-            try {
-                Log.d("year", entry.getYear(VideoEntry.COMMA_SEPARATOR));
-                text = entry.getYear(VideoEntry.SPACE_SEPARATOR);
-                year.setText(text);
-            } catch (Exception e) {
-
-            }
-            names.setText(entry.getName());
-
-            text = "Жанр: " + entry.getGenres(" ");
-            genre.setText(text);
-
-            text = "Страна: " + entry.getCountries(VideoEntry.COMMA_SEPARATOR);
-            country.setText(text);
-
-            description.setText(entry.getDescription());
-        }
     }
 }
