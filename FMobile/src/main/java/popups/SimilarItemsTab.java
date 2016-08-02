@@ -3,9 +3,7 @@ package popups;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +25,6 @@ public class SimilarItemsTab extends Fragment {
 
     private SimilarItemsAdapter adapter;
 
-    public SimilarItemsTab(List<VideoEntry.SimilarItem> items)
-    {
-        this.items = items;
-    }
-
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
 
     @Override
@@ -42,13 +35,19 @@ public class SimilarItemsTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.popup_similar_items, null);
-        adapter = new SimilarItemsAdapter(items, getContext());
 
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        VideoEntry entry = (VideoEntry) bundle.getSerializable("entry");
+        assert entry != null;
+        items = entry.getSimilarItems();
+
+        adapter = new SimilarItemsAdapter(items, getContext());
+
         RecyclerView similarRecycler = (RecyclerView) view.findViewById(R.id.similar_recycler);
 
         final float scale = getResources().getDisplayMetrics().density;

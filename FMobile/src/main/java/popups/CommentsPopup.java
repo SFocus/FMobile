@@ -37,15 +37,11 @@ public class CommentsPopup extends Fragment {
     private String hash, link;
     private ArrayList<CommentItem> comments = new ArrayList<>();
 
-    public CommentsPopup(String link) {
-        this.link = link;
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        View view = inflater.inflate(R.layout.popup_comments, null);
-
+    public void onViewCreated(View view, @Nullable Bundle state) {
+        super.onViewCreated(view, state);
+        Bundle bundle = getArguments();
+        link = bundle.getString("link");
         if (link == null) throw new IllegalArgumentException("Link must be provided");
         hash = link.substring(link.lastIndexOf("/") + 1, link.indexOf("-"));
 
@@ -81,6 +77,13 @@ public class CommentsPopup extends Fragment {
 
             new LoadComments(url).execute();
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        View view = inflater.inflate(R.layout.popup_comments, null);
+
         return view;
     }
 

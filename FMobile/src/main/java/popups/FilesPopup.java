@@ -42,18 +42,11 @@ public class FilesPopup extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public FilesPopup(String key) {
-        link = key;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.popup_files, null);
 
-        if(link == null) throw new IllegalArgumentException("Link must be provided");
-
-        hash = link.substring(link.lastIndexOf("/")+1, link.indexOf("-"));
-        Log.d("LING", link);
         filesList.clear();
         path.clear();
         path.add(new PathNode("Файлы и папки", "0"));
@@ -65,7 +58,12 @@ public class FilesPopup extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        link = bundle.getString("link");
 
+        if (link == null) throw new IllegalArgumentException("Link must be provided");
+
+        hash = link.substring(link.lastIndexOf("/") + 1, link.indexOf("-"));
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.files_content);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

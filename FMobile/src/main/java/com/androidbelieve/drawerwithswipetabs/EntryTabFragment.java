@@ -35,13 +35,6 @@ public class EntryTabFragment extends Fragment {
 
     private VideoEntry entry;
 
-    public EntryTabFragment(String link, VideoEntry entry) {
-        this.link = link;
-        this.entry = entry;
-
-        int_items = entry.getSimilarItems().size() == 0 ? 3 : 4;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +44,12 @@ public class EntryTabFragment extends Fragment {
         View x = inflater.inflate(R.layout.tab_layout, null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        Bundle bundle = getArguments();
+        VideoEntry entry = (VideoEntry) bundle.getSerializable("entry");
+        link = bundle.getString("link");
+
+        assert entry != null;
+        int_items = entry.getSimilarItems().size() == 0 ? 3 : 4;
 
         Drawable[] draw = {
                 new IconicsDrawable(getContext()).icon(FontAwesome.Icon.faw_info_circle).sizeDp(20).color(getResources().getColor(R.color.white)),
@@ -66,11 +65,24 @@ public class EntryTabFragment extends Fragment {
         /**
          *Set an Apater for the View Pager
          */
+
+        CommentsPopup commentsPopup = new CommentsPopup();
+        commentsPopup.setArguments(bundle);
+
+        FilesPopup filesPopup = new FilesPopup();
+        filesPopup.setArguments(bundle);
+
+        SimilarItemsTab similarItemsTab = new SimilarItemsTab();
+        similarItemsTab.setArguments(bundle);
+
+        Description description = new Description();
+        description.setArguments(bundle);
+
         MyAdapter adapter = new MyAdapter(getChildFragmentManager());
-        adapter.addFragment(new Description(entry));
-        adapter.addFragment(new FilesPopup(link));
-        adapter.addFragment(new CommentsPopup(link));
-        adapter.addFragment(new SimilarItemsTab(entry.getSimilarItems()));
+        adapter.addFragment(description);
+        adapter.addFragment(filesPopup);
+        adapter.addFragment(commentsPopup);
+        adapter.addFragment(similarItemsTab);
 
         if (int_items == 3)
             adapter.mFragments.remove(3);

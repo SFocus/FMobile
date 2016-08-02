@@ -1,16 +1,15 @@
 package models;
 
 
-import android.util.Log;
-
 import org.jsoup.helper.StringUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Andrew on 05.07.2016.
  */
-public class VideoEntry {
+public class VideoEntry implements Serializable {
 
     /**
      * Entry information selectors
@@ -127,7 +126,7 @@ public class VideoEntry {
         return similarItems;
     }
 
-    public static class SimilarItem
+    public static class SimilarItem implements Serializable
     {
         private String title, link, image;
 
@@ -149,4 +148,5 @@ public class VideoEntry {
             return image;
         }
     }
+
 }

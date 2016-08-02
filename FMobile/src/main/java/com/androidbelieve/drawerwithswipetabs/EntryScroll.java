@@ -212,7 +212,13 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
             EntryScroll.this.entry = new PageParser(document).getEntry();
             List<String> URLImage = entry.getImages();
             new LoadImages(URLImage).execute();
-            mFragmentTransaction.replace(R.id.entryContainerView, new EntryTabFragment(EntryScroll.this.link, EntryScroll.this.entry)).commit();
+            Bundle bundle = new Bundle();
+            bundle.clear();
+            bundle.putString("link", link);
+            bundle.putSerializable("entry", entry);
+            EntryTabFragment entryTabFragment = new EntryTabFragment();
+            entryTabFragment.setArguments(bundle);
+            mFragmentTransaction.replace(R.id.entryContainerView, entryTabFragment).commit();
         }
     }
 
