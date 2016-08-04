@@ -42,6 +42,18 @@
             android:theme="@style/FullscreenTheme">
 
         </activity>
+
+        <activity
+            android:label="Downloads"
+            android:name=".DownloadActivity"
+            android:theme="@style/AppTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.Download" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.

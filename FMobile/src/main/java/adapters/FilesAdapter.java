@@ -1,5 +1,6 @@
 package adapters;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.androidbelieve.drawerwithswipetabs.DownloadActivity;
 import com.androidbelieve.drawerwithswipetabs.R;
 import com.androidbelieve.drawerwithswipetabs.VideoPlayerActivity;
 
@@ -46,7 +48,6 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private ArrayList<FilesItem> content;
     private Context context;
-    private Context parentCtx;
 
     public FilesAdapter(ArrayList<FilesItem> content, Context ctx) {
         this.content = content;
@@ -56,7 +57,6 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        parentCtx = parent.getContext();
         switch (viewType)
         {
             case 0: // IN CASE OF FOLDER RETURNS FOLDER LAYOUT
@@ -125,13 +125,13 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 fileHolder.iconDownload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO: do download here
                         String param = item.getDownloadLink().substring(8,item.getDownloadLink().lastIndexOf("/"));
                         String url = QueryBuilder.buildQuery(
                                 DataSource.getUrl("entry.getVideoLink"),
                                 param
                         );
                         new LoadFile().execute(url, item.getFileName());
+                        Log.d("PROGRESS", "starting");
                     }
                 });
 
@@ -234,76 +234,12 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             try
             {
                 String directLink = new JSONObject(document.body().html()).getString("link");
-                new ProgressBack(directLink, this.params[1]).execute();
-
+                DownloadActivity.createBackgroundDownload(directLink, this.params[1], context);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private class ProgressBack extends AsyncTask<String, String, Boolean> {
-        ProgressDialog PD;
-        String url;
-        String fileName;
-
-        public ProgressBack(String url, String fileName) {
-            this.url = url;
-            this.fileName = fileName;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            PD = ProgressDialog.show(context, null, fileName, true);
-            PD.setCancelable(true);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... arg0) {
-            DownloadFile(url, fileName);
-            return null;
-        }
-
-        protected void onPostExecute(Boolean result) {
-            PD.dismiss();
-        }
-
-    }
-
-    private void DownloadFile(String fileURL, String fileName) {
-        try {
-            String RootDir = Environment.getExternalStorageDirectory()
-                    + File.separator;
-            int TIMEOUT_CONNECTION = 5000;
-            int TIMEOUT_SOCKET = 30000;
-            File file = new File(fileName);
-
-            URL url = new URL(fileURL);
-
-            URLConnection ucon = url.openConnection();
-
-            ucon.setReadTimeout(TIMEOUT_CONNECTION);
-            ucon.setConnectTimeout(TIMEOUT_SOCKET);
-
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-            FileOutputStream outStream = new FileOutputStream(RootDir + file);
-            byte[] buff = new byte[5 * 1024];
-
-            int len;
-            while ((len = inStream.read(buff)) != -1) {
-                outStream.write(buff, 0, len);
-            }
-
-            outStream.flush();
-            outStream.close();
-            inStream.close();
-
-        } catch (Exception e) {
-
-            Log.d("Error: ", e.toString());
         }
     }
 }
