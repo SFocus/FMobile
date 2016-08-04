@@ -65,7 +65,7 @@ public class DownloadActivity extends Activity {
     public static void createBackgroundDownload(String url, String fileName, Context context)
     {
         DownloadTask task = new DownloadTask(url, fileName, context);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         activeDownloads.add(
                 task
         );
