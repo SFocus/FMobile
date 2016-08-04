@@ -4,4 +4,7 @@
     <string name="search_title">Пошук...</string>
 
     <string name="title_activity_entry_scroll">EntryScroll</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    
 </resources>

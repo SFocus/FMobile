@@ -22,7 +22,7 @@ import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.CommentsAdapter;
-import helpers.EndlessRecyclerOnScrollListener;
+import helpers.EndlessRecyclerOnScrollListenerPopup;
 import models.CommentItem;
 
 /**
@@ -54,7 +54,7 @@ public class CommentsPopup extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(llm) {
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListenerPopup(llm) {
             @Override
             public void onLoadMore() {
                 String url = QueryBuilder.buildQuery(
