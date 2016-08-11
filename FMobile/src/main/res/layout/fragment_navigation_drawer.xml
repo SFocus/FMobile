@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#141414"
+    tools:context="com.androidbelieve.drawerwithswipetabs.NavigationDrawerFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/containerDrawerImage">
+
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="140dp"
+            android:src="@drawable/logo2" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/containerDrawerImage"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/drawerList">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>
