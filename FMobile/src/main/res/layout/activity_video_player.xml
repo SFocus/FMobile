@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:EMVideoView="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     tools:context="com.androidbelieve.drawerwithswipetabs.VideoPlayerActivity">
 
-    <VideoView
+    <com.devbrackets.android.exomedia.ui.widget.EMVideoView
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/videoview"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true" />
+        EMVideoView:useDefaultControls="true" />
+
 </RelativeLayout>
