@@ -258,19 +258,20 @@ public class PageParser {
                 for(Element row : files)
                 {
                     String[] classes = row.attr("class").split("\\s");
+                    String episode = (classes.length <= 3 ? "series-s0e0" : classes[3]);
                     String quality = row.select(FilesItem.FILE_QUALITY_SELECTOR).text();
                     String fileName = row.select(FilesItem.FILE_NAME_SELECTOR).text();
                     String link = row.select(FilesItem.FILE_NAME_SELECTOR).attr("href");
                     String size = row.select(FilesItem.FILE_SIZE_SELECTOR).text();
                     String download = row.select(FilesItem.FILE_SIZE_SELECTOR).attr("href");
-                    if(!uniqueItems.containsKey(classes[3]))
+                    if(!uniqueItems.containsKey(episode))
                     {
                         String seriesNum = row.select(FilesItem.FILE_SERIES_NUM_SELECTOR).text();
-                        uniqueItems.put(classes[3],new FilesItem(quality, fileName, size, link, download, seriesNum));
+                        uniqueItems.put(episode,new FilesItem(quality, fileName, size, link, download, seriesNum));
                     }
                     else
                     {
-                        uniqueItems.get(classes[3]).qualities.put(
+                        uniqueItems.get(episode).qualities.put(
                                 quality,
                                 new FilesItem.AdditionalQualityInfo(fileName, size, link, download)
                         );
