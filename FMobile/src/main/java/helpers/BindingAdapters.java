@@ -24,8 +24,8 @@ public final class BindingAdapters {
 
     @SuppressWarnings("unchecked")
     @BindingAdapter("android:text")
-    public static void bindTextView(TextView view, IBindingTextable in)
+    public static void bindTextView(TextView view, Object in)
     {
-        view.setText(in.getText());
+        view.setText(in.toString());
     }
 }

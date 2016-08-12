@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardUseCompatPadding="true"
+        android:onClick="@{model.clicked}"
         card_view:cardBackgroundColor="@color/card_back">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,22 +26,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+
+            <LinearLayout
+                android:layout_below="@id/title"
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@{@string/downloading_progress_2(model.complete, model.fileSize)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"/>
+
+                <TextView
+                    android:text="@{@string/downloading_progress_1(model.percentage)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
             <ProgressBar
                 android:id="@+id/progress"
-                android:layout_below="@id/title"
+                android:layout_below="@id/info"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:progress="@{model.percentage}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@{@string/downloading_progress(model.percentage)}"
-                android:layout_below="@id/progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
         </RelativeLayout>
-
 
     </android.support.v7.widget.CardView>
 

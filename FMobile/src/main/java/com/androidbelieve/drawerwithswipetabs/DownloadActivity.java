@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +13,9 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -62,9 +66,9 @@ public class DownloadActivity extends Activity {
     }
 
 
-    public static void createBackgroundDownload(String url, String fileName, Context context)
+    public static void createBackgroundDownload(String url, String fileName, Context context, String fileSize)
     {
-        DownloadTask task = new DownloadTask(url, fileName, context);
+        DownloadTask task = new DownloadTask(url, fileName, context, fileSize);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         activeDownloads.add(
                 task
@@ -83,10 +87,10 @@ public class DownloadActivity extends Activity {
 
         private NotificationManager mNotifyManager;
 
-        public DownloadTask(String url, String fileName, Context notificationManager) {
+        public DownloadTask(String url, String fileName, Context notificationManager, String fileSize) {
             this.url = url;
             this.fileName = fileName;
-            this.model = new ActiveDownloadModel(0, fileName);
+            this.model = new ActiveDownloadModel(0, fileName, fileSize);
             this.context = notificationManager;
 
             notifyId++;
@@ -116,6 +120,11 @@ public class DownloadActivity extends Activity {
                 public void onProgressChange(int value)
                 {
                     publishProgress(value);
+                }
+
+                @Override
+                public void onChange(String value) {
+                    model.setComplete(value);
                 }
             };
             return null;
@@ -149,6 +158,8 @@ public class DownloadActivity extends Activity {
         {
             try {
                 int buffSize = 1024;
+                long start = System.nanoTime();
+                final int MB = 1048576;
                 String RootDir = Environment.getExternalStorageDirectory()
                         + File.separator;
                 File file = new File(fileName);
@@ -163,10 +174,11 @@ public class DownloadActivity extends Activity {
                 byte[] buff = new byte[buffSize];
                 int len;
                 long total = 0;
-                long contentLength = ucon.getContentLength() / buffSize;
+                long contentLength = ucon.getContentLength();
                 long lastChange = 0;
+                long lastSpeedChange = System.currentTimeMillis();
                 while ((len = inStream.read(buff)) != -1) {
-                    total += len / buffSize;
+                    total += len;
                     outStream.write(buff, 0, len);
                     long percent = (total * 100) / contentLength;
                     if(percent != lastChange)
@@ -174,6 +186,11 @@ public class DownloadActivity extends Activity {
                         onProgressChange((int) percent);
                     }
                     lastChange = percent;
+                    if(System.currentTimeMillis() - lastSpeedChange > 1000)
+                    {
+                        lastSpeedChange = System.currentTimeMillis();
+                        onChange(humanReadableByteCount(total));
+                    }
                 }
 
                 outStream.flush();
@@ -187,6 +204,16 @@ public class DownloadActivity extends Activity {
         }
 
         public abstract void onProgressChange(int value);
+
+        public abstract void onChange(String value);
+
+        public static String humanReadableByteCount(long bytes) {
+            int unit = 1000;
+            if (bytes < unit) return bytes + " B";
+            int exp = (int) (Math.log(bytes) / Math.log(unit));
+            String pre = ("kMGTPE").charAt(exp-1) + "";
+            return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+        }
     }
 
 }

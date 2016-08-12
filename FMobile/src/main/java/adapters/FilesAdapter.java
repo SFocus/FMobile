@@ -130,7 +130,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 DataSource.getUrl("entry.getVideoLink"),
                                 param
                         );
-                        new LoadFile().execute(url, item.getFileName());
+                        new LoadFile().execute(url, item.getFileName(), item.getSize());
                         Log.d("PROGRESS", "starting");
                     }
                 });
@@ -234,7 +234,7 @@ public class FilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             try
             {
                 String directLink = new JSONObject(document.body().html()).getString("link");
-                DownloadActivity.createBackgroundDownload(directLink, this.params[1], context);
+                DownloadActivity.createBackgroundDownload(directLink, this.params[1], context, this.params[2]);
             }
             catch (Exception e)
             {

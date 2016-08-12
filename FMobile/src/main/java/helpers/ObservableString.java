@@ -28,4 +28,9 @@ public class ObservableString extends BaseObservable implements IBindingTextable
     public String getText() {
         return this.string;
     }
+
+    @Override
+    public String toString() {
+        return this.string;
+    }
 }

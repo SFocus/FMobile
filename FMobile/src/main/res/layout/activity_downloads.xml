@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_marginTop="25dp"
+        android:id="@+id/title"
+        android:textColor="@color/black"
+        android:text="@string/active_downloads_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/title"
         android:id="@+id/recycler_active_downloads"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
