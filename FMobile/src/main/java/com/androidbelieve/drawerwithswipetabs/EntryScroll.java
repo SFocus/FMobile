@@ -246,7 +246,7 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
         }
 
         @Override
-        protected void onPostExecute(List<String> doc) {
+        protected void onPostExecute(final List<String> doc) {
             super.onPostExecute(doc);
 
             for (int i = 0; i < doc.size(); i++) {
@@ -255,6 +255,17 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
 
                 textSliderView
                         .image("http:" + doc.get(i))
+                        .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                            @Override
+                            public void onSliderClick(BaseSliderView slider) {
+                                int position = mDemoSlider.getCurrentPosition();
+                                Intent intent = new Intent(getApplicationContext(), FullScreanImage.class);
+                                intent.putExtra("position", position);
+                                ArrayList<String> list = (ArrayList<String>) doc;
+                                intent.putExtra("images", list);
+                                startActivity(intent);
+                            }
+                        })
                         .setScaleType(BaseSliderView.ScaleType.CenterInside);
                 //add your extra information
                 textSliderView.bundle(new Bundle());

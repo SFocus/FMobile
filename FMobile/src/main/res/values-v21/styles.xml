@@ -11,7 +11,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-
+        <item name="material_drawer_background">@color/my_background</item>
+        <item name="material_drawer_primary_text">#E3F2FD</item>
+        <item name="material_drawer_secondary_text">#E3F2FD</item>
+        <item name="material_drawer_primary_icon">#BBDEFB</item>
+        <item name="material_drawer_selected">#2B2B2B</item>
+        <item name="material_drawer_selected_text">@color/material_drawer_selected_text</item>
     </style>
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">

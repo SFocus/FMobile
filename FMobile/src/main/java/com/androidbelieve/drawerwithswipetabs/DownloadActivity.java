@@ -1,21 +1,21 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -32,7 +32,7 @@ import models.ActiveDownloadModel;
 /**
  * Created by Andrew on 03.08.2016.
  */
-public class DownloadActivity extends Activity {
+public class DownloadActivity extends Fragment {
 
     private static int notifyId = 0;
     private static NotificationManager notificationManager;
@@ -41,18 +41,19 @@ public class DownloadActivity extends Activity {
 
 
     @Override
-    public void onCreate(Bundle bundle)
-    {
-        super.onCreate(bundle);
-        setContentView(R.layout.activity_downloads);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_active_downloads);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        View view = inflater.inflate(R.layout.activity_downloads,
+                container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Downloads");
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_active_downloads);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(
                 new RecyclerBindingAdapter<>(R.layout.card_active_download_item, com.androidbelieve.drawerwithswipetabs.BR.model, getActiveDownloads())
         );
+        return view;
     }
 
     private ArrayList<ActiveDownloadModel> getActiveDownloads()

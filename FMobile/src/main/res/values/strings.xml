@@ -14,8 +14,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="title_activity_full_screan_image">FullScreanImage</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
     <string name="active_downloads_text">Active downloads</string>
     <string name="downloading_progress_1">%s%%</string>
     <string name="downloading_progress_2" formatted="false">%s of %s</string>
-
 </resources>

@@ -7,19 +7,26 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.File;
-import java.util.List;
+
+import myOffice.MyOffice;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -27,11 +34,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
     private Toolbar myToolbar;
-    private DrawerLayout drawerLayout;
-
-    private List<FontAwesome.Icon> iconicsImageViews;
-    private List<String> drawerTitle;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,32 +45,80 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
         }
+
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), myToolbar);
 
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withPaddingBelowHeader(false)
+                .withHeaderBackground(R.drawable.banner)
+                .build();
+
+        new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(myToolbar)
+                .withCloseOnClick(true)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        new SecondaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home),
+                        new SecondaryDrawerItem().withName("Office").withIcon(FontAwesome.Icon.faw_briefcase),
+                        new SecondaryDrawerItem().withName("Downloads").withIcon(FontAwesome.Icon.faw_download),
+                        new SecondaryDrawerItem().withName("Settings").withIcon(FontAwesome.Icon.faw_times_circle)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Toast.makeText(getApplicationContext(), position + "", Toast.LENGTH_SHORT).show();
+                        switch (position) {
+                            case 1: {
+                                mFragmentManager = getSupportFragmentManager();
+                                mFragmentTransaction = mFragmentManager.beginTransaction();
+                                mFragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+                                break;
+                            }
+                            case 2: {
+                                mFragmentManager = getSupportFragmentManager();
+                                mFragmentTransaction = mFragmentManager.beginTransaction();
+                                mFragmentTransaction.replace(R.id.containerView, new MyOffice()).commit();
+                                break;
+                            }
+                            case 3: {
+                                mFragmentManager = getSupportFragmentManager();
+                                mFragmentTransaction = mFragmentManager.beginTransaction();
+                                mFragmentTransaction.replace(R.id.containerView, new DownloadActivity()).commit();
+                                break;
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .build();
         deleteCache(this);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.quick_search);
+        final MenuItem searchItem = menu.findItem(R.id.quick_search);
 
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, EntryScroll.class)));
 
         searchView.setIconified(false);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.hasFocus();
+            }
+        });
         searchView.clearFocus();
         return true;
     }
@@ -78,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(item);
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
@@ -95,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onQueryTextChange(String newText) {
         return false;
     }
-
 
     private static void deleteCache(Context context) {
         try {
