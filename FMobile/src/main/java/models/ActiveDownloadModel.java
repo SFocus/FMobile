@@ -4,7 +4,6 @@ import android.databinding.BaseObservable;
 import android.util.Log;
 import android.view.View;
 
-import helpers.ObservableDouble;
 import helpers.ObservableInt;
 import helpers.ObservableString;
 
