@@ -1,109 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/search_item_card_card"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardElevation="7dp">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/card_back"
+    card_view:cardElevation="7dp"
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
+        android:id="@+id/rellay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rellay">
+        android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/poster"
             android:layout_width="81dp"
+            android:layout_height="119dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:layout_height="119dp"
             android:contentDescription="test"
-            android:scaleType="centerCrop"
-            android:id="@+id/poster" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_marginLeft="8dp"
-            android:maxLength="100"
-            android:textSize="14sp"
-            android:textColor="#00897B"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/poster"
             android:layout_toRightOf="@id/poster"
-            android:layout_toEndOf="@id/poster" />
+            android:maxLength="100"
+            android:textColor="#00897B"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/type"
-            android:textSize="12sp"
-            android:padding="1dp"
-            android:layout_marginLeft="8dp"
-            android:background="#2a53a3"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/poster"
             android:layout_toRightOf="@id/poster"
-            android:layout_toEndOf="@id/poster" />
+            android:background="#2a53a3"
+            android:padding="1dp"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <TextView
-            android:padding="1dp"
             android:id="@+id/genre"
-            android:textSize="12sp"
-            android:textColor="#436187"
-            android:background="#dae2ee"
-            android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/type"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/poster"
             android:layout_toRightOf="@id/poster"
-            android:layout_toEndOf="@id/poster" />
+            android:background="#dae2ee"
+            android:padding="1dp"
+            android:textColor="#436187"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/fa_positive"
-            android:text="@string/fa_icon_positive"
-            android:textColor="@color/positive_vote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/genre"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/poster"
             android:layout_toRightOf="@id/poster"
-            android:layout_toEndOf="@id/poster" />
+            android:text="@string/fa_icon_positive"
+            android:textColor="@color/positive_vote" />
 
         <TextView
             android:id="@+id/positive_count"
-            android:textColor="@color/positive_vote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/genre"
+            android:layout_toEndOf="@id/fa_positive"
             android:layout_toRightOf="@id/fa_positive"
-            android:layout_toEndOf="@id/fa_positive" />
+            android:textColor="@color/positive_vote" />
 
         <TextView
             android:id="@+id/fa_negative"
-            android:textColor="@color/negative_vote"
-            android:text="@string/fa_icon_negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_below="@id/genre"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/positive_count"
             android:layout_toRightOf="@id/positive_count"
-            android:layout_toEndOf="@id/positive_count" />
+            android:text="@string/fa_icon_negative"
+            android:textColor="@color/negative_vote" />
 
         <TextView
             android:id="@+id/negative_count"
-            android:textColor="@color/negative_vote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/genre"
+            android:layout_toEndOf="@id/fa_negative"
             android:layout_toRightOf="@id/fa_negative"
-            android:layout_toEndOf="@id/fa_negative" />
+            android:textColor="@color/negative_vote" />
 
-        <TextView
+        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
             android:id="@+id/description"
-            android:padding="8dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/poster" />
+            android:layout_below="@+id/poster"
+            expandableTextView:animDuration="500"
+            expandableTextView:maxCollapsedLines="3">
+
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:ellipsize="end"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:background="@android:color/transparent"
+                android:padding="10dp" />
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
 
 
     </RelativeLayout>

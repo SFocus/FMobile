@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 import com.androidbelieve.drawerwithswipetabs.R;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.List;
 
@@ -31,30 +32,6 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
     {
         this.entries = entries;
         this.context = context;
-    }
-
-    public class SearchItemHolder extends RecyclerView.ViewHolder
-    {
-        public TextView title, type, genre, positive, negative, pos_count, neg_count, desc;
-        public CardView card;
-        public ImageView poster;
-        public Typeface font;
-
-        public SearchItemHolder(View itemView) {
-            super(itemView);
-            font = Typeface.createFromAsset( itemView.getContext().getAssets(), "fontawesome-webfont.ttf" );
-            poster = (ImageView) itemView.findViewById(R.id.poster);
-            title = (TextView) itemView.findViewById(R.id.title);
-            type = (TextView) itemView.findViewById(R.id.type);
-            genre = (TextView) itemView.findViewById(R.id.genre);
-            positive = (TextView) itemView.findViewById(R.id.fa_positive);
-            negative = (TextView) itemView.findViewById(R.id.fa_negative);
-            pos_count = (TextView) itemView.findViewById(R.id.positive_count);
-            neg_count = (TextView) itemView.findViewById(R.id.negative_count);
-            desc = (TextView) itemView.findViewById(R.id.description);
-            card = (CardView) itemView;
-
-        }
     }
 
     @Override
@@ -78,7 +55,7 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
         holder.pos_count.setText(entry.getPositiveVotes());
         holder.neg_count.setText(entry.getNegativeVotes());
 
-        holder.desc.setText(entry.getDescription());
+        holder.descText.setText(entry.getDescription());
         new AsyncPhotoLoader(holder.poster).execute("http:"+entry.getImage());
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -96,5 +73,29 @@ public class DetailedSearchAdapter extends RecyclerView.Adapter<DetailedSearchAd
     @Override
     public int getItemCount() {
         return entries.size();
+    }
+
+    public class SearchItemHolder extends RecyclerView.ViewHolder {
+        public TextView title, type, genre, positive, negative, pos_count, neg_count;
+        public ExpandableTextView descText;
+        public CardView card;
+        public ImageView poster;
+        public Typeface font;
+
+        public SearchItemHolder(View itemView) {
+            super(itemView);
+            font = Typeface.createFromAsset(itemView.getContext().getAssets(), "fontawesome-webfont.ttf");
+            poster = (ImageView) itemView.findViewById(R.id.poster);
+            title = (TextView) itemView.findViewById(R.id.title);
+            type = (TextView) itemView.findViewById(R.id.type);
+            genre = (TextView) itemView.findViewById(R.id.genre);
+            positive = (TextView) itemView.findViewById(R.id.fa_positive);
+            negative = (TextView) itemView.findViewById(R.id.fa_negative);
+            pos_count = (TextView) itemView.findViewById(R.id.positive_count);
+            neg_count = (TextView) itemView.findViewById(R.id.negative_count);
+            descText = (ExpandableTextView) itemView.findViewById(R.id.description);
+            card = (CardView) itemView;
+
+        }
     }
 }
