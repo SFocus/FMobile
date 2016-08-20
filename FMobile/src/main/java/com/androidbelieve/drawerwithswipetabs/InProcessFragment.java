@@ -1,22 +1,20 @@
-package myOffice;
+package com.androidbelieve.drawerwithswipetabs;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.androidbelieve.drawerwithswipetabs.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyOffice extends Fragment {
+public class InProcessFragment extends Fragment {
 
 
-    public MyOffice() {
+    public InProcessFragment() {
         // Required empty public constructor
     }
 
@@ -25,9 +23,7 @@ public class MyOffice extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Office");
-
-        return inflater.inflate(R.layout.fragment_my_office, container, false);
+        return inflater.inflate(R.layout.fragment_in_process, container, false);
     }
 
 }

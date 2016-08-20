@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import adapters.VideoAdapter;
+import adapters.RecyclerBindingAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import helpers.GridAutofitLayoutManager;
 import models.VideoItem;
@@ -29,12 +29,11 @@ import models.VideoItem;
  * Created by Ratan on 7/29/2015.
  */
 public class SerialsFragment extends Fragment {
+    private static final float GESTURE_THRESHOLD_DP = 170.0f;
     private ArrayList<VideoItem> serialList = new ArrayList<>();
     private ArrayList<VideoItem> serialList2 = new ArrayList<>();
-    private VideoAdapter mAdapter;
+    private RecyclerBindingAdapter mAdapter;
     private Integer page = 0;
-    private static final float GESTURE_THRESHOLD_DP = 170.0f;
-
     private MainActivity.SortOrder sortOrder = MainActivity.SortOrder.TREND;
 
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -56,7 +55,7 @@ public class SerialsFragment extends Fragment {
         int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
         final GridAutofitLayoutManager llm = new GridAutofitLayoutManager(view.getContext(), mGestureThreshold);
         recyclerView.setLayoutManager(llm);
-        mAdapter = new VideoAdapter(serialList, getActivity());
+        mAdapter = new RecyclerBindingAdapter<>(R.layout.film_card, com.androidbelieve.drawerwithswipetabs.BR.video, serialList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 

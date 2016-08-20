@@ -1,4 +1,4 @@
-package com.androidbelieve.drawerwithswipetabs;
+package TabFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,15 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidbelieve.drawerwithswipetabs.FavoriteFragment;
+import com.androidbelieve.drawerwithswipetabs.InProcessFragment;
+import com.androidbelieve.drawerwithswipetabs.R;
+
 /**
- * Created by Ratan on 7/27/2015.
+ * Created by focus on 20.08.16.
  */
-public class TabFragment extends Fragment {
+public class MyOfficeTabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -30,7 +33,6 @@ public class TabFragment extends Fragment {
         View x = inflater.inflate(R.layout.tab_layout, null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
 
         /**
          *Set an Apater for the View Pager
@@ -68,9 +70,9 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FilmsFragment();
+                    return new FavoriteFragment();
                 case 1:
-                    return new SerialsFragment();
+                    return new InProcessFragment();
             }
             return null;
         }
@@ -91,12 +93,11 @@ public class TabFragment extends Fragment {
 
             switch (position) {
                 case 0:
-                    return "Фільми";
+                    return "Обране";
                 case 1:
-                    return "Серіали";
+                    return "В процессе";
             }
             return null;
         }
     }
-
 }

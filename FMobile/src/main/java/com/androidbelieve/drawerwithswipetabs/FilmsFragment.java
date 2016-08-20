@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import adapters.VideoAdapter;
+import adapters.RecyclerBindingAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import helpers.GridAutofitLayoutManager;
 import models.VideoItem;
@@ -29,12 +29,11 @@ import models.VideoItem;
  * Created by Ratan on 7/29/2015.
  */
 public class FilmsFragment extends Fragment{
-    private ArrayList<VideoItem> filmList = new ArrayList<>();
-    private VideoAdapter mAdapter;
-    private Integer page = 0;
     // The gesture threshold expressed in dp
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
-
+    private ArrayList<VideoItem> filmList = new ArrayList<>();
+    private RecyclerBindingAdapter mAdapter;
+    private Integer page = 0;
     private MainActivity.SortOrder sortOrder = MainActivity.SortOrder.TREND;
 
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
@@ -57,7 +56,7 @@ public class FilmsFragment extends Fragment{
         final GridAutofitLayoutManager llm = new GridAutofitLayoutManager(view.getContext(), mGestureThreshold);
         recyclerView.setLayoutManager(llm);
 
-        mAdapter = new VideoAdapter(filmList, getActivity());
+        mAdapter = new RecyclerBindingAdapter<>(R.layout.film_card, com.androidbelieve.drawerwithswipetabs.BR.video, filmList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 

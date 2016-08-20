@@ -70,4 +70,5 @@ public class RecyclerBindingAdapter<T> extends RecyclerView.Adapter<RecyclerBind
             return binding;
         }
     }
+
 }

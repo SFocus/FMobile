@@ -27,7 +27,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.File;
 
-import myOffice.MyOffice;
+import TabFragment.MyOfficeTabFragment;
+import TabFragment.TabFragment;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                             case 2: {
                                 mFragmentManager = getSupportFragmentManager();
                                 mFragmentTransaction = mFragmentManager.beginTransaction();
-                                mFragmentTransaction.replace(R.id.containerView, new MyOffice()).commit();
+                                mFragmentTransaction.replace(R.id.containerView, new MyOfficeTabFragment()).commit();
                                 break;
                             }
                             case 3: {

@@ -1,95 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="video"
+            type="models.VideoItem" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/film_card"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{video.clicked}"
     card_view:cardBackgroundColor="@color/card_back"
-    card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="12dp"
     card_view:cardPreventCornerOverlap="false"
-    card_view:cardElevation="12dp">
-
+        card_view:cardUseCompatPadding="true">
     <RelativeLayout
+        android:id="@+id/rellay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/rellay">
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/poster"
             android:layout_width="match_parent"
             android:layout_height="242dp"
-            android:layout_gravity="center"
             android:layout_centerHorizontal="true"
-            android:contentDescription="fdf"
-            android:scaleType="centerCrop" />
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@{video.poster}" />
 
         <TextView
             android:id="@+id/film_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:maxLines="3"
-            android:textColor="@color/white"
+            android:layout_alignBottom="@+id/poster"
+            android:layout_alignEnd="@+id/poster"
+            android:layout_alignRight="@+id/poster"
+            android:layout_centerHorizontal="true"
+            android:background="#55000000"
             android:gravity="center"
+            android:maxLines="3"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:textStyle="bold"
-            android:background="#55000000"
-            android:layout_centerHorizontal="true"
-            android:layout_alignBottom="@+id/poster"
-            android:layout_alignRight="@+id/poster"
-            android:layout_alignEnd="@+id/poster" />
+            android:text="@{video.filmName}"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/countryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/countryName"
-            android:maxLines="1"
-            android:textSize="13sp"
-            android:textColor="#00897B"
-            android:gravity="left"
+            android:layout_below="@+id/film_name"
             android:layout_marginLeft="6dp"
-            android:layout_below="@+id/film_name" />
+            android:gravity="left"
+            android:maxLines="1"
+            android:text="@{video.countryName}"
+            android:textColor="#00897B"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/vote_positive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fa_icon_positive"
-            android:textColor="@color/positive_vote"
             android:layout_below="@+id/countryName"
             android:layout_marginLeft="6dp"
+            android:fontFamily="@{`fontawesome-webfont.ttf`}"
+            android:text="@string/fa_icon_positive"
+            android:textColor="@color/positive_vote"
             android:textSize="13sp" />
 
         <TextView
             android:id="@+id/count_positive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/positive_vote"
             android:layout_below="@+id/countryName"
-            android:layout_marginLeft="24dp" />
+            android:layout_marginLeft="24dp"
+            android:text="@{video.positiveVote}"
+            android:textColor="@color/positive_vote"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/vote_negative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/fa_icon_negative"
-            android:textColor="@color/negative_vote"
             android:layout_below="@+id/countryName"
             android:layout_marginLeft="70dp"
+            android:fontFamily="@{`fontawesome-webfont.ttf`}"
+            android:text="@string/fa_icon_negative"
+            android:textColor="@color/negative_vote"
             android:textSize="13sp" />
 
         <TextView
             android:id="@+id/count_negative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/negative_vote"
             android:layout_below="@+id/countryName"
-            android:layout_marginLeft="85dp" />
+            android:layout_marginLeft="85dp"
+            android:text="@{video.negativeVote}"
+            android:textColor="@color/negative_vote"
+            android:textSize="13sp" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
+</layout>

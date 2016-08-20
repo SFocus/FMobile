@@ -18,8 +18,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="#09101D"
-            app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="25dp"
+            app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.daimajia.slider.library.SliderLayout
@@ -32,8 +32,8 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/my_toolbar"
-                android:layout_height="?android:attr/actionBarSize"
                 android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -46,22 +46,21 @@
     <include layout="@layout/content_entry_scroll" />
 
     <FrameLayout
-        android:orientation="vertical"
+        android:id="@+id/entryContainerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/entryContainerView"
         android:background="#141414"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="bottom|right"
-
-        android:src="@drawable/bin" />
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_favorite_border_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

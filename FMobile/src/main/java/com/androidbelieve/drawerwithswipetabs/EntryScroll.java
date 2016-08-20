@@ -2,10 +2,13 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -31,29 +35,28 @@ import org.jsoup.nodes.Document;
 import java.util.ArrayList;
 import java.util.List;
 
+import DateBaseHundler.DBHandler;
+import TabFragment.EntryTabFragment;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
 import adapters.DetailedSearchAdapter;
 import helpers.SimpleAsyncLoader;
+import models.Favorites;
 import models.SearchItem;
 import models.VideoEntry;
 
 public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
-
-    private SliderLayout mDemoSlider;
-
-    private VideoEntry entry;
-
-    private ArrayList<SearchItem> searchResult = new ArrayList<>();
-
-    private DetailedSearchAdapter searchAdapter;
-
-    private String intentAction, link;
     Toolbar myToolbar;
     Typeface font;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private SliderLayout mDemoSlider;
+    private VideoEntry entry;
+    private ArrayList<SearchItem> searchResult = new ArrayList<>();
+    private DetailedSearchAdapter searchAdapter;
+    private String intentAction, link;
+    private boolean isClickedFavoriteBtn = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -65,7 +68,7 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String url;
+        final String url;
         this.intentAction = intent.getAction();
         switch (this.intentAction) {
             //On suggestion select
@@ -98,6 +101,34 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
 
                 mDemoSlider = (SliderLayout) findViewById(R.id.slider);
                 mDemoSlider.addOnPageChangeListener(this);
+
+                final FloatingActionButton favoriteButton = (FloatingActionButton) findViewById(R.id.favorite);
+                final DBHandler db = new DBHandler(getApplicationContext());
+                if (db.checkItem(url)) {
+                    isClickedFavoriteBtn = true;
+                    favoriteButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                }
+
+                favoriteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (isClickedFavoriteBtn) {
+                            db.deleteItem(new Favorites(url));
+                            isClickedFavoriteBtn = false;
+                            Log.d("Item Deleted", "deleted");
+                            favoriteButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+                        } else {
+                            db.addNewURL(new Favorites(url));
+                            Log.d("Item Add", "add");
+                            favoriteButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                            favoriteButton.setRippleColor(Color.RED);
+                            favoriteButton.setBackgroundTintList(ColorStateList.valueOf(Color
+                                    .parseColor("#33691E")));
+                            isClickedFavoriteBtn = true;
+                        }
+                    }
+                });
 
                 break;
 

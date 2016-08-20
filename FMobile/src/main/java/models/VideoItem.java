@@ -1,7 +1,11 @@
 package models;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
+
+import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 
 /**
  * Created by Focus on 04.07.2016.
@@ -19,11 +23,19 @@ public class VideoItem implements Parcelable {
     public static final String VIDEO_POSITIVE_VOTES_SELECTOR = ".b-poster-tile__title-info-vote-positive";
     public static final String VIDEO_NEGATIVE_VOTES_SELECTOR = ".b-poster-tile__title-info-vote-negative";
     public static final String VIDEO_QUALITY_SELECTOR = ".b-poster-tile__title-info-qualities span";
+    public static final Creator<VideoItem> CREATOR = new Creator<VideoItem>() {
+        @Override
+        public VideoItem createFromParcel(Parcel in) {
+            return new VideoItem(in);
+        }
 
-
-    private String poster, filmName, countryName, positiveVote, negativeVote, quality, link;
-
+        @Override
+        public VideoItem[] newArray(int size) {
+            return new VideoItem[size];
+        }
+    };
     public boolean newlyLoaded = false;
+    private String poster, filmName, countryName, positiveVote, negativeVote, quality, link;
 
     public VideoItem() {
 
@@ -48,18 +60,6 @@ public class VideoItem implements Parcelable {
         this.quality = in.readString();
         this.link = in.readString();
     }
-
-    public static final Creator<VideoItem> CREATOR = new Creator<VideoItem>() {
-        @Override
-        public VideoItem createFromParcel(Parcel in) {
-            return new VideoItem(in);
-        }
-
-        @Override
-        public VideoItem[] newArray(int size) {
-            return new VideoItem[size];
-        }
-    };
 
     public String getPoster() {
         return poster;
@@ -99,5 +99,12 @@ public class VideoItem implements Parcelable {
         dest.writeString(negativeVote);
         dest.writeString(quality);
         dest.writeString(link);
+    }
+
+    public void clicked(View v) {
+        Intent intent = new Intent(v.getContext(), EntryScroll.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("link", link);
+        v.getContext().startActivity(intent);
     }
 }

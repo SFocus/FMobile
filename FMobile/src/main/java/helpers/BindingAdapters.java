@@ -1,12 +1,15 @@
 package helpers;
 
 import android.databinding.BindingAdapter;
-import android.view.View;
+import android.graphics.Typeface;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import interfaces.IBindingProgressable;
-import interfaces.IBindingTextable;
 
 /**
  * Created by Andrew on 04.08.2016.
@@ -28,4 +31,19 @@ public final class BindingAdapters {
     {
         view.setText(in.toString());
     }
+
+    @BindingAdapter("android:src")
+    public static void loadImage(ImageView view, String poster) {
+        Log.d("URL", "http:" + poster);
+        Picasso.with(view.getContext())
+                .load("http:" + poster)
+                .into(view);
+    }
+
+    @BindingAdapter("android:fontFamily")
+    public static void setFont(TextView view, String font) {
+        Typeface fonts = Typeface.createFromAsset(view.getContext().getAssets(), font);
+        view.setTypeface(fonts);
+    }
+
 }
