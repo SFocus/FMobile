@@ -35,14 +35,14 @@ public class VideoItem implements Parcelable {
         }
     };
     public boolean newlyLoaded = false;
-    public boolean isFilm;
+    public Type type;
     private String poster, filmName, countryName, positiveVote, negativeVote, quality, link;
 
     public VideoItem() {
 
     }
 
-    public VideoItem(String poster, String filmName, String countryName, String positiveVote, String negativeVote, String quality, String link, boolean isFilm) {
+    public VideoItem(String poster, String filmName, String countryName, String positiveVote, String negativeVote, String quality, String link, Type isFilm) {
         this.poster = poster;
         this.filmName = filmName;
         this.countryName = countryName;
@@ -50,7 +50,7 @@ public class VideoItem implements Parcelable {
         this.negativeVote = negativeVote;
         this.quality = quality;
         this.link = link;
-        this.isFilm = isFilm;
+        this.type = isFilm;
     }
 
     public VideoItem(Parcel in) {
@@ -61,7 +61,7 @@ public class VideoItem implements Parcelable {
         this.negativeVote = in.readString();
         this.quality = in.readString();
         this.link = in.readString();
-        this.isFilm =  in.readByte() != 0;
+        this.type =  VideoItem.Type.valueOf(in.readString());
     }
 
     public String getPoster() {
@@ -102,7 +102,7 @@ public class VideoItem implements Parcelable {
         dest.writeString(negativeVote);
         dest.writeString(quality);
         dest.writeString(link);
-        dest.writeByte((byte) (isFilm ? 1 : 0));
+        dest.writeString(type.toString());
     }
 
     public void clicked(View v) {
@@ -110,5 +110,26 @@ public class VideoItem implements Parcelable {
         intent.setAction(Intent.ACTION_VIEW);
         intent.putExtra("link", link);
         v.getContext().startActivity(intent);
+    }
+
+    public enum Type {
+
+        FILM("film"),
+        SERIAL("serial"),
+        CARTOON("cartoon"),
+        TV("tv");
+
+        private final String type;
+
+        Type(String type)
+        {
+            this.type = type;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.type;
+        }
     }
 }

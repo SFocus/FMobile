@@ -133,7 +133,7 @@ public class FilmsFragment extends Fragment{
         @Override
         protected void onPostExecute(Document document) {
             super.onPostExecute(document);
-            filmList.addAll(new PageParser(document).getFilms(true));
+            filmList.addAll(new PageParser(document).getFilms(VideoItem.Type.FILM));
             mAdapter.notifyDataSetChanged();
         }
     }

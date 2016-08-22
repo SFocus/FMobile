@@ -41,7 +41,7 @@ public class PageParser {
     /**
      * @return Returns array of films
      */
-    public ArrayList<VideoItem> getFilms(boolean isFilm)
+    public ArrayList<VideoItem> getFilms(VideoItem.Type type)
     {
         ArrayList<VideoItem> films = new ArrayList<VideoItem>();
         Elements elements = document.body().select(FILM_ITEM);
@@ -61,7 +61,7 @@ public class PageParser {
                 {
                     quality = qualityEl.first().className();
                 }
-                films.add(new VideoItem(image, name, country, positive, negative, quality, link, isFilm));
+                films.add(new VideoItem(image, name, country, positive, negative, quality, link, type));
             }
         }catch (Exception e)
         {
