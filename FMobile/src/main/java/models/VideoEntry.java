@@ -1,10 +1,16 @@
 package models;
 
 
+import android.util.Log;
+
 import org.jsoup.helper.StringUtil;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Andrew on 05.07.2016.
@@ -56,7 +62,7 @@ public class VideoEntry implements Serializable {
     private String positiveVotes;
     private String negativeVotes;
     private String description;
-
+    private Type type;
 
     public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description, List<SimilarItem> similarItems) {
         this.genres = genres;
@@ -126,6 +132,15 @@ public class VideoEntry implements Serializable {
         return similarItems;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Type getType()
+    {
+        return this.type;
+    }
+
     public static class SimilarItem implements Serializable
     {
         private String title, link, image;
@@ -147,6 +162,42 @@ public class VideoEntry implements Serializable {
         public String getImage() {
             return image;
         }
+    }
+
+    public enum Type {
+        FILM("films"),
+        SERIAL("serials"),
+        CARTOON("cartoons"),
+        CARTOONSRIAL("cartoonserials"),
+        TV("tvshow");
+
+        private String value;
+
+        Type(String value)
+        {
+            this.value = value;
+        }
+
+        @Override
+        public String toString()
+        {
+            return value;
+        }
+
+        public static Type get(String in)
+        {
+            Matcher matcher = Pattern
+                    .compile("\\/\\w+\\/(\\w+)\\/")
+                    .matcher(in);
+            if(matcher.find())
+            {
+                return Type.valueOf(
+                        matcher.group(1)
+                );
+            }
+            throw  new IllegalArgumentException();
+        }
+
     }
 
 }

@@ -241,6 +241,9 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
         @Override
         protected void onPostExecute(Document document) {
             EntryScroll.this.entry = new PageParser(document).getEntry();
+            EntryScroll.this.entry.setType(
+                    VideoEntry.Type.get(link)
+            );
             List<String> URLImage = entry.getImages();
             new LoadImages(URLImage).execute();
             Bundle bundle = new Bundle();
