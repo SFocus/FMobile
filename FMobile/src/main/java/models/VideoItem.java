@@ -35,13 +35,14 @@ public class VideoItem implements Parcelable {
         }
     };
     public boolean newlyLoaded = false;
+    public boolean isFilm;
     private String poster, filmName, countryName, positiveVote, negativeVote, quality, link;
 
     public VideoItem() {
 
     }
 
-    public VideoItem(String poster, String filmName, String countryName, String positiveVote, String negativeVote, String quality, String link) {
+    public VideoItem(String poster, String filmName, String countryName, String positiveVote, String negativeVote, String quality, String link, boolean isFilm) {
         this.poster = poster;
         this.filmName = filmName;
         this.countryName = countryName;
@@ -49,6 +50,7 @@ public class VideoItem implements Parcelable {
         this.negativeVote = negativeVote;
         this.quality = quality;
         this.link = link;
+        this.isFilm = isFilm;
     }
 
     public VideoItem(Parcel in) {
@@ -59,6 +61,7 @@ public class VideoItem implements Parcelable {
         this.negativeVote = in.readString();
         this.quality = in.readString();
         this.link = in.readString();
+        this.isFilm =  in.readByte() != 0;
     }
 
     public String getPoster() {
@@ -99,6 +102,7 @@ public class VideoItem implements Parcelable {
         dest.writeString(negativeVote);
         dest.writeString(quality);
         dest.writeString(link);
+        dest.writeByte((byte) (isFilm ? 1 : 0));
     }
 
     public void clicked(View v) {

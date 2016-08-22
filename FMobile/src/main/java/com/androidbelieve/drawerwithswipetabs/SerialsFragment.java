@@ -140,7 +140,7 @@ public class SerialsFragment extends Fragment {
             super.onPostExecute(document);
             if(clear)
                 serialList.clear();
-            serialList.addAll(new PageParser(document).getFilms());
+            serialList.addAll(new PageParser(document).getFilms(false));
             mAdapter.notifyDataSetChanged();
         }
     }
