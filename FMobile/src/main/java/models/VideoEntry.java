@@ -165,11 +165,11 @@ public class VideoEntry implements Serializable {
     }
 
     public enum Type {
-        FILM("films"),
-        SERIAL("serials"),
-        CARTOON("cartoons"),
-        CARTOONSRIAL("cartoonserials"),
-        TV("tvshow");
+        FILMS("films"),
+        SERIALS("serials"),
+        CARTOONS("cartoons"),
+        CARTOONSRIALS("cartoonserials"),
+        TVSHOW("tvshow");
 
         private String value;
 
@@ -192,7 +192,7 @@ public class VideoEntry implements Serializable {
             if(matcher.find())
             {
                 return Type.valueOf(
-                        matcher.group(1)
+                        matcher.group(1).toUpperCase()
                 );
             }
             throw  new IllegalArgumentException();
