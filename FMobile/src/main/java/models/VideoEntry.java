@@ -1,7 +1,11 @@
 package models;
 
 
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+
+import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 
 import org.jsoup.helper.StringUtil;
 
@@ -55,7 +59,7 @@ public class VideoEntry implements Serializable {
     private List<String> directors;
     private List<String> casts;
     private List<String> images;
-    private List<SimilarItem> similarItems;
+    private ArrayList<SimilarItem> similarItems;
 
     private String name;
     private String altName;
@@ -64,7 +68,7 @@ public class VideoEntry implements Serializable {
     private String description;
     private Type type;
 
-    public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description, List<SimilarItem> similarItems) {
+    public VideoEntry(List<String> genres, List<String> year, List<String> duration,List<String> countries, List<String> directors, List<String> casts, List<String> images, String name, String altName, String positiveVotes, String negativeVotes, String description, ArrayList<SimilarItem> similarItems) {
         this.genres = genres;
         this.year = year;
         this.duration = duration;
@@ -128,7 +132,7 @@ public class VideoEntry implements Serializable {
         return StringUtil.join(duration, separator);
     }
 
-    public List<SimilarItem> getSimilarItems() {
+    public ArrayList<SimilarItem> getSimilarItems() {
         return similarItems;
     }
 
@@ -161,6 +165,14 @@ public class VideoEntry implements Serializable {
 
         public String getImage() {
             return image;
+        }
+
+        public void clicked(View v)
+        {
+            Intent intent = new Intent(v.getContext(), EntryScroll.class);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.putExtra("link",this.getLink());
+            v.getContext().startActivity(intent);
         }
     }
 

@@ -120,7 +120,7 @@ public class PageParser {
             info.put("gallery", gallery);
 
             Elements similarWrappers = document.body().select(VideoEntry.ENTRY_SIMILAR);
-            List<VideoEntry.SimilarItem> similarItems = new ArrayList<>();
+            ArrayList<VideoEntry.SimilarItem> similarItems = new ArrayList<>();
             for(Element row : similarWrappers)
             {
                 String link = row.select(VideoEntry.ENTRY_SIMILAR_LINK).attr("href");

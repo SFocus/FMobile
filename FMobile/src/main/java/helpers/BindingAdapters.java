@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import interfaces.IBindingProgressable;
@@ -34,10 +35,7 @@ public final class BindingAdapters {
 
     @BindingAdapter("android:src")
     public static void loadImage(ImageView view, String poster) {
-        Log.d("URL", "http:" + poster);
-        Picasso.with(view.getContext())
-                .load("http:" + poster)
-                .into(view);
+        Glide.with(view.getContext()).load("http:" + poster).into(view);
     }
 
     @BindingAdapter("android:fontFamily")

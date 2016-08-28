@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.androidbelieve.drawerwithswipetabs.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import adapters.SimilarItemsAdapter;
+import adapters.RecyclerBindingAdapter;
 import helpers.GridAutofitLayoutManager;
 import models.VideoEntry;
 
@@ -21,9 +21,9 @@ import models.VideoEntry;
  */
 public class SimilarItemsTab extends Fragment {
 
-    private List<VideoEntry.SimilarItem> items;
+    private ArrayList<VideoEntry.SimilarItem> items;
 
-    private SimilarItemsAdapter adapter;
+    private RecyclerBindingAdapter adapter;
 
     private static final float GESTURE_THRESHOLD_DP = 170.0f;
 
@@ -46,7 +46,7 @@ public class SimilarItemsTab extends Fragment {
         assert entry != null;
         items = entry.getSimilarItems();
 
-        adapter = new SimilarItemsAdapter(items, getContext());
+        adapter = new RecyclerBindingAdapter<VideoEntry.SimilarItem>(R.layout.similar_item_card, com.androidbelieve.drawerwithswipetabs.BR.model, items);
 
         RecyclerView similarRecycler = (RecyclerView) view.findViewById(R.id.similar_recycler);
 
