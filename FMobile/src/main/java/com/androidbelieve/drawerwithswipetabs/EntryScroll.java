@@ -40,7 +40,7 @@ import TabFragment.EntryTabFragment;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import adapters.DetailedSearchAdapter;
+import adapters.RecyclerBindingAdapter;
 import helpers.SimpleAsyncLoader;
 import models.Favorites;
 import models.SearchItem;
@@ -54,7 +54,7 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
     private SliderLayout mDemoSlider;
     private VideoEntry entry;
     private ArrayList<SearchItem> searchResult = new ArrayList<>();
-    private DetailedSearchAdapter searchAdapter;
+    private RecyclerBindingAdapter searchAdapter;
     private String intentAction, link;
     private boolean isClickedFavoriteBtn = false;
     /**
@@ -144,7 +144,7 @@ public class EntryScroll extends AppCompatActivity implements BaseSliderView.OnS
                 RecyclerView recyclerView = (RecyclerView) findViewById(R.id.SearchRecycleView);
                 recyclerView.setLayoutManager(llm);
 
-                searchAdapter = new DetailedSearchAdapter(this.searchResult, this);
+                searchAdapter = new RecyclerBindingAdapter<>(R.layout.search_item_card, BR.model, searchResult);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(searchAdapter);
 

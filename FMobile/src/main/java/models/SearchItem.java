@@ -1,7 +1,11 @@
 package models;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
+
+import com.androidbelieve.drawerwithswipetabs.EntryScroll;
 
 /**
  * Created by Andrew on 11.07.2016.
@@ -86,6 +90,14 @@ public class SearchItem implements Parcelable {
 
     public String getLink() {
         return link;
+    }
+
+    public void clicked(View v)
+    {
+        Intent intent = new Intent(v.getContext(), EntryScroll.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("link",this.getLink());
+        v.getContext().startActivity(intent);
     }
 
     @Override
