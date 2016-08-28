@@ -12,7 +12,6 @@ import com.androidbelieve.drawerwithswipetabs.R;
 
 import java.util.ArrayList;
 
-import adapters.DetailedSearchAdapter;
 import models.SearchItem;
 import models.VideoEntry;
 
@@ -24,8 +23,6 @@ public class Description extends Fragment {
     private VideoEntry entry;
 
     private ArrayList<SearchItem> searchResult = new ArrayList<>();
-
-    private DetailedSearchAdapter searchAdapter;
 
     private String intentAction, link, url;
 

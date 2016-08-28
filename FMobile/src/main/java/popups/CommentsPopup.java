@@ -21,7 +21,7 @@ import java.util.List;
 import WebParser.DataSource;
 import WebParser.PageParser;
 import WebParser.QueryBuilder;
-import adapters.CommentsAdapter;
+import adapters.RecyclerBindingAdapter;
 import helpers.EndlessRecyclerOnScrollListener;
 import models.CommentItem;
 
@@ -30,7 +30,7 @@ import models.CommentItem;
  */
 public class CommentsPopup extends Fragment {
     private RecyclerView recyclerView;
-    private CommentsAdapter mAdapter;
+    private RecyclerBindingAdapter mAdapter;
     private Integer page = 0;
     private CommentItem commentItem;
     private int loadedComments = 0;
@@ -47,7 +47,7 @@ public class CommentsPopup extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.popup_recycle_view);
-        mAdapter = new CommentsAdapter(comments, getActivity());
+        mAdapter = new RecyclerBindingAdapter<>(R.layout.comments_card, com.androidbelieve.drawerwithswipetabs.BR.model, comments);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
